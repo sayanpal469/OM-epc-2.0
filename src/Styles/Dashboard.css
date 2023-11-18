@@ -1,0 +1,277 @@
+/*
+Basic
+*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --color-main: #2a9d8f; /* Dark teal */
+  --main-accent: #56c596; /* Green */
+  --bg: #f4f4ea; /* Light gray-blue */
+  --bg-2: #bfd3c1; /* Soft green */
+  --main: #264653; /* Dark blue */
+  --shadow: rgba(0, 0, 0, 0.1) 2px 0px 16px;
+}
+* {
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  font-family: "Poppins", sans-serif;
+  list-style-type: none;
+  box-sizing: border-box;
+}
+body {
+  overflow-x: hidden;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+/* helper */
+.text-danger {
+  color: red;
+}
+.text-success {
+  color: #2ec3a3;
+}
+.text-main {
+  color: var(--color-main);
+}
+/* main */
+.main-content {
+  width: 100vw;
+  padding: 1rem 2rem 1.2rem 1.2rem;
+}
+/* Header */
+header {
+  display: flex;
+  /* padding-top: 0.5rem; */
+  padding: 12px;
+  justify-content: space-between;
+  /* border: 1px solid red; */
+  background-image: url("https://static.vecteezy.com/system/resources/previews/006/304/619/original/dark-black-square-pattern-on-glowing-red-neon-abstract-background-in-technology-style-modern-futuristic-geometric-shape-web-banner-design-you-can-use-for-cover-template-poster-illustration-vector.jpg");
+  height: 125px;
+  /* background-position: center; */
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.header-wrapper label {
+  display: inline-block;
+  color: var(--color-main);
+  margin-right: 2rem;
+  font-size: 1.8rem;
+}
+.header-wrapper label span:hover {
+  cursor: pointer;
+}
+.header-title h1 {
+  color: white;
+  font-weight: 600;
+  font-size: 35px;
+}
+.header-title p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+main {
+  padding: 2.5rem 0;
+}
+.analytics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 2.5rem;
+  margin-bottom: 3rem;
+}
+.analytic {
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  border-radius: 10px;
+  display: flex;
+  padding-left: 2rem;
+}
+.analytic-info h4 {
+  font-weight: 400;
+  color: #555;
+  font-size: 0.98rem;
+}
+.analytic-info h1 {
+  color: var(--main-text);
+  font-weight: 600;
+}
+.analytic-info h1 small {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.analytic:first-child .analytic-icon {
+  background-color: #4c75f0;
+  color: #6883db;
+}
+.analytic:nth-child(2) .analytic-icon {
+  background-color: #ee9b48;
+  color: red;
+}
+.analytic:nth-child(3) .analytic-icon {
+  background-color: #c671e5;
+  color: #2ec3a3;
+}
+.analytic:nth-child(4) .analytic-icon {
+  background-color: var(--main-accent);
+  color: var(--color-main);
+}
+.analytic-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin-right: 0.8rem;
+}
+.section-head {
+  font-size: 1.4rem;
+  color: var(--main);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.block-expense-report {
+  /* border: 1px solid red; */
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.expense {
+  width: 100%;
+  height: 100%;
+  /* border: 1px solid green; */
+  margin-bottom: 20px;
+}
+.report {
+  width: 100%;
+  height: 100%;
+  /* border: 1px solid green; */
+}
+table {
+  background-color: rgb(255, 255, 255);
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table caption {
+  font-size: 1.5em;
+  margin: 0.5em 0 0.75em;
+}
+
+table tr {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  padding: 2.35em;
+}
+
+table th,
+table td {
+  padding: 20px;
+  text-align: center;
+}
+
+table th {
+  font-size: 0.85em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 600px) {
+  table {
+    border: 0;
+  }
+
+  table caption {
+    font-size: 1.3em;
+  }
+
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: 0.625em;
+  }
+
+  table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: 0.8em;
+    text-align: right;
+  }
+
+  table td::before {
+    /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  table td:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media only screen and (max-width: 1224px) {
+  .main-content {
+    width: 100vw;
+    margin-left: 0;
+  }
+}
+@media only screen and (max-width: 860px) {
+  .analytics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .block-grid {
+    grid-template-columns: 100%;
+  }
+  .revenue-card {
+    order: 2;
+  }
+}
+@media only screen and (max-width: 580px) {
+  .analytics {
+    grid-template-columns: 100%;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .header,
+  header-wrapper {
+    align-items: center;
+  }
+  .header-title h1 {
+    font-size: 1.2em;
+  }
+  .header-title p {
+    display: none;
+  }
+}
