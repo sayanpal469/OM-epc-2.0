@@ -23,7 +23,7 @@ const Navbar = () => {
   const [navigation, setNavigation] = useState([
     { name: "Dashboard", href: "/", current: false },
     { name: "Calls", href: "/calls", current: false },
-    { name: "Expenses", href: "#", current: false },
+    { name: "Expenses", href: "/expenses", current: false },
     { name: "Reports", href: "#", current: false },
   ]);
   useEffect(() => {

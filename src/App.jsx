@@ -3,6 +3,7 @@ import Calls from "./pages/Calls";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import Expenses from "./pages/Expenses";
 
 const graphqlEndpoint = "http://localhost:4000"; // Replace with your GraphQL server endpoint
 
@@ -24,6 +25,10 @@ function App() {
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/expenses",
+      element: <Expenses />,
     },
   ]);
   return (

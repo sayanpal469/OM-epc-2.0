@@ -13,7 +13,9 @@ const CallsTables = ({ selectedCallTab }) => {
       ) : selectedCallTab === "Pending_Calls" ? (
         <PendingCalls />
       ) : (
-        "No Calls to Show"
+        <div className="h-full mt-40 flex justify-center items-center">
+          No Calls to Show
+        </div>
       )}
     </div>
   );

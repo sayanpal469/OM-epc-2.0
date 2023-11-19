@@ -73,7 +73,10 @@ const Dashboard = () => {
               {/* <h3 className="section-head">Expenses</h3> */}
               <div className="flex justify-between w-full items-center">
                 <h3 className="section-head">Expenses</h3>
-                <button className="bg-transparent mb-3 hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                <button
+                  onClick={() => navigate("/expenses")}
+                  className="bg-transparent mb-3 hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                >
                   View Expenses
                 </button>
               </div>
