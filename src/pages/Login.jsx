@@ -23,7 +23,9 @@ const Login = () => {
 
       // Check the response and perform any additional logic
       if (data) {
-        console.log("User logged in. Token:", data);
+        const token = data.loginUser.token;
+        localStorage.setItem("token", token);
+        console.log("User logged in. Token:", data.loginUser.token);
         navigate("/");
       }
     } catch (error) {

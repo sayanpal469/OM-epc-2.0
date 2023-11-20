@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import CallsTables from "../components/CallsTables";
 import Loading from "../components/Loading";
-import Navbar from "../features/navbar/Navbar";
 
 const Calls = () => {
   const [selectedCallTab, setSelectedCallTab] = useState("");
@@ -31,7 +30,6 @@ const Calls = () => {
 
   return (
     <section className="w-full h-full">
-      <Navbar />
       <div className="lg:flex lg:justify-between lg:items-center flex-col p-5 space-y-5">
         {/* Mobile View: Centered Buttons with Space Between */}
         <div className="flex justify-center space-x-4 mb-5">

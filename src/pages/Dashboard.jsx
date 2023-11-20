@@ -1,27 +1,34 @@
 import { useNavigate } from "react-router-dom";
 import LoginTimer from "../components/loginTimer";
-import "../Styles/Dashboard.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   return (
     <>
-      <div>
-        <div className="main-content">
-          <header>
-            <div className="header-wrapper">
-              <div className="header-title">
-                <h1>Welcome, Subhojit</h1>
+      <div className="">
+        <div className="">
+          <header
+            className="bg-cover bg-center h-125 p-16"
+            style={{
+              backgroundImage:
+                "url('https://static.vecteezy.com/system/resources/previews/006/304/619/original/dark-black-square-pattern-on-glowing-red-neon-abstract-background-in-technology-style-modern-futuristic-geometric-shape-web-banner-design-you-can-use-for-cover-template-poster-illustration-vector.jpg')",
+            }}
+          >
+            <div className="lg:flex md:flex justify-between text-white ">
+              <div>
+                <h1 className="lg:text-4xl md:text-2xl text-xl font-bold">
+                  Welcome, Subhojit
+                </h1>
               </div>
-              <div className="header-action">
+              <div className="mt-5 lg:m-t-0">
                 <LoginTimer />
               </div>
             </div>
           </header>
-          <main>
+          <main className="mt-5">
             <section>
-              <div className="flex justify-between w-full items-center">
-                <h3 className="section-head">Overview</h3>
+              <div className="flex justify-between w-full items-center px-10">
+                <h3 className="lg:text-3xl text-xl font-semibold">Overview</h3>
                 <button
                   onClick={() => navigate("/calls")}
                   className="bg-transparent mb-3 hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
@@ -29,48 +36,51 @@ const Dashboard = () => {
                   View Calls
                 </button>
               </div>
-              <div className="analytics">
-                <div className="analytic">
-                  <div className="analytic-icon">
-                    <span className="las la-heart"></span>
+
+              <div className="grid lg:grid-cols-2 mx-auto w-auto mt-10 px-10 gap-10">
+
+
+                <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
+                  <div className="bg-blue-500 w-16 h-16 flex items-center justify-center rounded-full">
+                    {/* <span className="text-white text-3xl">📞</span> */}
                   </div>
                   <div className="analytic-info">
                     <h4>New Calls</h4>
-                    <h1>10</h1>
+                    <h1 className="font-bold">10</h1>
                   </div>
                 </div>
-
-                <div className="analytic">
-                  <div className="analytic-icon">
-                    <span className="las la-clock"></span>
+                <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
+                  <div className="bg-orange-500 w-16 h-16 flex items-center justify-center rounded-full">
+                    {/* <span className="text-white text-3xl">📞</span> */}
                   </div>
                   <div className="analytic-info">
-                    <h4> Today&rsquo;s Call</h4>
-                    <h1>14</h1>
+                    <h4>{`Today's Calls`}</h4>
+                    <h1 className="font-bold">14</h1>
                   </div>
                 </div>
-                <div className="analytic">
-                  <div className="analytic-icon">
-                    <span className="las la-users"></span>
+                <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
+                  <div className="bg-purple-500 w-16 h-16 flex items-center justify-center rounded-full">
+                    {/* <span className="text-white text-3xl">📞</span> */}
                   </div>
                   <div className="analytic-info">
                     <h4>Pending Calls</h4>
-                    <h1>16</h1>
+                    <h1 className="font-bold">16</h1>
                   </div>
                 </div>
-                <div className="analytic">
-                  <div className="analytic-icon">
-                    <span className="las la-eye"></span>
+                <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
+                  <div className="bg-green-500 w-16 h-16 flex items-center justify-center rounded-full">
+                    {/* <span className="text-white text-3xl">📞</span> */}
                   </div>
                   <div className="analytic-info">
                     <h4>Total Calls</h4>
-                    <h1>40</h1>
+                    <h1 className="font-bold">40</h1>
                   </div>
                 </div>
+
               </div>
             </section>
-            <section className="block-expense-report">
-              {/* <h3 className="section-head">Expenses</h3> */}
+
+            {/* <section className="block-expense-report">
               <div className="flex justify-between w-full items-center">
                 <h3 className="section-head">Expenses</h3>
                 <button
@@ -194,7 +204,10 @@ const Dashboard = () => {
                   </tbody>
                 </table>
               </div>
-            </section>
+            </section> */}
+
+
+
           </main>
         </div>
       </div>

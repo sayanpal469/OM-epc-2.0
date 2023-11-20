@@ -1,9 +1,12 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Calls from "./pages/Calls";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import Expenses from "./pages/Expenses";
+import Nav from "./features/navbar/Nav";
+import "./Styles/DashBoard.css"
+// import PrivateRoute from "./features/navbar/PrivateRoute";
 
 const graphqlEndpoint = "http://localhost:4000"; // Replace with your GraphQL server endpoint
 
@@ -13,27 +16,22 @@ const apolloClient = new ApolloClient({
 });
 function App() {
   const router = createBrowserRouter([
-    // routes here...
+    { path: "/login", element: <Login /> },
     {
       path: "/",
-      element: <Home />,
-    },
-    {
-      path: "/calls",
-      element: <Calls />,
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/expenses",
-      element: <Expenses />,
+      element: <Nav />,
+      children: [
+        { index: true, element: <Home /> },
+        { path: "/calls", element: <Calls /> },
+        { path: "/expenses", element: <Expenses /> },
+      ],
     },
   ]);
   return (
     <ApolloProvider client={apolloClient}>
-      <RouterProvider router={router} />
+      <RouterProvider router={router}>
+        <Outlet />
+      </RouterProvider>
     </ApolloProvider>
   );
 }

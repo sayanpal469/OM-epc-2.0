@@ -12,6 +12,9 @@ const user = {
 };
 
 const userNavigation = [{ name: "Sign out", link: "/login" }];
+const handelSignOut = () => {
+  localStorage.removeItem("token");
+};
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -21,16 +24,16 @@ function classNames(...classes) {
 const Navbar = () => {
   const location = useLocation();
   const [navigation, setNavigation] = useState([
-    { name: "Dashboard", href: "/", current: false },
-    { name: "Calls", href: "/calls", current: false },
-    { name: "Expenses", href: "/expenses", current: false },
-    { name: "Reports", href: "#", current: false },
+    { name: "Dashboard", to: "/", current: false },
+    { name: "Calls", to: "/calls", current: false },
+    { name: "Expenses", to: "/expenses", current: false },
+    { name: "Reports", to: "#", current: false },
   ]);
   useEffect(() => {
     // Update the current property based on the current URL
     const updatedNavigation = navigation.map((item) => ({
       ...item,
-      current: item.href === location.pathname,
+      current: item.to === location.pathname,
     }));
     setNavigation(updatedNavigation);
   }, [location.pathname]);
@@ -53,9 +56,9 @@ const Navbar = () => {
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
                       {navigation.map((item) => (
-                        <a
+                        <Link
                           key={item.name}
-                          href={item.href}
+                          to={item.to}
                           className={classNames(
                             item.current
                               ? "bg-white text-blue-500"
@@ -65,7 +68,7 @@ const Navbar = () => {
                           aria-current={item.current ? "page" : undefined}
                         >
                           {item.name}
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>
@@ -99,6 +102,7 @@ const Navbar = () => {
                             <Menu.Item key={item.name}>
                               {({ active }) => (
                                 <Link
+                                  onClick={handelSignOut}
                                   to={item.link}
                                   className={classNames(
                                     active ? "bg-gray-100" : "",
@@ -136,7 +140,7 @@ const Navbar = () => {
                   <Disclosure.Button
                     key={item.name}
                     as="a"
-                    href={item.href}
+                    to={item.to}
                     className={classNames(
                       item.current
                         ? "bg-gray-900 text-white"
@@ -172,7 +176,7 @@ const Navbar = () => {
                     <Disclosure.Button
                       key={item.name}
                       as="a"
-                      href={item.href}
+                      to={item.to}
                       className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                     >
                       {item.name}

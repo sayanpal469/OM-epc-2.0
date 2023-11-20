@@ -1,18 +1,18 @@
-import PropTypes from "prop-types";
-import { Navigate } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 
-const PrivateRoute = ({ element, isAuthenticated }) => {
-  console.log(isAuthenticated);
-  return isAuthenticated ? (
-    element
-  ) : (
-    <Navigate to="/login" replace state={{ from: window.location.pathname }} />
-  );
+const isAuthenticated = () => {
+  // Implement your authentication logic here, e.g., check for a token in localStorage
+  return localStorage.getItem("token") !== null;
 };
 
-PrivateRoute.propTypes = {
-  element: PropTypes.element.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
+// eslint-disable-next-line react/prop-types
+const PrivateRoute = ({ path, element }) => {
+  
+  return isAuthenticated() ? (
+    <Route path={path} element={element} />
+  ) : (
+    <Navigate to="/login" replace={true} />
+  );
 };
 
 export default PrivateRoute;
