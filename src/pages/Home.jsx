@@ -4,8 +4,9 @@ import Dashboard from "./Dashboard";
 const Home = () => {
   return (
     <div>
+      {/* Content here */}
       {/* <Navbar/> */}
-      <Dashboard/>
+      <Dashboard />
     </div>
   );
 };
