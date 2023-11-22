@@ -13,19 +13,19 @@ const Dashboard = () => {
           <div className="w-full">
             <div>
               <header
-                className="bg-cover bg-center h-125 p-16"
+                className="bg-cover bg-center flex justify-center items-center h-125"
                 style={{
                   backgroundImage:
                     "url('https://static.vecteezy.com/system/resources/previews/006/304/619/original/dark-black-square-pattern-on-glowing-red-neon-abstract-background-in-technology-style-modern-futuristic-geometric-shape-web-banner-design-you-can-use-for-cover-template-poster-illustration-vector.jpg')",
                 }}
               >
-                <div className="lg:flex md:flex justify-between text-white ">
-                  <div>
+                <div className="lg:flex md:flex items-center justify-between w-full h-fit text-white ">
+                  <div className="mb-3 lg:mb-0">
                     <h1 className="lg:text-4xl md:text-2xl text-xl font-bold">
                       Welcome, Subhojit
                     </h1>
                   </div>
-                  <div className="mt-5 lg:m-t-0">
+                  <div className="">
                     <LoginTimer />
                   </div>
                 </div>

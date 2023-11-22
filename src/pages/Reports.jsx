@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import CallsTables from "../components/CallsTables";
 import Loading from "../components/Loading";
-const Calls = () => {
+import { FaCaretDown } from "react-icons/fa";
+const Reports = () => {
   const [selectedCallTab, setSelectedCallTab] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [searchOption, setSearchOption] = useState("");
@@ -45,7 +46,7 @@ const Calls = () => {
     selectedCallTab === tabName
       ? "bg-blue-500 text-white hover:bg-white hover:text-blue-500"
       : "bg-transparent text-blue-700 hover:bg-blue-500 hover:text-white";
-  const button_All_Classes =
+  const button_All_Reports =
     selectedCallTab === "" || selectedCallTab === "All_Calls"
       ? "bg-blue-500 text-white hover:bg-white hover:text-blue-500"
       : "bg-transparent text-blue-700 hover:bg-blue-500 hover:text-white";
@@ -61,33 +62,25 @@ const Calls = () => {
             <div className="flex lg:flex-row sm:space-y-0 lg:w-[50%] w-[100%] space-y-5  flex-col justify-center items-end space-x-4">
               <button
                 onClick={() => handleCallTab("New_Calls")}
-                className={`border py-2 w-full rounded  ${buttonClasses(
+                className={`border py-2 w-full rounded ${buttonClasses(
                   "New_Calls"
                 )}`}
               >
-                New Calls
+                Recent Reports
               </button>
               <button
-                onClick={() => handleCallTab("Today_Calls")}
+                onClick={() => handleCallTab("Completed_Calls")}
                 className={`border py-2 w-full rounded ${buttonClasses(
-                  "Today_Calls"
+                  "Completed_Calls"
                 )}`}
               >
-                Today Calls
+                {`Today's Reports`}
               </button>
               <button
                 onClick={() => handleCallTab("Pending_Calls")}
-                className={`border py-2 w-full rounded ${buttonClasses(
-                  "Pending_Calls"
-                )}`}
+                className={`border  py-2 w-full rounded ${button_All_Reports}`}
               >
-                Pending Calls
-              </button>
-              <button
-                onClick={() => handleCallTab("All_Calls")}
-                className={`border  py-2 w-full rounded ${button_All_Classes}`}
-              >
-                All Calls
+                All Reports
               </button>
             </div>
 
@@ -104,7 +97,9 @@ const Calls = () => {
                     <option value="date">Search by Date</option>
                     <option value="between_dates">Search Between Dates</option>
                   </select>
-                  
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <FaCaretDown />
+                  </div>
                 </div>
               </div>
               <div className="   lg:w-[60%] w-full ">
@@ -165,4 +160,4 @@ const Calls = () => {
   );
 };
 
-export default Calls;
+export default Reports;

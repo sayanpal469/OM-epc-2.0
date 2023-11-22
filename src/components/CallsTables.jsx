@@ -1,16 +1,18 @@
 import PropTypes from "prop-types";
 import AllCalls from "./AllCalls";
-import CompletedCalls from "./CompletedCalls";
 import PendingCalls from "./PendingCalls";
+import TodaysCalls from "./TodaysCalls";
 
 const CallsTables = ({ selectedCallTab }) => {
   return (
     <div className="px-6">
       {selectedCallTab === "" || selectedCallTab === "All_Calls" ? (
         <AllCalls />
-      ) : selectedCallTab === "Completed_Calls" ? (
-        <CompletedCalls />
+      ) : selectedCallTab === "Today_Calls" ? (
+        <TodaysCalls />
       ) : selectedCallTab === "Pending_Calls" ? (
+        <PendingCalls />
+      ) : selectedCallTab === "New_Calls" ? (
         <PendingCalls />
       ) : (
         <div className="h-full mt-40 flex justify-center items-center">

@@ -7,6 +7,7 @@ import Expenses from "./pages/Expenses";
 import Nav from "./features/navbar/Nav";
 import "./Styles/DashBoard.css";
 import PrivateRoute from "./features/navbar/PrivateRoute";
+import Reports from "./pages/Reports";
 
 const graphqlEndpoint = "http://localhost:4000"; // Replace with your GraphQL server endpoint
 
@@ -24,7 +25,8 @@ function App() {
       children: [
         { index: true, element: <PrivateRoute element={<Home />} /> },
         { path: "/calls", element: <PrivateRoute element={<Calls />} /> },
-        { path: "/expenses", element: <PrivateRoute element={<Expenses />} /> },
+        { path: "/expense", element: <PrivateRoute element={<Expenses />} /> },
+        { path: "/reports", element: <PrivateRoute element={<Reports />} /> },
       ],
     },
   ]);

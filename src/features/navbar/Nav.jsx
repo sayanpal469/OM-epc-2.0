@@ -1,29 +1,34 @@
-import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { FaPhoneVolume } from "react-icons/fa6";
-import { RxDashboard } from "react-icons/rx";
+import { MdSpaceDashboard } from "react-icons/md";
 import { SiExpensify } from "react-icons/si";
-import { GoReport } from "react-icons/go";
-import { RiAccountPinCircleFill } from "react-icons/ri";
+import { CgNotes } from "react-icons/cg";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 
 const Menus = [
-  { title: "Dashboard", icon: <RxDashboard />, link: "/" },
+  { title: "Dashboard", icon: <MdSpaceDashboard />, link: "/" },
   { title: "Calls", icon: <FaPhoneVolume />, link: "/calls" },
-  { title: "Expense", icon: <SiExpensify />, link: "expenses" },
-  { title: "Reports", icon: <GoReport />, link: "/reports" },
-  { title: "Account", icon: <RiAccountPinCircleFill />, link: "/account" },
+  { title: "Reports", icon: <CgNotes />, link: "/reports" },
+  { title: "Expense", icon: <SiExpensify />, link: "/expense" },
 ];
 
 const Nav = () => {
   const [open, setOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
+  const [activeLink, setActiveLink] = useState("/");
+  const location = useLocation();
 
   const handleSignOut = () => {
     localStorage.removeItem("token");
     setIsLogin(false);
   };
 
+  useEffect(() => {
+    // Update active link when location changes
+    setActiveLink(location.pathname);
+    console.log(location.pathname);
+  }, [location.pathname]);
   return (
     <div>
       {isLogin && (
@@ -31,7 +36,13 @@ const Nav = () => {
           <div
             className={`fixed ${
               open ? "w-72 h-screen" : "w-12 h-screen lg:w-20"
-            } bg-purple-950 lg:p-5 pt-8 duration-300 flex flex-col items-center`}
+            } bg-purple-950 lg:p-5 pt-8 duration-300 flex flex-col items-center rounded-md`}
+            style={{
+              background: "#e6f7ff",
+              backdropFilter: "blur(10px)",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            }}
           >
             <div className="flex flex-col items-center pt-5">
               <img
@@ -42,14 +53,14 @@ const Nav = () => {
                 }`}
               />
               <h1
-                className={`text-white origin-left font-medium duration-200 ${
+                className={`text-black origin-left font-medium duration-200 ${
                   !open && "scale-0"
                 }`}
               >
                 Engineer
               </h1>
               <h3
-                className={`text-white origin-left font-medium duration-200 ${
+                className={`text-black origin-left font-medium duration-200 ${
                   !open && "scale-0"
                 }`}
               >
@@ -61,12 +72,18 @@ const Nav = () => {
                 <Link
                   to={Menu.link}
                   key={index}
-                  className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
-          ${Menu.gap ? "mt-9" : "mt-2"} ${index === 0 && "bg-light-white"} `}
+                  className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-black text-sm items-center gap-x-4 
+                    ${Menu.gap ? "mt-9" : "mt-2"} ${
+                    activeLink === Menu.link && "bg-gray-300"
+                  } blue-icons-text`}
                 >
-                  <span className="text-sm lg:text-2xl">{Menu.icon}</span>
+                  <span className="text-sm lg:text-2xl text-blue-500">
+                    {Menu.icon}
+                  </span>
                   <span
-                    className={`${!open && "hidden"} origin-left duration-200`}
+                    className={`${
+                      !open && "hidden"
+                    } origin-left duration-200 blue-icons-text`}
                   >
                     {Menu.title}
                   </span>
@@ -75,13 +92,15 @@ const Nav = () => {
               <Link
                 to="/login"
                 onClick={handleSignOut}
-                className="flex mt-2 rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4"
+                className="flex mt-2 rounded-md p-2 cursor-pointer hover:bg-light-white text-black text-sm items-center gap-x-4 blue-icons-text"
               >
                 <span className="text-sm lg:text-2xl">
-                  <FaArrowAltCircleRight />
+                  <FaArrowAltCircleRight color="#3b82f6" />
                 </span>
                 <span
-                  className={`${!open && "hidden"} origin-left duration-200`}
+                  className={`${
+                    !open && "hidden"
+                  } origin-left duration-200 blue-icons-text`}
                 >
                   Logout
                 </span>

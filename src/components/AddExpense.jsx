@@ -55,8 +55,8 @@ const AddExpense = () => {
 
   return (
     <div className="flex justify-center items-center w-full px-5 mb-5">
-      <div className="relative flex items-center justify-end w-full sm:w-1/2 shadow-lg h-[250px] my-4 bg-gray-100 rounded-md overflow-hidden">
-        <div className="w-[50%] flex flex-col items-center justify-center sm:w-[70%] h-full">
+      <div className="flex items-center justify-end w-full sm:w-1/2 shadow-lg h-[250px] my-4 bg-gray-100 rounded-md overflow-hidden">
+        <div className="w-[50%] flex flex-col items-start lg:items-center justify-center sm:w-[70%] h-full">
           <h2 className="text-2xl sm:text-4xl font-semibold text-gray-800">
             Add your Expenses
           </h2>
@@ -75,7 +75,7 @@ const AddExpense = () => {
             borderBottomLeftRadius: "50%",
           }}
         >
-          <span className="text-white text-4xl sm:text-6xl mb-2">Rs 2000</span>
+          <span className="text-white text-3xl sm:text-4xl mb-2">Rs 2000</span>
           <span className="text-white"> Upto This Month</span>
         </div>
       </div>

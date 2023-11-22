@@ -1,4 +1,25 @@
+import { useState } from "react";
+import CallDetailsModal from "./CallDetailsModal";
+import RescheduleCallModal from "./ReschudleCallModal";
+
 const AllCalls = () => {
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isReschudleModalOpen, setIsReschudleModalOpen] = useState(false);
+  const open_Call_Details_Modal = () => {
+    setIsViewModalOpen(true);
+  };
+
+  const close_Call_Details_Modal = () => {
+    setIsViewModalOpen(false);
+  };
+
+  const open_Reschudle_Details_Modal = () => {
+    setIsReschudleModalOpen(true);
+  };
+
+  const close_Reschudle_Details_Modal = () => {
+    setIsReschudleModalOpen(false);
+  };
   return (
     <div>
       <table>
@@ -15,10 +36,13 @@ const AllCalls = () => {
           <tr>
             <td data-label="Company Name">Visa - 3412</td>
             <td data-label="Assigned Date">04/01/2016</td>
-            <td data-label="status">Yes</td>
+            <td data-label="status">Completed</td>
             <td data-label="Submit Date">04/01/2016</td>
             <td data-label="Actions">
-              <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+              <button
+                onClick={open_Call_Details_Modal}
+                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+              >
                 View
               </button>
             </td>
@@ -26,30 +50,50 @@ const AllCalls = () => {
           <tr>
             <td data-label="Company Name">Visa - 3412</td>
             <td data-label="Assigned Date">04/01/2016</td>
-            <td data-label="status">No</td>
-            <td data-label="Submit Date">NIL</td>
+            <td data-label="status">-</td>
+            <td data-label="Submit Date">-</td>
             <td data-label="Actions">
               <button
-                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded cursor-not-allowed opacity-50"
-                disabled
+                onClick={open_Reschudle_Details_Modal}
+                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
               >
-                Not Available
+                Reschedule
               </button>
             </td>
           </tr>
           <tr>
             <td data-label="Company Name">Visa - 3412</td>
             <td data-label="Assigned Date">04/01/2016</td>
-            <td data-label="status">Yes</td>
+            <td data-label="status">Completed</td>
             <td data-label="Submit Date">04/01/2016</td>
             <td data-label="Actions">
-              <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+              <button
+                onClick={open_Call_Details_Modal}
+                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+              >
                 View
               </button>
             </td>
           </tr>
         </tbody>
       </table>
+      {isViewModalOpen ? (
+        <CallDetailsModal
+          companyName="Visa - 3412"
+          assignedDate="04/01/2016 "
+          submitDate="04/01/2016"
+          reportName="Random.pdf"
+          closeModal={close_Call_Details_Modal}
+        />
+      ) : isReschudleModalOpen ? (
+        <RescheduleCallModal
+          companyName="Visa - 3412"
+          assignedDate="04/01/2016 "
+          submitDate="04/01/2016"
+          reportName="Random.pdf"
+          closeModal={close_Reschudle_Details_Modal}
+        />
+      ) : null}
     </div>
   );
 };
