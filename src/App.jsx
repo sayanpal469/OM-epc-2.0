@@ -38,9 +38,11 @@ function App() {
   ]);
 
   useEffect(() => {
-    const decoded = jwtDecode(localStorage.getItem("token"));
-    setRole(decoded.role);
-  },[]);
+    if (localStorage.getItem("token")) {
+      const decoded = jwtDecode(localStorage.getItem("token"));
+      setRole(decoded.role);
+    }
+  }, []);
 
   return (
     <ApolloProvider client={apolloClient}>
