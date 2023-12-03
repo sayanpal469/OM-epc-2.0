@@ -6,8 +6,10 @@ import { LOGIN_USER_MUTATION } from "../graphql/graphql";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [loginUserMutation] = useMutation(LOGIN_USER_MUTATION);
+
   const handleSignIn = async (event) => {
     event.preventDefault();
 
@@ -21,20 +23,28 @@ const Login = () => {
         },
       });
 
-      // Check the response and perform any additional logic
       if (data) {
         const token = data.loginUser.token;
         localStorage.setItem("token", token);
+        console.log(data);
         console.log("User logged in. Token:", data.loginUser.token);
         navigate("/");
+        window.location.reload();
       }
     } catch (error) {
       console.error("Login failed:", error.message);
+      setError(error.message);
     }
   };
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded">
+          {error}
+        </div>
+      )}
+
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           className="mx-auto h-10 w-auto"

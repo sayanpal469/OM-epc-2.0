@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import CallsTables from "../components/CallsTables";
 import Loading from "../components/Loading";
-import { FaCaretDown } from "react-icons/fa";
+import ReportTables from "../components/ReportTables";
 const Reports = () => {
   const [selectedCallTab, setSelectedCallTab] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +46,7 @@ const Reports = () => {
       ? "bg-blue-500 text-white hover:bg-white hover:text-blue-500"
       : "bg-transparent text-blue-700 hover:bg-blue-500 hover:text-white";
   const button_All_Reports =
-    selectedCallTab === "" || selectedCallTab === "All_Calls"
+    selectedCallTab === "" || selectedCallTab === "All_Reports"
       ? "bg-blue-500 text-white hover:bg-white hover:text-blue-500"
       : "bg-transparent text-blue-700 hover:bg-blue-500 hover:text-white";
 
@@ -61,23 +60,23 @@ const Reports = () => {
           <div className="lg:flex lg:justify-between lg:items-center flex-col p-5 space-y-5">
             <div className="flex lg:flex-row sm:space-y-0 lg:w-[50%] w-[100%] space-y-5  flex-col justify-center items-end space-x-4">
               <button
-                onClick={() => handleCallTab("New_Calls")}
+                onClick={() => handleCallTab("Submitted_Reports")}
                 className={`border py-2 w-full rounded ${buttonClasses(
-                  "New_Calls"
+                  "Submitted_Reports"
                 )}`}
               >
-                Recent Reports
+                Submitted Reports
               </button>
               <button
-                onClick={() => handleCallTab("Completed_Calls")}
+                onClick={() => handleCallTab("Today's_Reports")}
                 className={`border py-2 w-full rounded ${buttonClasses(
-                  "Completed_Calls"
+                  "Today's_Reports"
                 )}`}
               >
                 {`Today's Reports`}
               </button>
               <button
-                onClick={() => handleCallTab("Pending_Calls")}
+                onClick={() => handleCallTab("All_Reports")}
                 className={`border  py-2 w-full rounded ${button_All_Reports}`}
               >
                 All Reports
@@ -97,9 +96,6 @@ const Reports = () => {
                     <option value="date">Search by Date</option>
                     <option value="between_dates">Search Between Dates</option>
                   </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <FaCaretDown />
-                  </div>
                 </div>
               </div>
               <div className="   lg:w-[60%] w-full ">
@@ -153,7 +149,7 @@ const Reports = () => {
           </div>
 
           {isLoading && <Loading />}
-          <CallsTables selectedCallTab={selectedCallTab} />
+          <ReportTables selectedCallTab={selectedCallTab} />
         </section>
       </div>
     </div>
