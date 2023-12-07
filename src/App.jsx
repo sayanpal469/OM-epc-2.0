@@ -30,17 +30,19 @@ function App() {
           index: true,
           element: <PrivateRoute element={<Home role={role} />} />,
         },
-        { path: "/calls", element: <PrivateRoute element={<Calls />} /> },
-        { path: "/expense", element: <PrivateRoute element={<Expenses />} /> },
+        { path: "/calls", element: <PrivateRoute element={<Calls role={role} />} /> },
+        { path: "/expense", element: <PrivateRoute element={<Expenses role={role}/>} /> },
         { path: "/reports", element: <PrivateRoute element={<Reports />} /> },
       ],
     },
   ]);
 
   useEffect(() => {
-    const decoded = jwtDecode(localStorage.getItem("token"));
-    setRole(decoded.role);
-  },[]);
+    if (localStorage.getItem("token")) {
+      const decoded = jwtDecode(localStorage.getItem("token"));
+      setRole(decoded.role);
+    }
+  }, []);
 
   return (
     <ApolloProvider client={apolloClient}>
