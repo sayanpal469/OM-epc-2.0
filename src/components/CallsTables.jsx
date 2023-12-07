@@ -5,7 +5,7 @@ import TodaysCalls from "./TodaysCalls";
 
 const CallsTables = ({ selectedCallTab }) => {
   return (
-    <div className="px-6">
+    <div className="px-4">
       {selectedCallTab === "" || selectedCallTab === "All_Calls" ? (
         <AllCalls />
       ) : selectedCallTab === "Today_Calls" ? (
