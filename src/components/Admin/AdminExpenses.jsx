@@ -62,11 +62,26 @@ function AdminExpenses() {
     <section className="w-full h-full">
           <div className="lg:flex lg:justify-between lg:items-center flex-col p-5 space-y-5">
             <div className="flex lg:flex-row sm:space-y-0 lg:w-[50%] w-[100%] space-y-5  flex-col justify-center items-end space-x-4">
-              
+            <button
+                onClick={() => handleCallTab("Recent_Expenses")}
+                className={`border py-2  w-full rounded  ${buttonClasses(
+                  "Recent_Expenses"
+                )}`}
+              >
+               Recent Expenses
+              </button>
+              <button
+                onClick={() => handleCallTab("Approved_Expenses")}
+                className={`border py-2  w-full rounded  ${buttonClasses(
+                  "Approved_Expenses"
+                )}`}
+              >
+               Approved Expenses
+              </button>
               <button
                 onClick={() => handleCallTab("Rejected_Expenses")}
                 className={`border py-2  w-full rounded  ${buttonClasses(
-                  "Reejected_Expenses"
+                  "Rejected_Expenses"
                 )}`}
               >
                Rejected Expenses
