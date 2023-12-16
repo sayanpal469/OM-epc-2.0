@@ -25,7 +25,9 @@ const AllCalls = () => {
       <table>
         <thead>
           <tr>
+          <th scope="col">Call ID</th>
             <th scope="col">Company Name</th>
+            <th scope="col">Location</th>
             <th scope="col"> Assigned Date</th>
             <th scope="col">Status</th>
             <th scope="col">Submit Date</th>
@@ -34,7 +36,9 @@ const AllCalls = () => {
         </thead>
         <tbody>
           <tr>
+          <td data-label="Call ID">call_08/12/2023_01</td>
             <td data-label="Company Name">Visa - 3412</td>
+            <td data-label="Location">Kolkata</td>
             <td data-label="Assigned Date">04/01/2016</td>
             <td data-label="status">Completed</td>
             <td data-label="Submit Date">04/01/2016</td>
@@ -48,7 +52,9 @@ const AllCalls = () => {
             </td>
           </tr>
           <tr>
+          <td data-label="Call ID">call_08/12/2023_01</td>
             <td data-label="Company Name">Visa - 3412</td>
+            <td data-label="Location">Kolkata</td>
             <td data-label="Assigned Date">04/01/2016</td>
             <td data-label="status">-</td>
             <td data-label="Submit Date">-</td>
@@ -62,7 +68,9 @@ const AllCalls = () => {
             </td>
           </tr>
           <tr>
+          <td data-label="Call ID">call_08/12/2023_01</td>
             <td data-label="Company Name">Visa - 3412</td>
+            <td data-label="Location">Kolkata</td>
             <td data-label="Assigned Date">04/01/2016</td>
             <td data-label="status">Completed</td>
             <td data-label="Submit Date">04/01/2016</td>
@@ -80,6 +88,7 @@ const AllCalls = () => {
       {isViewModalOpen ? (
         <CallDetailsModal
           companyName="Visa - 3412"
+          CallID="call_08/12/2023_01"
           assignedDate="04/01/2016 "
           submitDate="04/01/2016"
           reportName="Random.pdf"
@@ -87,10 +96,12 @@ const AllCalls = () => {
         />
       ) : isReschudleModalOpen ? (
         <RescheduleCallModal
+          CallID="call_08/12/2023_01"
           companyName="Visa - 3412"
-          assignedDate="04/01/2016 "
+          Location="KOlkata"
+          assignedDate="04/01/2016"
+          DescriptionByAdmin="checkk"
           submitDate="04/01/2016"
-          reportName="Random.pdf"
           closeModal={close_Reschudle_Details_Modal}
         />
       ) : null}

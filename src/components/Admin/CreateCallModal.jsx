@@ -40,6 +40,7 @@ const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padSt
 
  
   const [formData, setFormData] = useState({
+    CallID: '',
     CompanyName: '',
     CompanyDetails: '',
     CompanyLocation: '',
@@ -64,7 +65,7 @@ const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padSt
     let requiredFields = [];
   
     if (form.currentStep?.name === 'step1') {
-      requiredFields = ['CompanyName', 'CompanyDetails', 'CompanyLocation', 'CompanyAddress'];
+      requiredFields = ['CallID','CompanyName', 'CompanyDetails', 'CompanyLocation', 'CompanyAddress'];
     } else if (form.currentStep?.name === 'step-2') {
       requiredFields = ['EngineerName'];
     }
@@ -123,6 +124,7 @@ return (
             }
             <StepOne
              handleChange={handleChange}
+             CallID={formData.CallID}
              CompanyName={formData.CompanyName}
              CompanyDetails={formData.CompanyDetails}
              CompanyLocation={formData.CompanyLocation}

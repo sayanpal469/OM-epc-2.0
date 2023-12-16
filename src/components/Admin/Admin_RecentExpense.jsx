@@ -17,6 +17,7 @@ const Admin_RecentExpenses = () => {
      <table>
           <thead>
             <tr>
+            <th scope="col">Call_ID</th>
               <th scope="col">Company Name</th>
               <th scope="col">Location</th>
               <th scope="col">Engineer Name</th>
@@ -29,6 +30,7 @@ const Admin_RecentExpenses = () => {
           </thead>
           <tbody>
             <tr>
+            <td data-label="Call_ID">call_08/12/2023_01</td>
               <td data-label="Company Name">Visa - 3412</td>
               <td data-label="Location">Kolkata</td>
               <td data-label="Enginner Name">Engineer 1</td>
@@ -45,6 +47,7 @@ const Admin_RecentExpenses = () => {
               </td>
             </tr>
             <tr>
+            <td data-label="Call_ID">call_08/12/2023_01</td>
             <td data-label="Company Name">Visa - 3412</td>
               <td data-label="Location">Kolkata</td>
               <td data-label="Enginner Name">Engineer 2</td>
@@ -62,6 +65,7 @@ const Admin_RecentExpenses = () => {
               </td>
             </tr>
             <tr>
+            <td data-label="Call_ID">call_08/12/2023_01</td>
             <td data-label="Company Name">Visa - 3412</td>
               <td data-label="Location">Kolkata</td>
               <td data-label="Enginner Name">Engineer 3</td>
@@ -78,6 +82,7 @@ const Admin_RecentExpenses = () => {
               </td>
             </tr>
             <tr>
+            <td data-label="Call_ID">call_08/12/2023_01</td>
             <td data-label="Company Name">Visa - 3412</td>
               <td data-label="Location">Kolkata</td>
               <td data-label="Enginner Name">Engineer 4</td>

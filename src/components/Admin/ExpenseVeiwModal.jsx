@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 
 const ExpenseVeiwModal = ({
+  CallID,
   companyName,
   location,
   engineerName,
@@ -44,6 +45,13 @@ const ExpenseVeiwModal = ({
           </div>
           {/* Body */}
           <div className="relative p-6 flex-auto">
+          <p className="mb-4">
+              {" "}
+              <span className="font-semibold mr-5">
+              Call_ID:
+              </span>{" "}
+              {CallID}
+            </p>
           <p className="mb-4">
               {" "}
               <span className="font-semibold mr-5">
@@ -145,6 +153,7 @@ const ExpenseVeiwModal = ({
 };
 
 ExpenseVeiwModal.propTypes = {
+  CallID: PropTypes.string.isRequired,
   companyName: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   engineerName: PropTypes.string.isRequired,
