@@ -1,33 +1,42 @@
 import { useState } from "react";
-import ReschudleCallModal from "./ReschudleCallModal";
+
+import RescheduleCallModal from "./ReschudleCallModal";
 
 const PendingCalls = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isReschudleModalOpen, setIsReschudleModalOpen] = useState(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const open_Reschudle_Details_Modal = () => {
+    setIsReschudleModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const close_Reschudle_Details_Modal = () => {
+    setIsReschudleModalOpen(false);
   };
   return (
     <div>
       <table>
         <thead>
-          <tr>
+        <tr>
+          <th scope="col">Call ID</th>
             <th scope="col">Company Name</th>
-            <th scope="col">Schedule Date</th>
+            <th scope="col">Location</th>
+            <th scope="col"> Assigned Date</th>
+            <th scope="col">Status</th>
+            <th scope="col">Submit Date</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr>
+          <td data-label="Call ID">call_08/12/2023_01</td>
             <td data-label="Company Name">Visa - 3412</td>
-            <td data-label="Schedule Date">04/01/2016</td>
+            <td data-label="Location">Kolkata</td>
+            <td data-label="Assigned Date">04/01/2016</td>
+            <td data-label="status">-</td>
+            <td data-label="Submit Date">-</td>
             <td data-label="Actions">
               <button
-                onClick={openModal}
+                onClick={open_Reschudle_Details_Modal}
                 className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
               >
                 Reschedule
@@ -36,15 +45,17 @@ const PendingCalls = () => {
           </tr>
         </tbody>
       </table>
-      {isModalOpen && (
-        <ReschudleCallModal
+      {isReschudleModalOpen ? (
+        <RescheduleCallModal
+          CallID="call_08/12/2023_01"
           companyName="Visa - 3412"
-          assignedDate="04/01/2016 "
+          Location="KOlkata"
+          assignedDate="04/01/2016"
+          DescriptionByAdmin="checkk"
           submitDate="04/01/2016"
-          reportName="Random.pdf"
-          closeModal={closeModal}
+          closeModal={close_Reschudle_Details_Modal}
         />
-      )}
+      ):null}
     </div>
   );
 };

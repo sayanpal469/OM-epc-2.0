@@ -44,7 +44,7 @@ const ExpenseTable = () => {
            
           </div>
         </div>
-        <div className="   lg:w-[60%] w-full ">
+        <div className="lg:w-[60%] w-full ">
           {searchOption === "between_dates" && (
             <div className="w-full flex lg:flex-row flex-col lg:space-y-0 space-y-2 items-center lg:space-x-4">
               <input
@@ -96,6 +96,7 @@ const ExpenseTable = () => {
         <table>
           <thead>
             <tr>
+            <th scope="col">Call ID</th>
               <th scope="col">Company Name</th>
               <th scope="col"> Assigned Date</th>
               <th scope="col">Status</th>
@@ -105,6 +106,7 @@ const ExpenseTable = () => {
           </thead>
           <tbody>
             <tr>
+            <td data-label="Call ID">call_08/12/2023_01</td>
               <td data-label="Company Name">Visa - 3412</td>
               <td data-label="Assigned Date">04/01/2016</td>
               <td data-label="status">Yes</td>
@@ -116,6 +118,7 @@ const ExpenseTable = () => {
               </td>
             </tr>
             <tr>
+            <td data-label="Call ID">call_08/12/2023_01</td>
               <td data-label="Company Name">Visa - 3412</td>
               <td data-label="Assigned Date">04/01/2016</td>
               <td data-label="status">No</td>
@@ -130,6 +133,7 @@ const ExpenseTable = () => {
               </td>
             </tr>
             <tr>
+            <td data-label="Call ID">call_08/12/2023_01</td>
               <td data-label="Company Name">Visa - 3412</td>
               <td data-label="Assigned Date">04/01/2016</td>
               <td data-label="status">Yes</td>

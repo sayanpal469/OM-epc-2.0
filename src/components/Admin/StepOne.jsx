@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 
 const StepOne = ({
   handleChange,
+  CallID,
   CompanyName,
   CompanyDetails,
   CompanyLocation,
@@ -11,6 +12,22 @@ const StepOne = ({
 
   return (
     <div>
+      <div className="mb-4">
+        <label htmlFor="CallID" className="block text-gray-700 font-bold mb-2">
+          Call ID
+        </label>
+        <input
+          type="text"
+          id="CallID"
+          name="CallID"
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+          placeholder="Enter Call ID"
+          value={CallID}
+          onChange={handleChange}
+          required
+        />
+        
+      </div>
       <div className="mb-4">
         <label htmlFor="companyName" className="block text-gray-700 font-bold mb-2">
           Company Name
@@ -76,6 +93,7 @@ const StepOne = ({
 };
 StepOne.propTypes = {
   handleChange: PropTypes.func.isRequired,
+  CallID: PropTypes.string.isRequired,
   CompanyName: PropTypes.string.isRequired,
   CompanyAddress: PropTypes.string.isRequired,
   CompanyLocation: PropTypes.string.isRequired,

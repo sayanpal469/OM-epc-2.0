@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { FaFilePdf } from "react-icons/fa";
 
 const CallDetailsModal = ({
+  CallID,
   companyName,
   assignedDate,
   submitDate,
@@ -37,6 +38,12 @@ const CallDetailsModal = ({
           </div>
           {/* Body */}
           <div className="relative p-6 flex-auto">
+          <p className="mb-4">
+              <span className="font-semibold mr-5">
+               Call ID:
+              </span>{" "}
+              {CallID}
+            </p>
             <p className="mb-4">
               <span className="font-semibold mr-5">
                 Assigned Date by Admin:
@@ -74,6 +81,7 @@ const CallDetailsModal = ({
 };
 
 CallDetailsModal.propTypes = {
+  CallID: PropTypes.string.isRequired,
   companyName: PropTypes.string.isRequired,
   assignedDate: PropTypes.string.isRequired,
   submitDate: PropTypes.string.isRequired,

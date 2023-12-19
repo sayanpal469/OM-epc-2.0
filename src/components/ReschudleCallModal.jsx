@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 
-const RescheduleCallModal = ({ companyName, assignedDate, closeModal }) => {
+const RescheduleCallModal = ({ companyName, assignedDate, closeModal, CallID, Location, DescriptionByAdmin }) => {
   const [selectedDate, setSelectedDate] = useState(null);
+  const [Description, setDescription] = useState(null);
   const [showSaveButton, setShowSaveButton] = useState(false);
 
   useEffect(() => {
@@ -19,11 +20,16 @@ const RescheduleCallModal = ({ companyName, assignedDate, closeModal }) => {
     setSelectedDate(date);
     setShowSaveButton(true);
   };
+  const handleDescriptionChange = (description) => {
+    setDescription(description);
+    setShowSaveButton(true);
+  };
 
   const handleSave = () => {
     if (selectedDate) {
       console.log("Company Name:", companyName);
       console.log("Selected Date:", selectedDate);
+      console.log("Despriction:", Description)
       closeModal();
       // Perform any additional actions with the saved data
     }
@@ -48,11 +54,29 @@ const RescheduleCallModal = ({ companyName, assignedDate, closeModal }) => {
           </div>
           {/* Body */}
           <div className="relative p-6 flex-auto">
+          <p className="mb-4">
+              <span className="font-semibold mr-5">
+                Call ID:
+              </span>{" "}
+              {CallID}
+            </p>
             <p className="mb-4">
               <span className="font-semibold mr-5">
                 Assigned Date by Admin:
               </span>{" "}
               {assignedDate}
+            </p>
+            <p className="mb-4">
+              <span className="font-semibold mr-5">
+               Location:
+              </span>{" "}
+              {Location}
+            </p>
+            <p className="mb-4">
+              <span className="font-semibold mr-5">
+               Description by Admin:
+              </span>{" "}
+              {DescriptionByAdmin}
             </p>
             {/* Date Picker and Save Button */}
             <div className="mb-4">
@@ -62,6 +86,16 @@ const RescheduleCallModal = ({ companyName, assignedDate, closeModal }) => {
               <input
                 type="date"
                 onChange={(e) => handleDateChange(e.target.value)}
+                className="border-2 px-2"
+              />
+            </div>
+            <div className="mb-4 flex">
+              <label className="font-semibold mr-5">
+                Description:
+              </label>
+              <textarea
+                type="text"
+                onChange={(e) => handleDescriptionChange(e.target.value)}
                 className="border-2 px-2"
               />
             </div>
@@ -92,7 +126,10 @@ const RescheduleCallModal = ({ companyName, assignedDate, closeModal }) => {
 
 RescheduleCallModal.propTypes = {
   companyName: PropTypes.string.isRequired,
+  CallID: PropTypes.string.isRequired,
   assignedDate: PropTypes.string.isRequired,
+  Location: PropTypes.string.isRequired,
+  DescriptionByAdmin: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
 };
 
