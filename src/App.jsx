@@ -10,6 +10,8 @@ import PrivateRoute from "./features/navbar/PrivateRoute";
 import Reports from "./pages/Reports";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import Create_Engineers from "./pages/Admin/Create_Engineers";
+// import View_Engineers from "./pages/Admin/View_Engineers";
 
 const graphqlEndpoint = "http://localhost:4000"; // Replace with your GraphQL server endpoint
 
@@ -24,15 +26,24 @@ function App() {
     { path: "/login", element: <Login /> },
     {
       path: "/",
-      element: <Nav />,
+      element: <Nav role={role} />,
       children: [
         {
           index: true,
           element: <PrivateRoute element={<Home role={role} />} />,
         },
-        { path: "/calls", element: <PrivateRoute element={<Calls role={role} />} /> },
-        { path: "/expense", element: <PrivateRoute element={<Expenses role={role}/>} /> },
+        {
+          path: "/calls",
+          element: <PrivateRoute element={<Calls role={role} />} />,
+        },
+        {
+          path: "/expense",
+          element: <PrivateRoute element={<Expenses role={role} />} />,
+        },
         { path: "/reports", element: <PrivateRoute element={<Reports />} /> },
+        { path: "/create-engineers", element: <PrivateRoute element={<Create_Engineers />} /> },
+        // Conditional route based on role
+        
       ],
     },
   ]);
@@ -40,6 +51,7 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       const decoded = jwtDecode(localStorage.getItem("token"));
+      console.log({ decoded });
       setRole(decoded.role);
     }
   }, []);
