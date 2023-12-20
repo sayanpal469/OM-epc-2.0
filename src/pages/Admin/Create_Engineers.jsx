@@ -94,7 +94,7 @@ const CreateEngineers = () => {
       </div>
       <div className="flex-1">
         <div className="flex h-full bg-white">
-          <div className="w-full flex justify-center items-center">
+          <div className="w-full flex justify-center items-center ">
             <div className="bg-white p-8 rounded-lg shadow-md w-full backdrop-filter backdrop-blur-lg bg-opacity-30">
               <div className="mb-8 text-center">
                 <h2 className="text-2xl mb-5 font-bold text-gray-800">

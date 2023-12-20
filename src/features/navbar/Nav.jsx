@@ -6,6 +6,7 @@ import { SiExpensify } from "react-icons/si";
 import { CgNotes } from "react-icons/cg";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { FiUserPlus } from "react-icons/fi";
+import { FaUsers } from "react-icons/fa6";
 import PropTypes from "prop-types";
 const AdminMenus = [
   { title: "Dashboard", icon: <MdSpaceDashboard />, link: "/" },
@@ -16,6 +17,11 @@ const AdminMenus = [
     title: "Create Engineer",
     icon: <FiUserPlus />,
     link: "/create-engineers",
+  },
+  {
+    title: "View Engineer",
+    icon: <FaUsers />,
+    link: "/view-engineers",
   },
 ];
 const Menus = [
@@ -49,7 +55,7 @@ const Nav = ({ role }) => {
         <div className="flex h-screen relative">
           <div
             className={`fixed ${
-              open ? "w-72 h-screen" : "w-12 h-screen lg:w-20"
+              open ? "w-72 h-screen z-[100]" : "w-12 h-screen lg:w-20"
             } bg-purple-950 lg:p-5 pt-8 duration-300 flex flex-col items-center rounded-md`}
             style={{
               background: "#e6f7ff",

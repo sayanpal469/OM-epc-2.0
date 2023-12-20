@@ -11,7 +11,7 @@ import Reports from "./pages/Reports";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import Create_Engineers from "./pages/Admin/Create_Engineers";
-// import View_Engineers from "./pages/Admin/View_Engineers";
+import View_Engineers from "./pages/Admin/View_Engineers";
 
 const graphqlEndpoint = "http://localhost:4000"; // Replace with your GraphQL server endpoint
 
@@ -42,6 +42,7 @@ function App() {
         },
         { path: "/reports", element: <PrivateRoute element={<Reports />} /> },
         { path: "/create-engineers", element: <PrivateRoute element={<Create_Engineers />} /> },
+        { path: "/view-engineers", element: <PrivateRoute element={<View_Engineers />} /> },
         // Conditional route based on role
         
       ],
