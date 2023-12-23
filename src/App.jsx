@@ -22,6 +22,7 @@ const apolloClient = new ApolloClient({
 
 function App() {
   const [role, setRole] = useState("");
+  const [adminId, setAdminId] = useState("");
   const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
     {
@@ -41,10 +42,17 @@ function App() {
           element: <PrivateRoute element={<Expenses role={role} />} />,
         },
         { path: "/reports", element: <PrivateRoute element={<Reports />} /> },
-        { path: "/create-engineers", element: <PrivateRoute element={<Create_Engineers />} /> },
-        { path: "/view-engineers", element: <PrivateRoute element={<View_Engineers />} /> },
+        {
+          path: "/create-engineers",
+          element: (
+            <PrivateRoute element={<Create_Engineers adminId={adminId} />} />
+          ),
+        },
+        {
+          path: "/view-engineers",
+          element: <PrivateRoute element={<View_Engineers />} />,
+        },
         // Conditional route based on role
-        
       ],
     },
   ]);
@@ -52,8 +60,9 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       const decoded = jwtDecode(localStorage.getItem("token"));
-      console.log({ decoded });
       setRole(decoded.role);
+      setAdminId(decoded?.adminId);
+      console.log({ decoded });
     }
   }, []);
 

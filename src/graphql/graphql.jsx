@@ -6,3 +6,19 @@ export const LOGIN_USER_MUTATION = gql`
     }
   }
 `;
+
+export const CREATE_ENGINEER_MUTATION = gql`
+  mutation CreateEngineer($engineer: EngineerInput!, $adminId: ID!) {
+    createEngineer(engineer: $engineer, adminId: $adminId) {
+      _id
+      Fname
+      Lname
+      contact
+      age
+      EMP_id
+      address
+      email
+      designation
+    }
+  }
+`;

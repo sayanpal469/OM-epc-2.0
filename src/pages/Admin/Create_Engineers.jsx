@@ -1,20 +1,33 @@
-import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FaFaceGrinStars } from "react-icons/fa6";
-const CreateEngineers = () => {
+import { CREATE_ENGINEER_MUTATION } from "../../graphql/graphql";
+
+
+const CreateEngineers = ({ adminId }) => {
+  const [createEngineerMutation, {data, error, loading}] = useMutation(CREATE_ENGINEER_MUTATION);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    Fname: "",
+    Lname: "",
+    contact: "",
     age: "",
+    EMP_id: "",
     email: "",
     password: "",
-    confirmPassword: "",
     address: "",
-    employeeId: "",
     designation: "",
   });
   const [passwordError, setPasswordError] = useState("");
+
+  console.log({data})
+  console.log({error})
+  
+  useEffect(() => {
+    console.log(adminId)
+  },[])
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -23,9 +36,9 @@ const CreateEngineers = () => {
   // ############ For showing the Avatar name #########
 
   const getInitials = () => {
-    const { firstName, lastName } = formData;
-    const firstInitial = firstName ? firstName.charAt(0).toUpperCase() : "";
-    const lastInitial = lastName ? lastName.charAt(0).toUpperCase() : "";
+    const { Fname, Lname } = formData;
+    const firstInitial = Fname ? Fname.charAt(0).toUpperCase() : "";
+    const lastInitial = Lname ? Lname.charAt(0).toUpperCase() : "";
     return firstInitial + lastInitial || <FaFaceGrinStars />;
   };
 
@@ -51,7 +64,7 @@ const CreateEngineers = () => {
     return passwordRegex.test(password);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Check if all fields are filled
@@ -83,7 +96,21 @@ const CreateEngineers = () => {
     // Reset password error if validation passes
     setPasswordError("");
 
-    console.log("Form Data:", formData);
+    const { data } = await createEngineerMutation({
+      variables: {
+        engineer: {
+          ...formData,
+          adminId
+        },
+      },
+      // context: {
+      //   headers: {
+      //     authorization: `${localStorage.getItem('token')}`
+      //   }
+      // }
+    });
+
+    console.log("Form Data:", data);
     // You can perform further actions like sending the data to the server.
   };
 
@@ -112,30 +139,30 @@ const CreateEngineers = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label
-                      htmlFor="firstName"
+                      htmlFor="Fname"
                       className="block text-sm font-medium text-black"
                     >
                       First Name
                     </label>
                     <input
                       type="text"
-                      id="firstName"
-                      name="firstName"
+                      id="Fname"
+                      name="Fname"
                       onChange={handleInputChange}
                       className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-indigo-500"
                     />
                   </div>
                   <div>
                     <label
-                      htmlFor="lastName"
+                      htmlFor="Lname"
                       className="block text-sm font-medium text-black"
                     >
                       Last Name
                     </label>
                     <input
                       type="text"
-                      id="lastName"
-                      name="lastName"
+                      id="Lname"
+                      name="Lname"
                       onChange={handleInputChange}
                       className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-indigo-500"
                     />
@@ -155,6 +182,23 @@ const CreateEngineers = () => {
                     name="age"
                     value={formData.age}
                     onChange={handleAgeChange}
+                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-indigo-500"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="age"
+                    className="block text-sm font-medium text-black"
+                  >
+                    Contact
+                  </label>
+                  <input
+                    type="text"
+                    id="contact"
+                    name="contact"
+                    value={formData.contact}
+                    onChange={handleInputChange}
                     className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-indigo-500"
                   />
                 </div>
@@ -243,15 +287,15 @@ const CreateEngineers = () => {
 
                 <div>
                   <label
-                    htmlFor="employeeId"
+                    htmlFor="EMP_id"
                     className="block text-sm font-medium text-black"
                   >
                     Employee ID
                   </label>
                   <input
                     type="text"
-                    id="employeeId"
-                    name="employeeId"
+                    id="EMP_id"
+                    name="EMP_id"
                     onChange={handleInputChange}
                     className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-indigo-500"
                   />
@@ -294,5 +338,10 @@ const CreateEngineers = () => {
     </div>
   );
 };
+
+CreateEngineers.propTypes = {
+  adminId: PropTypes.string.isRequired,
+};
+
 
 export default CreateEngineers;
