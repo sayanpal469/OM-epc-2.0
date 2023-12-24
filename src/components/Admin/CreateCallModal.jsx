@@ -40,6 +40,7 @@ const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padSt
 
  
   const [formData, setFormData] = useState({
+    EmpID:'',
     CallID: '',
     CompanyName: '',
     CompanyDetails: '',
@@ -124,6 +125,7 @@ return (
             }
             <StepOne
              handleChange={handleChange}
+             EmpID={formData.EmpID}
              CallID={formData.CallID}
              CompanyName={formData.CompanyName}
              CompanyDetails={formData.CompanyDetails}
@@ -148,6 +150,8 @@ return (
             Description={formData.Description}
             />
           </FormizStep>
+
+          
 
           {form.steps?.length && (
   <div className="flex flex-col sm:flex-row items-center justify-between">

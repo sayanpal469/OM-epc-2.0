@@ -1,18 +1,36 @@
 import PropTypes from "prop-types";
 
-const StepOne = ({
+const companyName =['Company1' , 'Company2' , 'Company3']
+const EnginnerReport_StepOne = ({
   handleChange,
   EmpID,
   CallID,
   CompanyName,
-  CompanyDetails,
-  CompanyLocation,
-  CompanyAddress
+  ComplainId,
+  Date,
  }) => {
   
-
   return (
     <div>
+      <div className="mb-4">
+        <label htmlFor="companyName" className="block text-gray-700 font-bold mb-2">
+          Company Name
+        </label>
+        <select
+          id="CompanyName"
+          name="CompanyName"
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+          value={CompanyName}
+          onChange={handleChange}
+          required
+        >
+          <option value="" disabled>Select an Site</option>
+          {companyName.map((company, index) => (
+            <option key={index} value={company} className="text-sm">{company}</option>
+          ))}
+        </select>
+        </div>
+
       <div className="mb-4">
         <label htmlFor="CallID" className="block text-gray-700 font-bold mb-2">
           Call ID
@@ -25,6 +43,7 @@ const StepOne = ({
           placeholder="Enter Call ID"
           value={CallID}
           onChange={handleChange}
+          disabled
           required
         />
         
@@ -40,83 +59,54 @@ const StepOne = ({
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
           placeholder="Enter Employee ID"
           value={EmpID}
+          disabled
           onChange={handleChange}
           required
         />
         
       </div>
       <div className="mb-4">
-        <label htmlFor="companyName" className="block text-gray-700 font-bold mb-2">
-          Company Name
+        <label htmlFor="ComplainID" className="block text-gray-700 font-bold mb-2">
+          Complain ID
         </label>
         <input
           type="text"
-          id="companyName"
-          name="CompanyName"
+          id="ComplainId"
+          name="ComplainId"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-          placeholder="Enter company name"
-          value={CompanyName}
+          placeholder="Enter Complain Id"
+          value={ComplainId}
           onChange={handleChange}
           required
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="companyDetails" className="block text-gray-700 font-bold mb-2">
-          Company Details
+        <label htmlFor="Date" className="block text-gray-700 font-bold mb-2">
+          Date
         </label>
         <input
           type="text"
-          id="companyDetais"
-          name="CompanyDetails"
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-          placeholder="Enter Company Details"
-          value={CompanyDetails}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="companyLocation" className="block text-gray-700 font-bold mb-2">
-          Company Location
-        </label>
-        <input
-          type="text"
-          id="companyLocation"
-          name="CompanyLocation"
+          id="Date"
+          name="Date"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
           placeholder="Enter Company Location"
-          value={CompanyLocation}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="companyAddress" className="block text-gray-700 font-bold mb-2">
-          Company Address
-        </label>
-        <input
-          type="text"
-          id="companyAddress"
-          name="CompanyAddress"
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-          placeholder="Enter Company Address"
-          value={CompanyAddress}
+          value={Date}
           onChange={handleChange}
           required
         />
       </div>
     </div>
+    
   );
 };
-StepOne.propTypes = {
+EnginnerReport_StepOne.propTypes = {
   handleChange: PropTypes.func.isRequired,
   EmpID: PropTypes.string.isRequired,
   CallID: PropTypes.string.isRequired,
   CompanyName: PropTypes.string.isRequired,
-  CompanyAddress: PropTypes.string.isRequired,
-  CompanyLocation: PropTypes.string.isRequired,
-  CompanyDetails: PropTypes.string.isRequired,
+  ComplainId: PropTypes.string.isRequired,
+  Date: PropTypes.string.isRequired,
 };
 
-export default StepOne;
+export default EnginnerReport_StepOne;
 

@@ -32,7 +32,7 @@ function App() {
         },
         { path: "/calls", element: <PrivateRoute element={<Calls role={role} />} /> },
         { path: "/expense", element: <PrivateRoute element={<Expenses role={role}/>} /> },
-        { path: "/reports", element: <PrivateRoute element={<Reports />} /> },
+        { path: "/reports", element: <PrivateRoute element={<Reports role={role} />} /> },
       ],
     },
   ]);
