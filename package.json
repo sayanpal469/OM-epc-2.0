@@ -17,6 +17,7 @@
     "graphql": "^16.8.1",
     "heroicons": "^2.0.18",
     "jwt-decode": "^4.0.0",
+    "legacy": "^0.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
