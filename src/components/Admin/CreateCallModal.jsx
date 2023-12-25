@@ -1,16 +1,14 @@
 import PropTypes from "prop-types";
-import { useEffect} from "react";
-import  { useState } from 'react';
-import { Formiz, FormizStep, useForm } from '@formiz/core';
+import { useEffect } from "react";
+import { useState } from "react";
+import { Formiz, FormizStep, useForm } from "@formiz/core";
 import StepTwo from "./StepTwo";
 import StepOne from "./StepOne";
+import { useQuery } from "@apollo/client";
+import { GET_ENGINEERS } from "../../graphql/queries/graphql_queries";
 
 const fakeDelay = (delay = 500) => new Promise((r) => setTimeout(r, delay));
-const CreateCallModal = ({
-  closeModal
-}) => {
-
-
+const CreateCallModal = ({ closeModal }) => {
   useEffect(() => {
     // Apply overflow-hidden to body when the modal is open
     document.body.style.overflow = "hidden";
@@ -21,25 +19,45 @@ const CreateCallModal = ({
     };
   }, []);
 
-  // Time Configuration 
-    // Get the current date and time
-    const currentTime = new Date();
+  const [engineers, setEngineers] = useState([]);
+  const { data } = useQuery(GET_ENGINEERS, {
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`, // Include the token from local storage
+      },
+    },
+  });
 
-// Get hours and minutes
-let hours = currentTime.getHours();
-let minutes = currentTime.getMinutes();
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      setEngineers(data.engineers);
+    }
+  }, [data]);
 
-// Determine AM or PM
-const amOrPm = hours >= 12 ? 'PM' : 'AM';
+  console.log({ engineers });
 
-// Convert to 12-hour format
-hours = hours % 12 || 12;
+  // Time Configuration
+  // Get the current date and time
+  const currentTime = new Date();
 
-// Format the time
-const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')} ${amOrPm}`;
+  // Get hours and minutes
+  let hours = currentTime.getHours();
+  let minutes = currentTime.getMinutes();
 
- 
+  // Determine AM or PM
+  const amOrPm = hours >= 12 ? "PM" : "AM";
+
+  // Convert to 12-hour format
+  hours = hours % 12 || 12;
+
+  // Format the time
+  const formattedTime = `${String(hours).padStart(2, "0")}:${String(
+    minutes
+  ).padStart(2, "0")} ${amOrPm}`;
+
   const [formData, setFormData] = useState({
+
     EmpID:'',
     CallID: '',
     CompanyName: '',
@@ -50,11 +68,11 @@ const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padSt
     AssignedDate:new Date().toISOString().split('T')[0],
     AssignedTime:formattedTime,
     Description:'',
+
   });
 
-  
-  const [StepOneError, setStepOneError] = useState("")
-  const [ErrorDiv, setErrorDiv] = useState(false)
+  const [StepOneError, setStepOneError] = useState("");
+  const [ErrorDiv, setErrorDiv] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,49 +82,52 @@ const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padSt
   const handleSubmitStep = async (event) => {
     event.preventDefault();
     let requiredFields = [];
-  
-    if (form.currentStep?.name === 'step1') {
-      requiredFields = ['CallID','CompanyName', 'CompanyDetails', 'CompanyLocation', 'CompanyAddress'];
-    } else if (form.currentStep?.name === 'step-2') {
-      requiredFields = ['EngineerName'];
+
+    if (form.currentStep?.name === "step1") {
+      requiredFields = [
+        "CallID",
+        "CompanyName",
+        "CompanyDetails",
+        "CompanyLocation",
+        "CompanyAddress",
+      ];
+    } else if (form.currentStep?.name === "step-2") {
+      requiredFields = ["EngineerName"];
     }
-  
+
     for (const field of requiredFields) {
       if (!formData[field]) {
         setErrorDiv(true);
-        setStepOneError(`Please Enter the ${field.replace(/([A-Z])/g, ' $1').trim()}`);
+        setStepOneError(
+          `Please Enter the ${field.replace(/([A-Z])/g, " $1").trim()}`
+        );
 
         setTimeout(() => {
           setErrorDiv(false);
-          setStepOneError('');
+          setStepOneError("");
         }, 5000);
 
-        return; 
+        return;
       }
     }
-  
+
     // All fields are filled, proceed with form submission
-    
+
     console.log(`Submitting ${form.currentStep?.name}...`);
     await fakeDelay();
     form.submitStep();
   };
 
-
   const form = useForm({
-      onSubmit: async (valus) => {
-      console.log('Submitting form',valus);
+    onSubmit: async (valus) => {
+      console.log("Submitting form", valus);
       await fakeDelay();
-      console.log(formData)
-      closeModal()
+      console.log(formData);
+      closeModal();
     },
- 
-
   });
 
   const isLoading = form.isSubmitting;
-
-
 
 return (
   <div className="h-screen fixed inset-0 z-10 overflow-y-hidden bg-gray-100">
@@ -178,16 +199,9 @@ return (
 
     <div className="text-sm text-gray-500 mt-4 sm:mt-0">
       Step {(form.currentStep?.index ?? 0) + 1} / {form.steps.length}
-    </div>
-  </div>
-)}
 
-        </div>
-      </form>
-    </Formiz>
-  </div>  
-  </div>
-);
+    </div>
+  );
 };
 
 CreateCallModal.propTypes = {

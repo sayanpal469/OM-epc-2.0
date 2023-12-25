@@ -10,6 +10,8 @@ import PrivateRoute from "./features/navbar/PrivateRoute";
 import Reports from "./pages/Reports";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import Create_Engineers from "./pages/Admin/Create_Engineers";
+import View_Engineers from "./pages/Admin/View_Engineers";
 
 const graphqlEndpoint = "http://localhost:4000"; // Replace with your GraphQL server endpoint
 
@@ -20,19 +22,36 @@ const apolloClient = new ApolloClient({
 
 function App() {
   const [role, setRole] = useState("");
+  const [admin_id, set_Admin_id] = useState("");
   const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
     {
       path: "/",
-      element: <Nav />,
+      element: <Nav role={role} />,
       children: [
         {
           index: true,
           element: <PrivateRoute element={<Home role={role} />} />,
         },
-        { path: "/calls", element: <PrivateRoute element={<Calls role={role} />} /> },
-        { path: "/expense", element: <PrivateRoute element={<Expenses role={role}/>} /> },
-        { path: "/reports", element: <PrivateRoute element={<Reports role={role} />} /> },
+
+        {
+          path: "/calls",
+          element: <PrivateRoute element={<Calls role={role} />} />,
+        },
+        {
+          path: "/expense",
+          element: <PrivateRoute element={<Expenses role={role} />} />,
+        },
+        { path: "/reports", element: <PrivateRoute element={<Reports />} /> },
+        {
+          path: "/create-engineers",
+          element: <PrivateRoute element={<Create_Engineers admin_id={admin_id} />} />,
+        },
+        {
+          path: "/view-engineers",
+          element: <PrivateRoute element={<View_Engineers />} />,
+        },
+        // Conditional route based on role
       ],
     },
   ]);
@@ -40,6 +59,8 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       const decoded = jwtDecode(localStorage.getItem("token"));
+      console.log({ decoded });
+      set_Admin_id(decoded.admin);
       setRole(decoded.role);
     }
   }, []);
