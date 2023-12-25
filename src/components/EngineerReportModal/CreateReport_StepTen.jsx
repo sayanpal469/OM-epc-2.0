@@ -1,21 +1,21 @@
 import PropTypes from "prop-types";
-import { useRef, useState } from "react";
+import { useRef} from "react";
 import SignatureCanvas from "react-signature-canvas";
 
 const EnginnerReport_StepTen = ({ handleSignature}) => {
   const sigRef = useRef();
-  const [Sign, setSign] = useState();
 
   const clearSignature = () => {
     sigRef.current.clear();
-    setSign(null);
+
   };
 
   const handleSignatureEnd = () => {
     const SignData = sigRef.current.toDataURL();
-    setSign(SignData);
+  
     handleSignature("Sign", SignData)
-    console.log(Sign)
+    console.log(SignData)
+
   };
 
   return (

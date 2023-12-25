@@ -96,7 +96,7 @@ const Engineer_Report = () => {
               <button
                onClick={open_Create_Report_Modal}
                 className={`border py-2 w-full rounded ${buttonClasses(
-                    "Create_Reports"
+                    "Create_Report"
                   )}`}
               >
                 Create Report
