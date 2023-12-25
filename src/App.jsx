@@ -33,6 +33,7 @@ function App() {
           index: true,
           element: <PrivateRoute element={<Home role={role} />} />,
         },
+
         {
           path: "/calls",
           element: <PrivateRoute element={<Calls role={role} />} />,

@@ -3,6 +3,7 @@ import AllReports from "./AllReports";
 import SubmittedReports from "./SubmittedReports";
 import TodaysReports from "./TodaysReports";
 
+
 const ReportTables = ({ selectedCallTab }) => {
   return (
     <div className="px-6">

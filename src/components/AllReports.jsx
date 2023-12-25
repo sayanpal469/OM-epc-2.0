@@ -16,6 +16,7 @@ const AllReports = () => {
       <table>
         <thead>
           <tr>
+          <th scope="callId">Call Id</th>
             <th scope="col">Company Name</th>
             <th scope="col"> Assigned Date</th>
             <th scope="col">Status</th>
@@ -25,6 +26,7 @@ const AllReports = () => {
         </thead>
         <tbody>
           <tr>
+          <td data-label="Call ID">call_08/12/2023_01</td>
             <td data-label="Company Name">Visa - 3412</td>
             <td data-label="Assigned Date">04/01/2016</td>
             <td data-label="status">Yes</td>
@@ -39,6 +41,7 @@ const AllReports = () => {
             </td>
           </tr>
           <tr>
+          <td data-label="Call ID">call_08/12/2023_01</td>
             <td data-label="Company Name">Visa - 3412</td>
             <td data-label="Assigned Date">04/01/2016</td>
             <td data-label="status">No</td>
@@ -53,6 +56,7 @@ const AllReports = () => {
             </td>
           </tr>
           <tr>
+          <td data-label="Call ID">call_08/12/2023_01</td>
             <td data-label="Company Name">Visa - 3412</td>
             <td data-label="Assigned Date">04/01/2016</td>
             <td data-label="status">Yes</td>

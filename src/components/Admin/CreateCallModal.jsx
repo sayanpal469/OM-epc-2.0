@@ -57,15 +57,18 @@ const CreateCallModal = ({ closeModal }) => {
   ).padStart(2, "0")} ${amOrPm}`;
 
   const [formData, setFormData] = useState({
-    CallID: "",
-    CompanyName: "",
-    CompanyDetails: "",
-    CompanyLocation: "",
-    CompanyAddress: "",
-    EngineerName: "",
-    AssignedDate: new Date().toISOString().split("T")[0],
-    AssignedTime: formattedTime,
-    Description: "",
+
+    EmpID:'',
+    CallID: '',
+    CompanyName: '',
+    CompanyDetails: '',
+    CompanyLocation: '',
+    CompanyAddress: '',
+    EngineerName: '',
+    AssignedDate:new Date().toISOString().split('T')[0],
+    AssignedTime:formattedTime,
+    Description:'',
+
   });
 
   const [StepOneError, setStepOneError] = useState("");
@@ -126,93 +129,77 @@ const CreateCallModal = ({ closeModal }) => {
 
   const isLoading = form.isSubmitting;
 
-  return (
-    <div className="h-screen fixed inset-0 z-10 overflow-y-hidden bg-gray-100">
-      <div className="w-full h-full px-20 py-8 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">
-        <Formiz connect={form}>
-          <form noValidate onSubmit={handleSubmitStep}>
-            <div>
-              {/* Step 1 */}
+return (
+  <div className="h-screen fixed inset-0 z-10 overflow-y-hidden bg-gray-100">
+  <div className="w-full h-full px-20 py-8 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">  
+  <Formiz connect={form}>
+      <form noValidate onSubmit={handleSubmitStep}>
+        <div>
+         
+          {/* Step 1 */}
 
-              <FormizStep name="step1">
-                {ErrorDiv && (
-                  <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
-                    {StepOneError}
-                  </div>
-                )}
-                <StepOne
-                  handleChange={handleChange}
-                  CallID={formData.CallID}
-                  CompanyName={formData.CompanyName}
-                  CompanyDetails={formData.CompanyDetails}
-                  CompanyLocation={formData.CompanyLocation}
-                  CompanyAddress={formData.CompanyAddress}
-                />
-              </FormizStep>
-
-              {/* Step 2 */}
-
-              <FormizStep name="step-2">
-                {ErrorDiv && (
-                  <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
-                    {StepOneError}
-                  </div>
-                )}
-                <StepTwo
-                  handleChange={handleChange}
-                  EngineerName={formData.EngineerName}
-                  AssignedDate={formData.AssignedDate}
-                  AssignedTime={formData.AssignedTime}
-                  Description={formData.Description}
-                  engineers={engineers}
-                />
-              </FormizStep>
-
-              {form.steps?.length && (
-                <div className="flex flex-col sm:flex-row items-center justify-between">
-                  <div>
-                    {form.currentStep?.name === "step1" && (
-                      <button
-                        onClick={closeModal}
-                        className="w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 bg-gray-300 rounded-md mx-2"
-                      >
-                        Cancel
-                      </button>
-                    )}
-
-                    {!form.isFirstStep &&
-                      form.currentStep?.name !== "step1" && (
-                        <button
-                          onClick={form.goToPreviousStep}
-                          className="w-full sm:w-auto mt-4 sm:mt-0 mx-2 px-4 py-2 bg-gray-300 rounded-md mx-2"
-                        >
-                          Previous
-                        </button>
-                      )}
-                    <button
-                      type="submit"
-                      className={`w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 rounded-md ${
-                        isLoading ? "bg-gray-400" : "bg-blue-500 text-white"
-                      }`}
-                      disabled={
-                        (form.isLastStep ? !form.isValid : !form.isStepValid) &&
-                        form.isStepSubmitted
-                      }
-                    >
-                      {form.isLastStep ? "Submit" : "Next"}
-                    </button>
-                  </div>
-
-                  <div className="text-sm text-gray-500 mt-4 sm:mt-0">
-                    Step {(form.currentStep?.index ?? 0) + 1} /{" "}
-                    {form.steps.length}
-                  </div>
-                </div>
-              )}
+          <FormizStep name="step1">
+            {ErrorDiv &&
+            <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
+             {StepOneError}
             </div>
-          </form>
-        </Formiz>
-      </div>
+            }
+            <StepOne
+             handleChange={handleChange}
+             EmpID={formData.EmpID}
+             CallID={formData.CallID}
+             CompanyName={formData.CompanyName}
+             CompanyDetails={formData.CompanyDetails}
+             CompanyLocation={formData.CompanyLocation}
+             CompanyAddress={formData.CompanyAddress}
+            />
+          </FormizStep>
+
+          {/* Step 2 */}
+
+          <FormizStep name="step-2">
+          {ErrorDiv &&
+            <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
+             {StepOneError}
+            </div>
+            }
+            <StepTwo
+            handleChange={handleChange}
+            EngineerName={formData.EngineerName}
+            AssignedDate={formData.AssignedDate}
+            AssignedTime={formData.AssignedTime}
+            Description={formData.Description}
+            />
+          </FormizStep>
+
+          
+
+          {form.steps?.length && (
+  <div className="flex flex-col sm:flex-row items-center justify-between">
+    <div>
+    {form.currentStep?.name === 'step1' && (
+      <button onClick={closeModal} className="w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 bg-gray-300 rounded-md mx-2">
+        Cancel
+      </button>
+    )}
+
+    {!form.isFirstStep && form.currentStep?.name !== 'step1' && (
+      <button onClick={form.goToPreviousStep} className="w-full sm:w-auto mt-4 sm:mt-0 mx-2 px-4 py-2 bg-gray-300 rounded-md mx-2">
+        Previous
+      </button>
+    )}
+    <button
+      type="submit"
+      className={`w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 rounded-md ${isLoading ? 'bg-gray-400' : 'bg-blue-500 text-white'}`}
+      disabled={(form.isLastStep ? !form.isValid : !form.isStepValid) && form.isStepSubmitted}
+    >
+      {form.isLastStep ? 'Submit' : 'Next'}
+    </button>
+    </div>
+
+    <div className="text-sm text-gray-500 mt-4 sm:mt-0">
+      Step {(form.currentStep?.index ?? 0) + 1} / {form.steps.length}
+
     </div>
   );
 };

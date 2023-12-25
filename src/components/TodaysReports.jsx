@@ -16,6 +16,7 @@ const TodaysReports = () => {
       <table>
         <thead>
           <tr>
+           <th scope="callId">Call Id</th>
             <th scope="col">Company Name</th>
             <th scope="col">Assigned Date</th>
             <th scope="col">Submit Date</th>
@@ -24,6 +25,7 @@ const TodaysReports = () => {
         </thead>
         <tbody>
           <tr>
+          <td data-label="Call ID">call_08/12/2023_01</td>
             <td data-label="Company Name">Visa - 3412</td>
             <td data-label=" Assigned Date">04/01/2016</td>
             <td data-label=" Submit Date">04/01/2016</td>
@@ -37,6 +39,7 @@ const TodaysReports = () => {
             </td>
           </tr>
           <tr>
+          <td data-label="Call ID">call_08/12/2023_01</td>
             <td data-label="Company Name">Visa - 3412</td>
             <td data-label=" Assigned Date">04/01/2016</td>
             <td data-label=" Submit Date">-</td>
