@@ -186,7 +186,7 @@ return (
       </form>
     </Formiz>
   </div>  
-  </div>
+  
 );
 };
 
