@@ -184,7 +184,7 @@ const Admin_Dashboard = ({ role }) => {
                 Report Graph
               </div>
             </div> */}
-            <div className="flex flex-col justify-between h-auto lg:h-auto px-10 mb-10 lg:flex-row">
+            <div className="flex flex-col justify-between h-auto lg:h-auto lg:px-10 px-5 mb-10 lg:flex-row">
               <div className="w-full lg:w-[45%] lg:mb-0 mb-5">
                 <div className="lg:text-3xl text-xl font-semibold mb-5">
                   Attendence Sheet

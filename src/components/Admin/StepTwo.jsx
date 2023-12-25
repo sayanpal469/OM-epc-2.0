@@ -1,19 +1,25 @@
 import PropTypes from "prop-types";
-
-
-const engineers = ['Engineer 1', 'Engineer 2', 'Engineer 3', 'Engineer 4'];
 const StepTwo = ({
   handleChange,
   EngineerName,
   AssignedDate,
   AssignedTime,
-  Description
+  Description,
+  engineers,
 }) => {
+ 
+
+  console.log({ engineers });
+
+ 
 
   return (
     <div>
       <div className="mb-4">
-        <label htmlFor="EngineerName" className="block text-gray-700 font-bold mb-2">
+        <label
+          htmlFor="EngineerName"
+          className="block text-gray-700 font-bold mb-2"
+        >
           Engineer Name
         </label>
         <select
@@ -24,15 +30,22 @@ const StepTwo = ({
           onChange={handleChange}
           required
         >
-          <option value="" disabled>Select an engineer</option>
+          <option value="" disabled>
+            Select an engineer
+          </option>
           {engineers.map((engineer, index) => (
-            <option key={index} value={engineer} className="text-sm">{engineer}</option>
+            <option key={index} value={engineer} className="text-sm">
+              {engineer.Fname} {engineer.Lname}
+            </option>
           ))}
         </select>
       </div>
 
       <div className="mb-4">
-        <label htmlFor="AssingnedDate" className="block text-gray-700 font-bold mb-2">
+        <label
+          htmlFor="AssingnedDate"
+          className="block text-gray-700 font-bold mb-2"
+        >
           Assigned Date
         </label>
         <input
@@ -47,7 +60,10 @@ const StepTwo = ({
       </div>
 
       <div className="mb-4">
-        <label htmlFor="AssignedTime" className="block text-gray-700 font-bold mb-2">
+        <label
+          htmlFor="AssignedTime"
+          className="block text-gray-700 font-bold mb-2"
+        >
           Assigned Time
         </label>
         <input
@@ -61,10 +77,13 @@ const StepTwo = ({
         />
       </div>
 
-
       <div className="mb-4">
-        <label htmlFor="description" className="block text-gray-700 font-bold mb-2">
-          Description<span className="text-gray-500 text-sm font-light"> (optional)</span>
+        <label
+          htmlFor="description"
+          className="block text-gray-700 font-bold mb-2"
+        >
+          Description
+          <span className="text-gray-500 text-sm font-light"> (optional)</span>
         </label>
         <textarea
           id="Description"
@@ -77,14 +96,15 @@ const StepTwo = ({
         ></textarea>
       </div>
     </div>
-  )
-}
+  );
+};
 StepTwo.propTypes = {
   handleChange: PropTypes.func.isRequired,
   EngineerName: PropTypes.string.isRequired,
   Description: PropTypes.string.isRequired,
   AssignedDate: PropTypes.string.isRequired,
   AssignedTime: PropTypes.string.isRequired,
+  engineers: PropTypes.array.isRequired,
 };
 
-export default StepTwo
+export default StepTwo;
