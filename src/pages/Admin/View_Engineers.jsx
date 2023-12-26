@@ -6,17 +6,13 @@ import Loading from "../../features/loading/Loading";
 
 const View_Engineers = () => {
   const [engineers, setEngineers] = useState([]);
-  const {
-    data,
-    loading,
-  } = useQuery(GET_ALL_ENGINEERS, {
+  const { data, loading, refetch } = useQuery(GET_ALL_ENGINEERS, {
     context: {
       headers: {
         authorization: `${localStorage.getItem("token")}`,
       },
     },
     fetchPolicy: "network-only",
-    pollInterval: "2000"
   });
 
   useEffect(() => {
@@ -38,6 +34,7 @@ const View_Engineers = () => {
                 <EmployeeCard
                   key={engineer._id}
                   engineer={engineer}
+                  refetch={refetch}
                 />
               ))
             ) : (

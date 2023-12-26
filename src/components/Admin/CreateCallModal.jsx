@@ -23,6 +23,7 @@ const CreateCallModal = ({ closeModal }) => {
   }, []);
 
   const [engineers, setEngineers] = useState([]);
+
   const [createCallMutation, { callError, createCallData }] = useMutation(
     CREATE_CALL_MUTATION,
     {
@@ -34,7 +35,7 @@ const CreateCallModal = ({ closeModal }) => {
     }
   );
 
-  const { data } = useQuery(GET_ENGINEERS, {
+  const { data, error } = useQuery(GET_ENGINEERS, {
     context: {
       headers: {
         authorization: `${localStorage.getItem("token")}`, // Include the token from local storage
@@ -42,32 +43,22 @@ const CreateCallModal = ({ closeModal }) => {
     },
   });
 
-  useEffect(() => {
-    if (data) {
-      console.log(data);
-      setEngineers(data.engineers);
-    }
-  }, [data]);
-
-  if(callError){
-    console.log(callError)
-  }
-
-  console.log({ createCallData });
-
-  // Time Configuration
-  // Get the current date and time
   const currentTime = new Date();
 
   // Get hours and minutes
   let hours = currentTime.getHours();
   let minutes = currentTime.getMinutes();
 
-  // Determine AM or PM
-  const amOrPm = hours >= 12 ? "PM" : "AM";
+  if (callError) {
+    console.log(callError);
+  }
+
+  console.log({ createCallData });
 
   // Convert to 12-hour format
   hours = hours % 12 || 12;
+  // Determine AM or PM
+  const amOrPm = hours >= 12 ? "PM" : "AM";
 
   // Format the time
   const formattedTime = `${String(hours).padStart(2, "0")}:${String(
@@ -159,6 +150,15 @@ const CreateCallModal = ({ closeModal }) => {
 
   const isLoading = form.isSubmitting;
 
+  useEffect(() => {
+    if (data) {
+      setEngineers(data?.engineers);
+    }
+  }, [data]);
+
+
+  // console.log(data);
+
   return (
     <div className="h-screen fixed inset-0 z-10 overflow-y-hidden bg-gray-100">
       <div className="w-full h-full px-20 py-8 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">
@@ -183,8 +183,6 @@ const CreateCallModal = ({ closeModal }) => {
                   company_address={formData.company_address}
                 />
               </FormizStep>
-
-              {/* Step 2 */}
 
               <FormizStep name="step-2">
                 {ErrorDiv && (

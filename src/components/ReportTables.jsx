@@ -2,6 +2,8 @@ import PropTypes from "prop-types";
 import AllReports from "./AllReports";
 import SubmittedReports from "./SubmittedReports";
 import TodaysReports from "./TodaysReports";
+import CreateReportModal from "./EngineerReportModal/CreateReportModal";
+
 
 const ReportTables = ({ selectedCallTab }) => {
   return (
@@ -12,6 +14,8 @@ const ReportTables = ({ selectedCallTab }) => {
         <TodaysReports />
       ) : selectedCallTab === "Submitted_Reports" ? (
         <SubmittedReports />
+      ) : selectedCallTab === "Create_Report" ? (
+        <CreateReportModal/>
       ) : (
         <div className="h-full mt-40 flex justify-center items-center">
           No Calls to Show

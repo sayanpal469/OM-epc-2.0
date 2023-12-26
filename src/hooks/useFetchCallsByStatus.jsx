@@ -13,7 +13,7 @@ const useFetchCallsByStatus = (status) => {
         authorization: `${localStorage.getItem("token")}`,
       },
     },
-    pollInterval: 2000,
+    // pollInterval: 2000,
   });
 
   useEffect(() => {

@@ -38,6 +38,9 @@ const EmployeeCard = ({ engineer }) => {
         error: <b>{error.message}</b>,
       }
     );
+    // window.location.reload();
+    // setTimeout(() => {
+    // }, 1000);
   };
 
   console.log(data?.deleteEngineer?.message);

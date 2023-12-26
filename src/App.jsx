@@ -33,6 +33,7 @@ function App() {
           index: true,
           element: <PrivateRoute element={<Home role={role} />} />,
         },
+
         {
           path: "/calls",
           element: <PrivateRoute element={<Calls role={role} />} />,
@@ -41,7 +42,7 @@ function App() {
           path: "/expense",
           element: <PrivateRoute element={<Expenses role={role} />} />,
         },
-        { path: "/reports", element: <PrivateRoute element={<Reports />} /> },
+        { path: "/reports", element: <PrivateRoute element={<Reports role={role} />} /> },
         {
           path: "/create-engineers",
           element: (
