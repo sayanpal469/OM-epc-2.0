@@ -1,6 +1,9 @@
+import { useMutation } from "@apollo/client";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-
+import { APPROVE_EXPENSE_MUTATION } from "../../graphql/mutations/graphql.mutations";
+import toast from "react-hot-toast";
+import Loading from "../../features/loading/Loading";
 
 const ExpenseVeiwModal = ({
   CallID,
@@ -10,8 +13,19 @@ const ExpenseVeiwModal = ({
   amount,
   submitDate,
   closeModal,
-  Kilometer
+  Kilometer,
+  id,
 }) => {
+  const [changeExpenseStatus, { data, loading, error }] = useMutation(
+    APPROVE_EXPENSE_MUTATION,
+    {
+      context: {
+        headers: {
+          authorization: `${localStorage.getItem("token")}`,
+        },
+      },
+    }
+  );
   useEffect(() => {
     // Apply overflow-hidden to body when the modal is open
     document.body.style.overflow = "hidden";
@@ -21,14 +35,35 @@ const ExpenseVeiwModal = ({
       document.body.style.overflow = "auto";
     };
   }, []);
-  const [description, setdescription] = useState("")
+  const [description, setdescription] = useState("");
 
-  const handleChange =(e)=>{
-   setdescription(e.target.value)
-  }
+  const handleChange = (e) => {
+    setdescription(e.target.value);
+  };
+
+  const handelChangeStatus = async (status) => {
+    await toast.promise(
+      changeExpenseStatus({
+        variables: {
+          _id: id,
+          approveStatus: status,
+          admin_desc: description,
+        },
+      }),
+      {
+        loading: "Creating Call...",
+        success: <b>{}</b>,
+        error: <b>{error.message}</b>,
+      }
+    );
+    await closeModal();
+  };
+
+  console.log(data);
+
   return (
-<div className="h-screen fixed inset-0 z-10 overflow-y-hidden">
-  <div className="w-full h-full px-10 py-8 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">
+    <div className="h-screen fixed inset-0 z-10 overflow-y-hidden">
+      <div className="w-full h-full px-10 py-8 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">
         {/* Modal content */}
         <div className="relative flex flex-col bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
           {/* Header */}
@@ -44,108 +79,72 @@ const ExpenseVeiwModal = ({
             </button>
           </div>
           {/* Body */}
+          {loading && <Loading />}
           <div className="relative p-6 flex-auto">
-          <p className="mb-4">
+            <p className="mb-4">
               {" "}
-              <span className="font-semibold mr-5">
-              Call_ID:
-              </span>{" "}
-              {CallID}
+              <span className="font-semibold mr-5">Call_ID:</span> {CallID}
             </p>
-          <p className="mb-4">
+            <p className="mb-4">
               {" "}
-              <span className="font-semibold mr-5">
-                Company Location:
-              </span>{" "}
+              <span className="font-semibold mr-5">Company Location:</span>{" "}
               {location}
             </p>
             <p className="mb-4">
-              <span className="font-semibold mr-5">
-                Engineer Name:
-              </span>{" "}
+              <span className="font-semibold mr-5">Engineer Name:</span>{" "}
               {engineerName}
             </p>
             <p className="mb-4">
               {" "}
-              <span className="font-semibold mr-5">
-               Expense Amount:
-              </span>{" "}
+              <span className="font-semibold mr-5">Expense Amount:</span>{" "}
               {amount}
             </p>
             <p className="mb-4">
               {" "}
-              <span className="font-semibold mr-5">
-               Total Kilometer:
-              </span>{" "}
+              <span className="font-semibold mr-5">Total Kilometer:</span>{" "}
               {Kilometer}
             </p>
             <p className="mb-4">
               {" "}
-              <span className="font-semibold mr-5">
-                Submit Date:
-              </span>{" "}
+              <span className="font-semibold mr-5">Submit Date:</span>{" "}
               {submitDate}
             </p>
-            
+
             <div className="mb-4">
-           <textarea
-            id="Description"
-            name="Description"
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-            placeholder="Enter Description (optional)"
-            value={description}
-            onChange={handleChange}
-            required
-          ></textarea>
-        </div>
+              <textarea
+                id="Description"
+                name="Description"
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                placeholder="Enter Description (optional)"
+                value={description}
+                onChange={handleChange}
+                required
+              ></textarea>
+            </div>
           </div>
-          {/* Footer */}
-          {/* <div className="flex items-center justify-between py-6 px-28 border-t border-solid border-blueGray-200 rounded-b">
+          <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between py-4 sm:py-6 px-4 sm:px-28 border-t border-solid border-blueGray-200 rounded-b">
             <button
-              className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded cursor-not-allowed opacity-50"
+              className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 sm:px-6 border border-red-500 hover:border-transparent rounded mb-2 sm:mb-0 w-full sm:w-auto"
               type="button"
-              onClick={closeModal}
+              onClick={() => handelChangeStatus("REJECT")}
             >
               Reject
             </button>
             <button
-              className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+              className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 sm:px-6 border border-blue-500 hover:border-transparent rounded mb-2 sm:mb-0 w-full sm:w-auto"
               type="button"
-              onClick={closeModal}
+              onClick={() => handelChangeStatus("APPROVE")}
             >
               Accept
             </button>
             <button
-            className="bg-transparent hover:bg-gray-400 text-gray-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded"
+              className="bg-transparent hover:bg-gray-400 text-gray-700 font-semibold hover:text-white py-2 px-4 sm:px-6 border border-gray-500 hover:border-transparent rounded w-full sm:w-auto"
               type="button"
               onClick={closeModal}
             >
-             Close
+              Close
             </button>
-          </div> */}
-          <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between py-4 sm:py-6 px-4 sm:px-28 border-t border-solid border-blueGray-200 rounded-b">
-  <button
-    className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 sm:px-6 border border-red-500 hover:border-transparent rounded mb-2 sm:mb-0 w-full sm:w-auto"
-    type="button"
-    onClick={closeModal}
-  >
-    Reject
-  </button>
-  <button
-    className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 sm:px-6 border border-blue-500 hover:border-transparent rounded mb-2 sm:mb-0 w-full sm:w-auto"
-    type="button"
-    onClick={closeModal}
-  >
-    Accept
-  </button>
-  <button
-    className="bg-transparent hover:bg-gray-400 text-gray-700 font-semibold hover:text-white py-2 px-4 sm:px-6 border border-gray-500 hover:border-transparent rounded w-full sm:w-auto"
-    type="button"
-    onClick={closeModal}
-  >
-    Close
-  </button>
-</div>
+          </div>
         </div>
       </div>
     </div>
@@ -160,6 +159,7 @@ ExpenseVeiwModal.propTypes = {
   amount: PropTypes.string.isRequired,
   submitDate: PropTypes.string.isRequired,
   Kilometer: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
 };
 

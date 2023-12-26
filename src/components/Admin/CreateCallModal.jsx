@@ -4,10 +4,13 @@ import { useState } from "react";
 import { Formiz, FormizStep, useForm } from "@formiz/core";
 import StepTwo from "./StepTwo";
 import StepOne from "./StepOne";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { GET_ENGINEERS } from "../../graphql/queries/graphql_queries";
+import { CREATE_CALL_MUTATION } from "../../graphql/mutations/graphql.mutations";
+import toast from "react-hot-toast";
 
 const fakeDelay = (delay = 500) => new Promise((r) => setTimeout(r, delay));
+
 const CreateCallModal = ({ closeModal }) => {
   useEffect(() => {
     // Apply overflow-hidden to body when the modal is open
@@ -20,6 +23,17 @@ const CreateCallModal = ({ closeModal }) => {
   }, []);
 
   const [engineers, setEngineers] = useState([]);
+  const [createCallMutation, { callError, createCallData }] = useMutation(
+    CREATE_CALL_MUTATION,
+    {
+      context: {
+        headers: {
+          authorization: `${localStorage.getItem("token")}`,
+        },
+      },
+    }
+  );
+
   const { data } = useQuery(GET_ENGINEERS, {
     context: {
       headers: {
@@ -35,7 +49,11 @@ const CreateCallModal = ({ closeModal }) => {
     }
   }, [data]);
 
-  console.log({ engineers });
+  if(callError){
+    console.log(callError)
+  }
+
+  console.log({ createCallData });
 
   // Time Configuration
   // Get the current date and time
@@ -57,15 +75,17 @@ const CreateCallModal = ({ closeModal }) => {
   ).padStart(2, "0")} ${amOrPm}`;
 
   const [formData, setFormData] = useState({
-    CallID: "",
-    CompanyName: "",
-    CompanyDetails: "",
-    CompanyLocation: "",
-    CompanyAddress: "",
-    EngineerName: "",
-    AssignedDate: new Date().toISOString().split("T")[0],
-    AssignedTime: formattedTime,
-    Description: "",
+    call_id: "",
+    company_name: "",
+    customer_contact: "",
+    company_details: "",
+    company_location: "",
+    company_address: "",
+    eng_name: "",
+    eng_emp: "",
+    assigned_date: new Date().toISOString().split("T")[0],
+    assigned_time: formattedTime,
+    description: "",
   });
 
   const [StepOneError, setStepOneError] = useState("");
@@ -82,14 +102,15 @@ const CreateCallModal = ({ closeModal }) => {
 
     if (form.currentStep?.name === "step1") {
       requiredFields = [
-        "CallID",
-        "CompanyName",
-        "CompanyDetails",
-        "CompanyLocation",
-        "CompanyAddress",
+        "call_id",
+        "customer_contact",
+        "company_name",
+        "company_details",
+        "company_location",
+        "company_address",
       ];
     } else if (form.currentStep?.name === "step-2") {
-      requiredFields = ["EngineerName"];
+      requiredFields = ["eng_name", "eng_emp"];
     }
 
     for (const field of requiredFields) {
@@ -121,6 +142,18 @@ const CreateCallModal = ({ closeModal }) => {
       await fakeDelay();
       console.log(formData);
       closeModal();
+      await toast.promise(
+        createCallMutation({
+          variables: {
+            call: formData,
+          },
+        }),
+        {
+          loading: "Creating Call...",
+          success: <b>🎉 Call created successfully!</b>,
+          error: <b>{callError.message}</b>,
+        }
+      );
     },
   });
 
@@ -142,11 +175,12 @@ const CreateCallModal = ({ closeModal }) => {
                 )}
                 <StepOne
                   handleChange={handleChange}
-                  CallID={formData.CallID}
-                  CompanyName={formData.CompanyName}
-                  CompanyDetails={formData.CompanyDetails}
-                  CompanyLocation={formData.CompanyLocation}
-                  CompanyAddress={formData.CompanyAddress}
+                  call_id={formData.call_id}
+                  customer_contact={formData.customer_contact}
+                  company_name={formData.company_name}
+                  company_details={formData.company_details}
+                  company_location={formData.company_location}
+                  company_address={formData.company_address}
                 />
               </FormizStep>
 
@@ -160,10 +194,11 @@ const CreateCallModal = ({ closeModal }) => {
                 )}
                 <StepTwo
                   handleChange={handleChange}
-                  EngineerName={formData.EngineerName}
-                  AssignedDate={formData.AssignedDate}
-                  AssignedTime={formData.AssignedTime}
-                  Description={formData.Description}
+                  eng_name={formData.eng_name}
+                  eng_emp={formData.eng_emp}
+                  assigned_date={formData.assigned_date}
+                  assigned_time={formData.assigned_time}
+                  description={formData.description}
                   engineers={engineers}
                 />
               </FormizStep>
@@ -184,7 +219,7 @@ const CreateCallModal = ({ closeModal }) => {
                       form.currentStep?.name !== "step1" && (
                         <button
                           onClick={form.goToPreviousStep}
-                          className="w-full sm:w-auto mt-4 sm:mt-0 mx-2 px-4 py-2 bg-gray-300 rounded-md mx-2"
+                          className="w-full sm:w-auto mt-4 sm:mt-0 mx-2 px-4 py-2 bg-gray-300 rounded-md"
                         >
                           Previous
                         </button>

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import LoginTimer from "../components/loginTimer";
 import PropTypes from "prop-types";
 import CallPieChart from "../components/CallPieChart";
+import useFetchCallsByStatus from "../hooks/useFetchCallsByStatus";
+import TodaysCallComponent from "./TodaysCallComponent";
 
 const engineers = ["Tapas", "Engineer 2"]; // replace with your actual list of engineers
 
@@ -10,6 +12,12 @@ const Admin_Dashboard = ({ role }) => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedEngineer, setSelectedEngineer] = useState(engineers[0]);
   const navigate = useNavigate();
+  const status = "ALL"; 
+  const { calls  } = useFetchCallsByStatus(status);
+
+  const pendingCalls = calls.filter((call) => call.status == "PENDING");
+  const completedCalls = calls.filter((call) => call.status == "COMPLETED");
+
   const callData = [{ completed: 14 }, { pending: 16 }];
   const handleMonthChange = (month) => {
     setSelectedMonth(month);
@@ -146,32 +154,35 @@ const Admin_Dashboard = ({ role }) => {
                   </div>
 
                   <div className="grid lg:grid-cols-2 mx-auto w-auto mt-10 px-10 gap-10">
-                    <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
-                      <div className="bg-blue-500 w-16 h-16 flex items-center justify-center rounded-full"></div>
-                      <div className="analytic-info">
-                        <h4>{`Today's Calls`}</h4>
-                        <h1 className="font-bold">10</h1>
-                      </div>
-                    </div>
+                    <TodaysCallComponent/>
+
                     <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
                       <div className="bg-orange-500 w-16 h-16 flex items-center justify-center rounded-full"></div>
                       <div className="analytic-info">
                         <h4>{`Completed Calls`}</h4>
-                        <h1 className="font-bold">14</h1>
+                        <h1 className="font-bold">
+                          {completedCalls.length > 0
+                            ? completedCalls.length
+                            : 0}
+                        </h1>
                       </div>
                     </div>
                     <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
                       <div className="bg-purple-500 w-16 h-16 flex items-center justify-center rounded-full"></div>
                       <div className="analytic-info">
                         <h4>Pending Calls</h4>
-                        <h1 className="font-bold">16</h1>
+                        <h1 className="font-bold">
+                          {pendingCalls.length > 0 ? pendingCalls.length : 0}
+                        </h1>
                       </div>
                     </div>
                     <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
                       <div className="bg-green-500 w-16 h-16 flex items-center justify-center rounded-full"></div>
                       <div className="analytic-info">
                         <h4>Total Calls</h4>
-                        <h1 className="font-bold">40</h1>
+                        <h1 className="font-bold">
+                        {calls.length > 0 ? calls.length : 0}
+                        </h1>
                       </div>
                     </div>
                   </div>

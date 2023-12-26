@@ -61,8 +61,8 @@ function App() {
     if (localStorage.getItem("token")) {
       const decoded = jwtDecode(localStorage.getItem("token"));
       setRole(decoded.role);
-      setAdminId(decoded?.adminId);
-      console.log({ decoded });
+      setAdminId(decoded.admin);
+      // console.log(decoded.admin );
     }
   }, []);
 

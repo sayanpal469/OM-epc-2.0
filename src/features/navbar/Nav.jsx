@@ -45,10 +45,10 @@ const Nav = ({ role }) => {
   useEffect(() => {
     // Update active link when location changes
     setActiveLink(location.pathname);
-    console.log(location.pathname);
+    // console.log(location.pathname);
   }, [location.pathname, role]);
 
-  console.log({ role });
+  // console.log({ role });
   return (
     <div>
       {isLogin && (

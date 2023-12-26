@@ -51,6 +51,7 @@ const AllCalls = () => {
               </button>
             </td>
           </tr>
+          
           <tr>
           <td data-label="Call ID">call_08/12/2023_01</td>
             <td data-label="Company Name">Visa - 3412</td>

@@ -3,9 +3,11 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FaFaceGrinStars } from "react-icons/fa6";
-import { CREATE_ENGINEER_MUTATION } from "../../graphql/graphql";
 import toast, { Toaster } from "react-hot-toast";
-const CreateEngineers = ({ admin_id }) => {
+import { CREATE_ENGINEER_MUTATION } from "../../graphql/mutations/graphql.mutations";
+
+
+const CreateEngineers = ({ adminId }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     Fname: "",
@@ -22,9 +24,12 @@ const CreateEngineers = ({ admin_id }) => {
   const [createEngineerMutation, { data, error }] = useMutation(
     CREATE_ENGINEER_MUTATION,
     {
+      variables: {
+        adminId: adminId,
+      },
       context: {
         headers: {
-          authorization: `${localStorage.getItem("token")}`, // Include the token from local storage
+          authorization: `${localStorage.getItem("token")}`,
         },
       },
     }
@@ -32,9 +37,9 @@ const CreateEngineers = ({ admin_id }) => {
 
   const [passwordError, setPasswordError] = useState("");
 
-  console.log({data})
-  console.log({error})
-  
+  console.log(adminId);
+  // console.log({ data });
+  // console.log({ error });
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -67,11 +72,11 @@ const CreateEngineers = ({ admin_id }) => {
     setFormData((prevData) => ({ ...prevData, age: value }));
   };
 
-  const validatePassword = (password) => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-    return passwordRegex.test(password);
-  };
+  // const validatePassword = (password) => {
+  //   const passwordRegex =
+  //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+  //   return passwordRegex.test(password);
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,16 +90,16 @@ const CreateEngineers = ({ admin_id }) => {
     }
 
     // Check if password meets criteria
-    if (!validatePassword(formData.password)) {
-      setPasswordError(
-        "Password must meet the following criteria:\n" +
-          "1. At least one lowercase letter\n" +
-          "2. At least one uppercase letter\n" +
-          "3. At least one special character (@$!%*?&)\n" +
-          "4. At least 6 characters long"
-      );
-      return;
-    }
+    // if (!validatePassword(formData.password)) {
+    //   setPasswordError(
+    //     "Password must meet the following criteria:\n" +
+    //       "1. At least one lowercase letter\n" +
+    //       "2. At least one uppercase letter\n" +
+    //       "3. At least one special character (@$!%*?&)\n" +
+    //       "4. At least 6 characters long"
+    //   );
+    //   return;
+    // }
 
     // Reset password error if validation passes
     setPasswordError("");
@@ -104,7 +109,7 @@ const CreateEngineers = ({ admin_id }) => {
         createEngineerMutation({
           variables: {
             engineer: formData,
-            adminId: admin_id,
+            adminId: adminId,
           },
         }),
         {
@@ -242,22 +247,6 @@ const CreateEngineers = ({ admin_id }) => {
                     className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-indigo-500"
                   />
                 </div>
-                <div>
-                  <label
-                    htmlFor="contact"
-                    className="block text-sm font-medium text-black"
-                  >
-                    Contact
-                  </label>
-                  <input
-                    type="text"
-                    id="contact"
-                    name="contact"
-                    value={formData.contact}
-                    onChange={handleInputChange}
-                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-indigo-500"
-                  />
-                </div>
 
                 <div>
                   <label
@@ -364,6 +353,5 @@ CreateEngineers.propTypes = {
 CreateEngineers.propTypes = {
   adminId: PropTypes.string.isRequired,
 };
-
 
 export default CreateEngineers;

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { LOGIN_USER_MUTATION } from "../graphql/graphql";
+import { LOGIN_USER_MUTATION } from "../graphql/mutations/graphql.mutations";
 
 const Login = () => {
   const [email, setEmail] = useState("");
