@@ -1,8 +1,53 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginTimer from "../components/loginTimer";
-
-const Dashboard = () => {
+import PropTypes from "prop-types";
+import { useQuery } from "@apollo/client";
+import { GET_CALLS_BY_ENGINEER } from "../graphql/queries/graphql_queries";
+const Dashboard = ({ engineer_info }) => {
   const navigate = useNavigate();
+  const [callNumbers, setCallNumbers] = useState({
+    completed_call: 0,
+    pending_call: 0,
+    today_call: 0,
+  });
+
+  const { data } = useQuery(GET_CALLS_BY_ENGINEER, {
+    variables: {
+      eng_emp: "123/modon/2023",
+      status: "ALL",
+    },
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`,
+      },
+    },
+  });
+
+  useEffect(() => {
+    if (data && data.callsByEng) {
+      const callList = data.callsByEng.call_list;
+
+      // Count calls based on status
+      const completedCalls = callList.filter(
+        (call) => call.status === "COMPLETED"
+      ).length;
+      const pendingCalls = callList.filter(
+        (call) => call.status === "PENDING"
+      ).length;
+      const todayCalls = callList.filter(
+        (call) => call.status === "TODAY"
+      ).length;
+
+      // Update state with total numbers
+      setCallNumbers({
+        completed_call: completedCalls,
+        pending_call: pendingCalls,
+        today_call: todayCalls,
+      });
+    }
+  }, [data]);
+
   return (
     <>
       <div className="flex">
@@ -22,7 +67,7 @@ const Dashboard = () => {
                 <div className="lg:flex md:flex items-center justify-between w-full h-fit text-white ">
                   <div className="mb-3 lg:mb-0">
                     <h1 className="lg:text-4xl md:text-2xl text-xl font-bold">
-                      Welcome, Subhojit
+                      Welcome, {engineer_info?.engineer?.Fname}
                     </h1>
                   </div>
                   <div className="">
@@ -51,7 +96,7 @@ const Dashboard = () => {
                       </div>
                       <div className="analytic-info">
                         <h4>New Calls</h4>
-                        <h1 className="font-bold">10</h1>
+                        <h1 className="font-bold"></h1>
                       </div>
                     </div>
                     <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
@@ -60,7 +105,7 @@ const Dashboard = () => {
                       </div>
                       <div className="analytic-info">
                         <h4>{`Today's Calls`}</h4>
-                        <h1 className="font-bold">14</h1>
+                        <h1 className="font-bold">{callNumbers?.today_call}</h1>
                       </div>
                     </div>
                     <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
@@ -69,7 +114,9 @@ const Dashboard = () => {
                       </div>
                       <div className="analytic-info">
                         <h4>Pending Calls</h4>
-                        <h1 className="font-bold">16</h1>
+                        <h1 className="font-bold">
+                          {callNumbers?.pending_call}
+                        </h1>
                       </div>
                     </div>
                     <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
@@ -78,137 +125,13 @@ const Dashboard = () => {
                       </div>
                       <div className="analytic-info">
                         <h4>Total Calls</h4>
-                        <h1 className="font-bold">40</h1>
+                        <h1 className="font-bold">
+                          {callNumbers?.completed_call}
+                        </h1>
                       </div>
                     </div>
                   </div>
                 </section>
-
-                {/* <section className="block-expense-report">
-              <div className="flex justify-between w-full items-center">
-                <h3 className="section-head">Expenses</h3>
-                <button
-                  onClick={() => navigate("/expenses")}
-                  className="bg-transparent mb-3 hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                >
-                  View Expenses
-                </button>
-              </div>
-              <div className="expense">
-                <table>
-                  <thead>
-                    <tr>
-                      <th scope="col">Company Name</th>
-                      <th scope="col">Date</th>
-                      <th scope="col">Amount</th>
-                      <th scope="col">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td data-label="Company Name">Visa - 3412</td>
-                      <td data-label="Date">04/01/2016</td>
-                      <td data-label="Amount">$1,190</td>
-                      <td data-label="Actions">
-                        <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td data-label="Company Name">Visa - 3412</td>
-                      <td data-label="Date">04/01/2016</td>
-                      <td data-label="Amount">$1,190</td>
-                      <td data-label="Actions">
-                        <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td data-label="Company Name">Visa - 3412</td>
-                      <td data-label="Date">04/01/2016</td>
-                      <td data-label="Amount">$1,190</td>
-                      <td data-label="Actions">
-                        <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td data-label="Company Name">Visa - 3412</td>
-                      <td data-label="Date">04/01/2016</td>
-                      <td data-label="Amount">$1,190</td>
-                      <td data-label="Actions">
-                        <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="flex justify-between w-full items-center">
-                <h3 className="section-head">Reports</h3>
-                <button className="bg-transparent mb-3 hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                  View Reports
-                </button>
-              </div>
-              <div className="report">
-                <table>
-                  <thead>
-                    <tr>
-                      <th scope="col">Company Name</th>
-                      <th scope="col"> Assigned Date</th>
-                      <th scope="col">Submit Date</th>
-                      <th scope="col">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td data-label="Company Name">Visa - 3412</td>
-                      <td data-label="Assign Date">04/01/2016</td>
-                      <td data-label="Submit Date">14/01/2016</td>
-                      <td data-label="Actions">
-                        <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td data-label="Company Name">Visa - 3412</td>
-                      <td data-label="Assign Date">04/01/2016</td>
-                      <td data-label="Submit Date">14/01/2016</td>
-                      <td data-label="Actions">
-                        <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td data-label="Company Name">Visa - 3412</td>
-                      <td data-label="Assign Date">04/01/2016</td>
-                      <td data-label="Submit Date">14/01/2016</td>
-                      <td data-label="Actions">
-                        <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td data-label="Company Name">Visa - 3412</td>
-                      <td data-label="Assign Date">04/01/2016</td>
-                      <td data-label="Submit Date">14/01/2016</td>
-                      <td data-label="Actions">
-                        <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                          View
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </section> */}
               </main>
             </div>
           </div>
@@ -216,6 +139,9 @@ const Dashboard = () => {
       </div>
     </>
   );
+};
+Dashboard.propTypes = {
+  engineer_info: PropTypes.object.isRequired,
 };
 
 export default Dashboard;

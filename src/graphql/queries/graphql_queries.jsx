@@ -97,3 +97,21 @@ export const GET_EXPENSE_BY_STATUS = gql`
     }
   }
 `;
+export const GET_ENGINEER = gql`
+query Engineer($empId: String) {
+  engineer(EMP_id: $empId) {
+    _id
+    Fname
+    Lname
+    contact
+    age
+    EMP_id
+    address
+    email
+    password
+    designation
+  }
+}
+`;
+
+

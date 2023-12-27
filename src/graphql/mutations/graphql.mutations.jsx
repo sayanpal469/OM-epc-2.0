@@ -56,3 +56,12 @@ export const APPROVE_EXPENSE_MUTATION = gql`
     }
   }
 `;
+
+export const ADD_EXPENSE_MUTATION = gql`
+  mutation CreateExpenseReport($expenseReport: ExpenseReportInput!) {
+    createExpenseReport(expenseReport: $expenseReport) {
+      call_id
+      message
+    }
+  }
+`;

@@ -2,7 +2,11 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Calls from "./pages/Calls";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+} from "@apollo/client";
 import Expenses from "./pages/Expenses";
 import Nav from "./features/navbar/Nav";
 import "./Styles/DashBoard.css";
@@ -23,6 +27,8 @@ const apolloClient = new ApolloClient({
 function App() {
   const [role, setRole] = useState("");
   const [adminId, setAdminId] = useState("");
+ 
+
   const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
     {
@@ -42,7 +48,10 @@ function App() {
           path: "/expense",
           element: <PrivateRoute element={<Expenses role={role} />} />,
         },
-        { path: "/reports", element: <PrivateRoute element={<Reports role={role} />} /> },
+        {
+          path: "/reports",
+          element: <PrivateRoute element={<Reports role={role} />} />,
+        },
         {
           path: "/create-engineers",
           element: (
@@ -63,7 +72,7 @@ function App() {
       const decoded = jwtDecode(localStorage.getItem("token"));
       setRole(decoded.role);
       setAdminId(decoded.admin);
-      // console.log(decoded.admin );
+      console.log(decoded);
     }
   }, []);
 

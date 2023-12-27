@@ -1,7 +1,8 @@
+import { useQuery } from "@apollo/client";
 import { useState, useEffect } from "react";
+import { GET_CALLS_BY_ENGINEER } from "../graphql/queries/graphql_queries";
 import CallsTables from "./CallsTables";
 import Loading from "./Loading";
-
 
 const Engineer_Calls = () => {
   const [selectedCallTab, setSelectedCallTab] = useState("");
@@ -9,17 +10,68 @@ const Engineer_Calls = () => {
   const [searchOption, setSearchOption] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [searchCall_id, setSearchCall_id] = useState("");
   const [searchText, setSearchText] = useState("");
+  const [tablesData, setTablesData] = useState([]);
+  const { data } = useQuery(GET_CALLS_BY_ENGINEER, {
+    variables: {
+      eng_emp: "123/modon/2023",
+      status:
+        selectedCallTab === ""
+          ? "ALL"
+          : selectedCallTab === "Today_Calls"
+          ? "TODAY"
+          : selectedCallTab === "Pending_Calls"
+          ? "PENDING"
+          : selectedCallTab === "All_Calls"
+          ? "ALL"
+          : "",
+    },
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`,
+      },
+    },
+  });
+
+  console.log({ data });
+
   const handleSave = () => {
     console.log("Selected Search Option:", searchOption);
-    if (searchOption === "between_dates") {
-      console.log("From Date:", fromDate);
-      console.log("To Date:", toDate);
-    } else if (searchOption === "name") {
-      console.log("Search Text:", searchText);
-    } else if (searchOption === "date") {
-      console.log("Selected Date:", fromDate);
-    }
+
+    // Assuming `data` is the object you provided
+    const filteredData = tablesData?.filter((call) => {
+      if (searchOption === "between_dates") {
+        // Filter based on fromDate and toDate
+        const assignedDate = new Date(call.assigned_date);
+        return (
+          assignedDate >= new Date(fromDate) && assignedDate <= new Date(toDate)
+        );
+      } else if (searchOption === "name") {
+        // Filter based on searchText and company name
+        console.log(searchText.toLowerCase());
+        console.log(call.company_name);
+        return call.company_name
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
+      } else if (searchOption === "call_id") {
+        // Filter based on selected date
+        return call.call_id.toLowerCase().includes(searchCall_id.toLowerCase());
+      } else if (searchOption === "date") {
+        // Filter based on selected date
+        const assignedDate = new Date(call.assigned_date);
+        return (
+          assignedDate.toDateString() === new Date(fromDate).toDateString()
+        );
+      }
+
+      // If searchOption is not recognized, include the data by default
+      // return true;
+    });
+
+    // Log the filtered data
+    console.log("Filtered Data:", filteredData);
+    setTablesData(filteredData);
   };
 
   const handleCallTab = (callTab) => {
@@ -33,15 +85,28 @@ const Engineer_Calls = () => {
     setSearchText("");
     setFromDate("");
     setToDate("");
+    setSearchCall_id("");
   };
 
   useEffect(() => {
-    const delay = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    if (data) {
+      var delay = setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    }
 
     return () => clearTimeout(delay);
-  }, [selectedCallTab]);
+  }, [selectedCallTab, data]);
+
+  useEffect(() => {
+    if (!data) {
+      console.log("sadasdasdsads");
+      setIsLoading(true);
+    }
+    if (data?.callsByEng?.call_list?.length > 0) {
+      setTablesData(data?.callsByEng?.call_list);
+    }
+  }, [data]);
 
   const buttonClasses = (tabName) =>
     selectedCallTab === tabName
@@ -54,15 +119,14 @@ const Engineer_Calls = () => {
 
   return (
     <div>
-      <div>
-        {/* Empty space for navbar here */}
-      </div>
+      <div>{/* Empty space for navbar here */}</div>
       <div>
         <section className="w-full h-full">
           <div className="lg:flex lg:justify-between lg:items-center flex-col p-5 space-y-5">
             <div className="flex lg:flex-row sm:space-y-0 lg:w-[50%] w-[100%] space-y-5  flex-col justify-center items-end space-x-4">
               <button
                 onClick={() => handleCallTab("New_Calls")}
+                disabled={selectedCallTab === "New_Calls"}
                 className={`border py-2 w-full rounded  ${buttonClasses(
                   "New_Calls"
                 )}`}
@@ -71,6 +135,7 @@ const Engineer_Calls = () => {
               </button>
               <button
                 onClick={() => handleCallTab("Today_Calls")}
+                disabled={selectedCallTab === "Today_Calls"}
                 className={`border py-2 w-full rounded ${buttonClasses(
                   "Today_Calls"
                 )}`}
@@ -79,6 +144,7 @@ const Engineer_Calls = () => {
               </button>
               <button
                 onClick={() => handleCallTab("Pending_Calls")}
+                disabled={selectedCallTab === "Pending_Calls"}
                 className={`border py-2 w-full rounded ${buttonClasses(
                   "Pending_Calls"
                 )}`}
@@ -87,6 +153,9 @@ const Engineer_Calls = () => {
               </button>
               <button
                 onClick={() => handleCallTab("All_Calls")}
+                disabled={
+                  selectedCallTab === "All_Calls" || selectedCallTab === ""
+                }
                 className={`border  py-2 w-full rounded ${button_All_Classes}`}
               >
                 All Calls
@@ -101,12 +170,12 @@ const Engineer_Calls = () => {
                     value={searchOption}
                     className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-md shadow leading-tight focus:outline-none focus:shadow-outline-blue focus:border-blue-500"
                   >
-                    <option value="defaule">Select Search Option</option>
+                    <option value="default">Select Search Option</option>
                     <option value="name">Search by Name/Company</option>
+                    <option value="call_id">Search By Call Id</option>
                     <option value="date">Search by Date</option>
                     <option value="between_dates">Search Between Dates</option>
                   </select>
-                  
                 </div>
               </div>
               <div className="   lg:w-[60%] w-full ">
@@ -137,6 +206,14 @@ const Engineer_Calls = () => {
                     placeholder="Enter Name or Company"
                   />
                 )}
+                {searchOption === "call_id" && (
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 border-2 rounded-md border-blue-500"
+                    onChange={(e) => setSearchCall_id(e.target.value)}
+                    placeholder="Enter Name or Company"
+                  />
+                )}
                 {searchOption === "date" && (
                   <input
                     type="date"
@@ -147,10 +224,13 @@ const Engineer_Calls = () => {
                 )}
               </div>
             </div>
-            {searchText !== "" || toDate !== "" || fromDate !== "" ? (
+            {searchText !== "" ||
+            toDate !== "" ||
+            fromDate !== "" ||
+            searchCall_id != "" ? (
               <div className="w-full  flex justify-center items-center">
                 <button
-                  onClick={handleSave}
+                  onClick={() => handleSave()}
                   className="border-2 rounded-md border-blue-500 px-2 py-2"
                 >
                   Save
@@ -160,7 +240,10 @@ const Engineer_Calls = () => {
           </div>
 
           {isLoading && <Loading />}
-          <CallsTables selectedCallTab={selectedCallTab} />
+          <CallsTables
+            tablesData={tablesData}
+            selectedCallTab={selectedCallTab}
+          />
         </section>
       </div>
     </div>

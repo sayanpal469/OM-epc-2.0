@@ -35,7 +35,7 @@ const CreateCallModal = ({ closeModal }) => {
     }
   );
 
-  const { data, error } = useQuery(GET_ENGINEERS, {
+  const { data } = useQuery(GET_ENGINEERS, {
     context: {
       headers: {
         authorization: `${localStorage.getItem("token")}`, // Include the token from local storage

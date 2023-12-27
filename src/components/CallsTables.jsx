@@ -3,15 +3,15 @@ import AllCalls from "./AllCalls";
 import PendingCalls from "./PendingCalls";
 import TodaysCalls from "./TodaysCalls";
 
-const CallsTables = ({ selectedCallTab }) => {
+const CallsTables = ({ selectedCallTab, tablesData }) => {
   return (
     <div className="px-4">
       {selectedCallTab === "" || selectedCallTab === "All_Calls" ? (
-        <AllCalls />
+        <AllCalls tablesData={tablesData} />
       ) : selectedCallTab === "Today_Calls" ? (
-        <TodaysCalls />
+        <TodaysCalls tablesData={tablesData} />
       ) : selectedCallTab === "Pending_Calls" ? (
-        <PendingCalls />
+        <PendingCalls tablesData={tablesData} />
       ) : selectedCallTab === "New_Calls" ? (
         <PendingCalls />
       ) : (
@@ -25,6 +25,7 @@ const CallsTables = ({ selectedCallTab }) => {
 
 CallsTables.propTypes = {
   selectedCallTab: PropTypes.any,
+  tablesData: PropTypes.any.isRequired,
 };
 
 export default CallsTables;
