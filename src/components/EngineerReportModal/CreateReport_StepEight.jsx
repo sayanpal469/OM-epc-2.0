@@ -14,7 +14,7 @@ const EnginnerReport_StepEight = ({
   const [imageFiles, setImageFiles] = useState([])
 useEffect(() => {
   if(imageFiles.length>0){
-    setFormData({ ...formData, ['SiteImagesInput']: imageFiles });
+    setFormData({ ...formData, ['site_images']: imageFiles });
   }
 
  
@@ -128,11 +128,11 @@ useEffect(() => {
                     <td>{data.BatteryBatchCode}</td>
                     <td>{data.WithMains}</td>
                     <td>{data.WithoutMains}</td>
-                    <td>{data.After5mins}</td>
-                    <td>{data.After10mins}</td>
-                    <td>{data.After20mins}</td>
-                    <td>{data.After40mins}</td>
-                    <td>{data.After1hrs}</td>
+                    <td>{data.After5min}</td>
+                    <td>{data.After10min}</td>
+                    <td>{data.After20min}</td>
+                    <td>{data.After40min}</td>
+                    <td>{data.After1hr}</td>
                  </tr>
                 )
               })}
@@ -177,12 +177,12 @@ useEffect(() => {
      
         <input
           type="text"
-          id="After5mins"
-          name="After5mins"
+          id="After5min"
+          name="After5min"
           value={BatteryDataInput.After5mins}
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 mb-2"
           placeholder="Enter After 5 mins"
-          onChange={(e)=> handleChange(e, 'After5mins')}
+          onChange={(e)=> handleChange(e, 'After5min')}
           required
         />
      
@@ -193,7 +193,7 @@ useEffect(() => {
           value={BatteryDataInput.After10mins}
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 mb-2"
           placeholder="Enter After 10 mins"
-          onChange={(e)=> handleChange(e, 'After10mins')}
+          onChange={(e)=> handleChange(e, 'After10min')}
           required
         />
      
@@ -204,7 +204,7 @@ useEffect(() => {
           value={BatteryDataInput.After20mins}
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 mb-2"
           placeholder="Enter After 20 mins"
-          onChange={(e)=> handleChange(e, 'After20mins')}
+          onChange={(e)=> handleChange(e, 'After20min')}
           required
         />
       
@@ -215,7 +215,7 @@ useEffect(() => {
           value={BatteryDataInput.After40mins}
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 mb-2"
           placeholder="Enter After 40 mins"
-          onChange={(e)=> handleChange(e, 'After40mins')}
+          onChange={(e)=> handleChange(e, 'After40min')}
           required
         />
      
@@ -226,7 +226,7 @@ useEffect(() => {
           value={BatteryDataInput.After1hrs}
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 mb-2"
           placeholder="Enter  After 1 hrs"
-          onChange={(e)=> handleChange(e, 'After1hrs')}
+          onChange={(e)=> handleChange(e, 'After1hr')}
           required
         />
       </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Loading from "../components/Loading";
+// import Loading from "../components/Loading";
 import ReportTables from "../components/ReportTables";
 import CreateReportModal from "../components/EngineerReportModal/CreateReportModal";
 const Engineer_Report = () => {
@@ -10,6 +10,7 @@ const Engineer_Report = () => {
   const [toDate, setToDate] = useState("");
   const [searchText, setSearchText] = useState("");
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  console.log(isLoading);
   const handleSave = () => {
     console.log("Selected Search Option:", searchOption);
     if (searchOption === "between_dates") {
@@ -66,9 +67,8 @@ const Engineer_Report = () => {
         {/* Empty space for navbar here */}
       </div>
 
-
       <div>
-      <section className="w-full h-full">
+        <section className="w-full h-full">
           <div className="lg:flex lg:justify-between lg:items-center flex-col p-5 space-y-5">
             <div className="flex lg:flex-row sm:space-y-0 lg:w-[50%] w-[100%] space-y-5  flex-col justify-center items-end space-x-4">
               <button
@@ -94,10 +94,10 @@ const Engineer_Report = () => {
                 All Reports
               </button>
               <button
-               onClick={open_Create_Report_Modal}
+                onClick={open_Create_Report_Modal}
                 className={`border py-2 w-full rounded ${buttonClasses(
-                    "Create_Report"
-                  )}`}
+                  "Create_Report"
+                )}`}
               >
                 Create Report
               </button>
@@ -172,10 +172,8 @@ const Engineer_Report = () => {
           <ReportTables selectedCallTab={selectedCallTab} />
 
           {isReportModalOpen ? (
-           <CreateReportModal
-            closeModal={close_Create_Report_Modal}
-            />
-          ):null}
+            <CreateReportModal closeModal={close_Create_Report_Modal} />
+          ) : null}
         </section>
       </div>
     </div>

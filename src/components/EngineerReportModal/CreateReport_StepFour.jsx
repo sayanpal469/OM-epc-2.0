@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 
 const EnginnerReport_StepFour = ({
-  handleChange,
+  handle_Input_3Phase_AC,
+  handle_Output_3Phase_AC,
   AcInputThreePhase_RY,
   AcInputThreePhase_YB,
   AcInputThreePhase_RB,
@@ -27,7 +28,7 @@ const EnginnerReport_StepFour = ({
         className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:mr-2 focus:outline-none focus:border-blue-500"
         placeholder="Enter R-Y"
         value={AcInputThreePhase_RY}
-        onChange={handleChange}
+        onChange={handle_Input_3Phase_AC}
         required
       />
       <input
@@ -37,7 +38,7 @@ const EnginnerReport_StepFour = ({
         className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:ml-2 focus:outline-none focus:border-blue-500"
         placeholder="Enter Y-B"
         value={AcInputThreePhase_YB}
-        onChange={handleChange}
+        onChange={handle_Input_3Phase_AC}
         required
       />
       <input
@@ -47,7 +48,7 @@ const EnginnerReport_StepFour = ({
         className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:mr-2 focus:outline-none focus:border-blue-500"
         placeholder="Enter R-B"
         value={AcInputThreePhase_RB}
-        onChange={handleChange}
+        onChange={handle_Input_3Phase_AC}
         required
       />
       <input
@@ -57,7 +58,7 @@ const EnginnerReport_StepFour = ({
         className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:ml-2 focus:outline-none focus:border-blue-500"
         placeholder="Enter N-R"
         value={AcInputThreePhase_NR}
-        onChange={handleChange}
+        onChange={handle_Input_3Phase_AC}
         required
       />
     </div>
@@ -74,7 +75,7 @@ const EnginnerReport_StepFour = ({
         className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:mr-2 focus:outline-none focus:border-blue-500"
         placeholder="Enter R-Y"
         value={AcOutputThreePhase_RY}
-        onChange={handleChange}
+        onChange={handle_Output_3Phase_AC}
         required
       />
       <input
@@ -84,7 +85,7 @@ const EnginnerReport_StepFour = ({
         className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:ml-2 focus:outline-none focus:border-blue-500"
         placeholder="Enter Y-B"
         value={AcOutputThreePhase_YB}
-        onChange={handleChange}
+        onChange={handle_Output_3Phase_AC}
         required
       />
       <input
@@ -94,7 +95,7 @@ const EnginnerReport_StepFour = ({
         className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:mr-2 focus:outline-none focus:border-blue-500"
         placeholder="Enter R-B"
         value={AcOutputThreePhase_RB}
-        onChange={handleChange}
+        onChange={handle_Output_3Phase_AC}
         required
       />
       <input
@@ -104,7 +105,7 @@ const EnginnerReport_StepFour = ({
         className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:ml-2 focus:outline-none focus:border-blue-500"
         placeholder="Enter N-R"
         value={AcOutputThreePhase_NR}
-        onChange={handleChange}
+        onChange={handle_Output_3Phase_AC}
         required
       />
     </div>
@@ -115,7 +116,8 @@ const EnginnerReport_StepFour = ({
   );
 };
 EnginnerReport_StepFour.propTypes = {
-    handleChange: PropTypes.func.isRequired,
+    handle_Input_3Phase_AC: PropTypes.func.isRequired,
+    handle_Output_3Phase_AC:PropTypes.func.isRequired,
     AcInputThreePhase_RY: PropTypes.string.isRequired,
     AcInputThreePhase_YB: PropTypes.string.isRequired,
     AcInputThreePhase_RB: PropTypes.string.isRequired,

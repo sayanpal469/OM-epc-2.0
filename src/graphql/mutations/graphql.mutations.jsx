@@ -67,70 +67,70 @@ export const ADD_EXPENSE_MUTATION = gql`
 `;
 
 export const ADD_REPORT_MUTATION = gql`
-mutation Mutation($report: ReportInput!) {
-  createReport(report: $report) {
-    _id
-    company_name
-    call_id
-    eng_emp
-    complain_id
-    date
-    client_name
-    atm_id
-    contact
-    address
-    site_type
-    device_type
-    product_make
-    product_slNo
-    buy_back_details
-    nature_of_complaint
-    ac_input_three_phase {
-      ac_input_three_phase_NR
-      ac_input_three_phase_RB
-      ac_input_three_phase_RY
-      ac_input_three_phase_YB
+  mutation CreateReport($report: ReportInput!) {
+    createReport(report: $report) {
+      _id
+      company_name
+      call_id
+      eng_emp
+      complain_id
+      date
+      time
+      client_name
+      atm_id
+      contact
+      address
+      site_type
+      device_type
+      product_make
+      product_slNo
+      buy_back_details
+      nature_of_complaint
+      ac_input_three_phase {
+        ac_input_three_phase_RY
+        ac_input_three_phase_YB
+        ac_input_three_phase_NR
+        ac_input_three_phase_RB
+      }
+      ac_output_three_phase {
+        ac_output_three_phase_RY
+        ac_output_three_phase_YB
+        ac_output_three_phase_RB
+        ac_output_three_phase_NR
+      }
+      ac_input_single_phase {
+        ac_input_singel_phase_LN
+        ac_input_singel_phase_NE
+        ac_input_three_phase_LE
+      }
+      ac_output_single_phase {
+        ac_input_singel_phase_LN
+        ac_input_singel_phase_NE
+        ac_input_three_phase_LE
+      }
+      site_images
+      power_cut
+      battery_make
+      battery_type
+      battery_AH
+      quantity
+      battery_test_report {
+        battery_catch_code
+        with_mains
+        without_mains
+        after_5_min
+        after_10_min
+        after_20_min
+        after_40_min
+        after_1_hour
+      }
+      customer_sign
+      eng_sign
+      DC {
+        V
+        V_withMains
+        V_withoutMains
+      }
     }
-    ac_output_three_phase {
-      ac_output_three_phase_NR
-      ac_output_three_phase_RB
-      ac_output_three_phase_RY
-      ac_output_three_phase_YB
-    }
-    ac_input_single_phase {
-      ac_input_singel_phase_LN
-      ac_input_singel_phase_NE
-      ac_input_three_phase_LE
-    }
-    ac_output_single_phase {
-      ac_input_singel_phase_LN
-      ac_input_singel_phase_NE
-      ac_input_three_phase_LE
-    }
-    DC {
-      V
-      V_withMains
-      V_withoutMains
-    }
-    power_cut
-    battery_make
-    battery_type
-    battery_AH
-    quantity
-    battery_test_report {
-      after_10_min
-      after_1_hour
-      after_20_min
-      after_40_min
-      after_5_min
-      battery_catch_code
-      signature
-      with_mains
-      without_mains
-    }
-    customer_sign
-    eng_sign
   }
-}
 `;
-

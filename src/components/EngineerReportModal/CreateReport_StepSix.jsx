@@ -1,22 +1,18 @@
 import PropTypes from "prop-types";
 
-
-
 const EnginnerReport_StepSix = ({
   handleChange,
-    UpsInvertDCV,
-    DCV_WithMains,
-    DCV_WithoutMains,
-    PowerCut,
- }) => {
-
-
-  
+  handleDC,
+  UpsInvertDCV,
+  DCV_WithMains,
+  DCV_WithoutMains,
+  PowerCut,
+}) => {
   return (
     <div>
       <div className="mb-4">
         <label htmlFor="V" className="block text-gray-700 font-bold mb-2">
-        UPS/Inverter DC.V
+          UPS/Inverter DC.V
         </label>
         <input
           type="number"
@@ -25,14 +21,16 @@ const EnginnerReport_StepSix = ({
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
           placeholder="Enter UPS/Inverter DC.V"
           value={UpsInvertDCV}
-          onChange={handleChange}
+          onChange={handleDC}
           required
         />
-        
       </div>
       <div className="mb-4">
-        <label htmlFor="V_withMains" className="block text-gray-700 font-bold mb-2">
-        DC.V (With Mains)
+        <label
+          htmlFor="V_withMains"
+          className="block text-gray-700 font-bold mb-2"
+        >
+          DC.V (With Mains)
         </label>
         <input
           type="number"
@@ -41,14 +39,16 @@ const EnginnerReport_StepSix = ({
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
           placeholder="Enter DC.V (With Mains)"
           value={DCV_WithMains}
-          onChange={handleChange}
+          onChange={handleDC}
           required
         />
-        
       </div>
       <div className="mb-4">
-        <label htmlFor="V_withoutMains" className="block text-gray-700 font-bold mb-2">
-        DC.V (Without Mains)
+        <label
+          htmlFor="V_withoutMains"
+          className="block text-gray-700 font-bold mb-2"
+        >
+          DC.V (Without Mains)
         </label>
         <input
           type="number"
@@ -57,13 +57,16 @@ const EnginnerReport_StepSix = ({
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
           placeholder="Enter DC.V (Without Mains)"
           value={DCV_WithoutMains}
-          onChange={handleChange}
+          onChange={handleDC}
           required
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="power_cut" className="block text-gray-700 font-bold mb-2">
-        Power Cut
+        <label
+          htmlFor="power_cut"
+          className="block text-gray-700 font-bold mb-2"
+        >
+          Power Cut
         </label>
         <input
           type="number"
@@ -77,11 +80,11 @@ const EnginnerReport_StepSix = ({
         />
       </div>
     </div>
-    
   );
 };
 EnginnerReport_StepSix.propTypes = {
   handleChange: PropTypes.func.isRequired,
+  handleDC: PropTypes.func.isRequired,
   UpsInvertDCV: PropTypes.string.isRequired,
   DCV_WithMains: PropTypes.string.isRequired,
   DCV_WithoutMains: PropTypes.string.isRequired,

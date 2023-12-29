@@ -98,8 +98,8 @@ const EnginnerReport_StepTwo = ({
           <input
             type="radio"
             name="device_type"
-            value="Ups&Battery"
-            checked={Device === "Ups&Battery"}
+            value="Ups_Battery"
+            checked={Device === "Ups_Battery"}
             onChange={handleChange}
           />
           UPS & Battery
@@ -108,8 +108,8 @@ const EnginnerReport_StepTwo = ({
           <input
             type="radio"
             name="device_type"
-            value="Inverter&Battery"
-            checked={Device === "Inverter&Battery"}
+            value="Inverter_Battery"
+            checked={Device === "Inverter_Battery"}
             onChange={handleChange}
           />
           Inverter & Battery
