@@ -18,6 +18,8 @@ const CreateEngineers = ({ adminId }) => {
     password: "",
     address: "",
     designation: "",
+    contact: "",
+    eng_sign: "",
   });
 
   const [createEngineerMutation, { data, error }] = useMutation(
