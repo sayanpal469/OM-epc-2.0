@@ -24,6 +24,16 @@ const TodaysCalls = ({ tablesData }) => {
     setSelectedCall({});
   };
 
+  console.log({ tablesData });
+  const today = new Date().toLocaleDateString('en-GB').replace(/\//g, '-'); // Get the current date in the format "DD-MM-YYYY"
+  // console.log({today});
+
+  const filteredArray = tablesData.filter((callDetail) => {
+    return callDetail.assigned_date === today;
+  });
+
+  console.log(filteredArray);
+
   return (
     <div>
       <table>
@@ -39,7 +49,7 @@ const TodaysCalls = ({ tablesData }) => {
           </tr>
         </thead>
         <tbody>
-          {tablesData?.map((callDetails, index) => (
+          {filteredArray?.map((callDetails, index) => (
             <tr key={index}>
               <td data-label="Call ID">{callDetails.call_id}</td>
               <td data-label="Company Name">{callDetails.company_name}</td>

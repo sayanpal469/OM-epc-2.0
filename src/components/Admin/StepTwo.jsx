@@ -8,10 +8,8 @@ const StepTwo = ({
   description,
   engineers,
 }) => {
-
-  // console.log({ engineers });
-
- 
+  console.log({ engineers });
+  
 
   return (
     <div>
@@ -34,7 +32,11 @@ const StepTwo = ({
             Select an engineer
           </option>
           {engineers.map((engineer, index) => (
-            <option key={index} value={`${engineer.Fname} ${engineer.Lname}`} className="text-sm">
+            <option
+              key={index}
+              value={`${engineer.Fname} ${engineer.Lname}`}
+              className="text-sm"
+            >
               {engineer.Fname} {engineer.Lname}
             </option>
           ))}
@@ -42,10 +44,7 @@ const StepTwo = ({
       </div>
 
       <div className="mb-4">
-        <label
-          htmlFor="eng_emp"
-          className="block text-gray-700 font-bold mb-2"
-        >
+        <label htmlFor="eng_emp" className="block text-gray-700 font-bold mb-2">
           Engineer Employee Id
         </label>
         <select
@@ -60,8 +59,8 @@ const StepTwo = ({
             Select Id
           </option>
           {engineers.map((engineer, index) => (
-            <option key={index} value={engineer.EMP_id} className="text-sm">
-              {engineer.EMP_id}
+            <option key={index} value={engineer.eng_emp} className="text-sm">
+              {engineer.eng_emp}
             </option>
           ))}
         </select>

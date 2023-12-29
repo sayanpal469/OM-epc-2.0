@@ -2,11 +2,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Calls from "./pages/Calls";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import {
-  ApolloProvider,
-  ApolloClient,
-  InMemoryCache,
-} from "@apollo/client";
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import Expenses from "./pages/Expenses";
 import Nav from "./features/navbar/Nav";
 import "./Styles/DashBoard.css";
@@ -27,22 +23,26 @@ const apolloClient = new ApolloClient({
 function App() {
   const [role, setRole] = useState("");
   const [adminId, setAdminId] = useState("");
- 
-
+  const [engId, setEngId] = useState("");
+  console.log({ engId });
   const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
     {
       path: "/",
-      element: <Nav role={role} />,
+      element: <Nav role={role} engId={engId} />,
       children: [
         {
           index: true,
-          element: <PrivateRoute element={<Home role={role} />} />,
+          element: (
+            <PrivateRoute element={<Home role={role} engId={engId} />} />
+          ),
         },
 
         {
           path: "/calls",
-          element: <PrivateRoute element={<Calls role={role} />} />,
+          element: (
+            <PrivateRoute element={<Calls role={role} engId={engId} />} />
+          ),
         },
         {
           path: "/expense",
@@ -72,7 +72,8 @@ function App() {
       const decoded = jwtDecode(localStorage.getItem("token"));
       setRole(decoded.role);
       setAdminId(decoded.admin);
-      console.log(decoded);
+      setEngId(decoded.engineer ? decoded.engineer : "");
+      console.log({ decoded });
     }
   }, []);
 

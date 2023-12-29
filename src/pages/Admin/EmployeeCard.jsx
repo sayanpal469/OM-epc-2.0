@@ -9,9 +9,9 @@ import Loading from "../../features/loading/Loading";
 
 const EmployeeCard = ({ engineer }) => {
   const [open, setOpen] = useState(false);
-  const { Fname, Lname, EMP_id, email } = engineer;
+  const { Fname, Lname, eng_emp, email } = engineer;
 
-  const [deleteEngineerMutation, { data, error, loading }] = useMutation(
+  const [deleteEngineerMutation, { loading }] = useMutation(
     DELETE_ENGINEER_MUTATION,
     {
       context: {
@@ -22,10 +22,8 @@ const EmployeeCard = ({ engineer }) => {
     }
   );
 
-  let message = data?.deleteEngineer?.message;
 
   const handleRemove = async (emp) => {
-    console.log(emp);
     await toast.promise(
       deleteEngineerMutation({
         variables: {
@@ -34,16 +32,15 @@ const EmployeeCard = ({ engineer }) => {
       }),
       {
         loading: "Creating Call...",
-        success: <b>{message}</b>,
-        error: <b>{error.message}</b>,
+        success: () => {
+        
+          window.location.reload();
+          return <b>Engineer Deleted</b>;
+        },
+        error: (err) => <b>{err.message}</b>,
       }
     );
-    // window.location.reload();
-    // setTimeout(() => {
-    // }, 1000);
   };
-
-  console.log(data?.deleteEngineer?.message);
 
   const getInitials = () => {
     const firstInitial = Fname ? Fname.charAt(0).toUpperCase() : "";
@@ -57,7 +54,7 @@ const EmployeeCard = ({ engineer }) => {
         <Loading />
       ) : (
         <div>
-          <EmployeeDetails open={open} setOpen={setOpen} EMP_id={EMP_id} />
+          <EmployeeDetails open={open} setOpen={setOpen} EMP_id={eng_emp} />
 
           <div className="flex justify-center my-2 lg:w-[500px]">
             <div className="lg:flex flex-1 lg:justify-between mx-auto lg:max-w-screen-md md:max-w-md max-w-sm p-5 bg-white shadow-md hover:shadow-xl items-center">
@@ -73,7 +70,7 @@ const EmployeeCard = ({ engineer }) => {
                     {Fname} {Lname}
                   </p>
                   <p className="text-sm my-1">{email}</p>
-                  <p className="text-sm">{EMP_id}</p>
+                  <p className="text-sm">{eng_emp}</p>
                 </div>
               </div>
 
@@ -85,7 +82,7 @@ const EmployeeCard = ({ engineer }) => {
                   View
                 </button>
                 <button
-                  onClick={() => handleRemove(EMP_id)}
+                  onClick={() => handleRemove(eng_emp)}
                   className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-20 md:w-auto"
                 >
                   Delete
@@ -105,7 +102,7 @@ EmployeeCard.propTypes = {
     Fname: PropTypes.string.isRequired,
     Lname: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    EMP_id: PropTypes.string.isRequired,
+    eng_emp: PropTypes.string.isRequired,
     designation: PropTypes.string.isRequired,
   }).isRequired,
 };

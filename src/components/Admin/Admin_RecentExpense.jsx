@@ -1,8 +1,9 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import ExpenseVeiwModal from "./ExpenseVeiwModal";
 import useFetchExpenseByStatus from "../../hooks/useFetchExpenseByStatus";
 
-const Admin_RecentExpenses = () => {
+const Admin_RecentExpenses = ({ savedSearch }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const status = "RECENT";
   const { expenses, data } = useFetchExpenseByStatus(status);
@@ -17,6 +18,43 @@ const Admin_RecentExpenses = () => {
     setIsViewModalOpen(false);
   };
 
+  console.log({ expenses });
+  const newExpenses = expenses
+    .filter((expense) => {
+      const submitDate = new Date(expense.date);
+      const currentDate = new Date();
+      const tenDaysAgo = new Date(currentDate);
+      tenDaysAgo.setDate(currentDate.getDate() - 10);
+      return submitDate >= tenDaysAgo;
+    })
+    .sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB - dateA; // Sort in descending order by submit date
+    });
+
+  const filteredExpenses = () => {
+    if (!savedSearch || !savedSearch.option || !savedSearch.value) {
+      // No saved search, return all expenses
+      return newExpenses;
+    }
+
+    // Filter based on savedSearch
+    if (savedSearch.option === "date") {
+      // Filter by expense submit date
+      return newExpenses.filter(
+        (expense) => expense.date === savedSearch.value
+      );
+    } else if (savedSearch.option === "name") {
+      // Filter by engineer name
+      return newExpenses.filter((expense) =>
+        expense.eng_name.toLowerCase().includes(savedSearch.value.toLowerCase())
+      );
+    }
+
+    // Default: return all expenses
+    return newExpenses;
+  };
   return (
     <div>
       {data ? (
@@ -24,7 +62,7 @@ const Admin_RecentExpenses = () => {
           <table>
             <thead>
               <tr>
-                <th scope="col">Call_ID</th>
+                <th scope="col">Call ID</th>
                 <th scope="col">Company Name</th>
                 <th scope="col">Location</th>
                 <th scope="col">Engineer Name</th>
@@ -36,9 +74,9 @@ const Admin_RecentExpenses = () => {
               </tr>
             </thead>
             <tbody>
-              {expenses.map((expense) => (
-                <tr key={expense.call_id}>
-                  <td data-label="Call_ID">{expense.call_id}</td>
+              {filteredExpenses().map((expense, index) => (
+                <tr key={index}>
+                  <td data-label="Call ID">{expense.call_id}</td>
                   <td data-label="Company Name">{expense.company_name}</td>
                   <td data-label="Location">{expense.company_location}</td>
                   <td data-label="Engineer Name">{expense.eng_name}</td>
@@ -93,5 +131,7 @@ const Admin_RecentExpenses = () => {
     </div>
   );
 };
-
+Admin_RecentExpenses.propTypes = {
+  savedSearch: PropTypes.object,
+};
 export default Admin_RecentExpenses;

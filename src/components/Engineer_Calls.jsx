@@ -1,10 +1,11 @@
 import { useQuery } from "@apollo/client";
+import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { GET_CALLS_BY_ENGINEER } from "../graphql/queries/graphql_queries";
 import CallsTables from "./CallsTables";
 import Loading from "./Loading";
 
-const Engineer_Calls = () => {
+const Engineer_Calls = ({ engineer_data }) => {
   const [selectedCallTab, setSelectedCallTab] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [searchOption, setSearchOption] = useState("");
@@ -13,9 +14,12 @@ const Engineer_Calls = () => {
   const [searchCall_id, setSearchCall_id] = useState("");
   const [searchText, setSearchText] = useState("");
   const [tablesData, setTablesData] = useState([]);
+  console.log({ engineer_data });
+  const eng_emp_id =
+    engineer_data !== undefined ? engineer_data?.engineerByObject?.eng_emp : "";
   const { data } = useQuery(GET_CALLS_BY_ENGINEER, {
     variables: {
-      eng_emp: "123/modon/2023",
+      eng_emp: eng_emp_id,
       status:
         selectedCallTab === ""
           ? "ALL"
@@ -77,6 +81,9 @@ const Engineer_Calls = () => {
   const handleCallTab = (callTab) => {
     setIsLoading(true);
     setSelectedCallTab(callTab);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
   };
 
   const handleSearchOption = (option) => {
@@ -248,6 +255,10 @@ const Engineer_Calls = () => {
       </div>
     </div>
   );
+};
+
+Engineer_Calls.propTypes = {
+  engineer_data: PropTypes.object.isRequired,
 };
 
 export default Engineer_Calls;

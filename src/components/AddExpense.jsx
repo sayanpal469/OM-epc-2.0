@@ -7,7 +7,7 @@ const AddExpense = () => {
   const [todays_call, setTodays_call] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const [engName, setEngName] = useState("");
-  const [eng_emp_id, setEngEmpId] = useState("");
+  const [eng_emp_id, setEngEmpId] = useState("858");
 
   const [addExpenseMutation] = useMutation(ADD_EXPENSE_MUTATION, {
     context: {
@@ -41,8 +41,8 @@ const AddExpense = () => {
   const year = currentDate.getFullYear();
   const { data } = useQuery(GET_CALLS_BY_ENGINEER, {
     variables: {
-      eng_emp: "123/modon/2023",
-      status: "TODAY",
+      eng_emp: "858",
+      status: "ALL",
     },
     context: {
       headers: {
@@ -58,13 +58,12 @@ const AddExpense = () => {
     company_name: "",
     call_id: "",
     company_location: "",
-    total_expense: "",
     expense_amount: "",
     total_kilometer: "",
     time: formattedTime,
     date: formattedDate,
     admin_desc: "",
-    eng_emp: eng_emp_id,
+    eng_emp: "858",
     eng_name: engName,
     eng_desc: "",
     isApprove: "PENDING",
@@ -73,17 +72,23 @@ const AddExpense = () => {
 
   useEffect(() => {
     if (data?.callsByEng?.call_list?.length > 0) {
-      setTodays_call(data?.callsByEng?.call_list);
+      const today = new Date().toLocaleDateString("en-GB").replace(/\//g, "-"); // Get the current date in the format "DD-MM-YYYY"
+      // console.log({today});
+
+      const filteredArray = data?.callsByEng?.call_list.filter((callDetail) => {
+        return callDetail.assigned_date === today;
+      });
+      setTodays_call(filteredArray);
       setEngName(data.callsByEng.eng_name);
       setEngEmpId(data.callsByEng.eng_id);
       setFormData({
         ...formData,
-        eng_emp: data.callsByEng.eng_id,
+        eng_emp: "858",
         eng_name: data.callsByEng.eng_name,
       });
     }
   }, [data]);
-  console.log({ data });
+  console.log({ formData });
 
   console.log(data);
   const openModal = () => {
@@ -107,11 +112,11 @@ const AddExpense = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log({ formData });
     try {
       // Execute the mutation with the form data and context token
       const { data } = await addExpenseMutation({
         variables: {
-          // Add your mutation variables here based on your schema
           expenseReport: {
             ...formData,
           },
@@ -169,9 +174,9 @@ const AddExpense = () => {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <div className="h-screen fixed inset-0 z-10 overflow-y-auto">
           <form onSubmit={handleSubmit}>
-            <div className="w-full h-screen  p-20 rounded-md shadow-lg backdrop-blur-md backdrop-filter">
+            <div className="w-full h-full px-20 py-8 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">
               <label
                 className="block mb-4 font-semibold text-blue-800"
                 htmlFor="selectOption"
@@ -245,11 +250,11 @@ const AddExpense = () => {
                 type="number"
                 id="totalExpense"
                 name="totalExpense"
-                value={formData.total_expense}
+                value={formData.expense_amount}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    total_expense: e.target.value,
+                    expense_amount: e.target.value,
                   })
                 }
                 className="w-full p-3 border rounded-md focus:outline-none focus:border-indigo-600 appearance-none"

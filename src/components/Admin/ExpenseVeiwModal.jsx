@@ -2,7 +2,6 @@ import { useMutation } from "@apollo/client";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { APPROVE_EXPENSE_MUTATION } from "../../graphql/mutations/graphql.mutations";
-import toast from "react-hot-toast";
 import Loading from "../../features/loading/Loading";
 
 const ExpenseVeiwModal = ({
@@ -16,7 +15,7 @@ const ExpenseVeiwModal = ({
   Kilometer,
   id,
 }) => {
-  const [changeExpenseStatus, { data, loading, error }] = useMutation(
+  const [changeExpenseStatus, { data, loading, }] = useMutation(
     APPROVE_EXPENSE_MUTATION,
     {
       context: {
@@ -42,21 +41,15 @@ const ExpenseVeiwModal = ({
   };
 
   const handelChangeStatus = async (status) => {
-    await toast.promise(
-      changeExpenseStatus({
-        variables: {
-          _id: id,
-          approveStatus: status,
-          admin_desc: description,
-        },
-      }),
-      {
-        loading: "Creating Call...",
-        success: <b>{}</b>,
-        error: <b>{error.message}</b>,
-      }
-    );
-    await closeModal();
+    window.location.reload();
+    await changeExpenseStatus({
+      variables: {
+        _id: id,
+        approveStatus: status,
+        admin_desc: description,
+      },
+    }),
+      await closeModal();
   };
 
   console.log(data);
@@ -83,7 +76,7 @@ const ExpenseVeiwModal = ({
           <div className="relative p-6 flex-auto">
             <p className="mb-4">
               {" "}
-              <span className="font-semibold mr-5">Call_ID:</span> {CallID}
+              <span className="font-semibold mr-5">Call ID:</span> {CallID}
             </p>
             <p className="mb-4">
               {" "}

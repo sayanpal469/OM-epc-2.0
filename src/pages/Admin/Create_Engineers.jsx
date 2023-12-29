@@ -6,7 +6,6 @@ import { FaFaceGrinStars } from "react-icons/fa6";
 import toast, { Toaster } from "react-hot-toast";
 import { CREATE_ENGINEER_MUTATION } from "../../graphql/mutations/graphql.mutations";
 
-
 const CreateEngineers = ({ adminId }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -14,7 +13,7 @@ const CreateEngineers = ({ adminId }) => {
     Lname: "",
     contact: "",
     age: "",
-    EMP_id: "",
+    eng_emp: "",
     email: "",
     password: "",
     address: "",
@@ -127,7 +126,7 @@ const CreateEngineers = ({ adminId }) => {
         email: "",
         password: "",
         address: "",
-        EMP_id: "",
+        eng_emp: "",
         designation: "",
         contact: "",
       });
@@ -145,11 +144,8 @@ const CreateEngineers = ({ adminId }) => {
       <div className="flex-1">
         <div className="flex h-full bg-white">
           <div className="w-full flex justify-center items-center ">
-            <div className="bg-white p-8 rounded-lg shadow-md w-full backdrop-filter backdrop-blur-lg bg-opacity-30">
+            <div className="bg-white p-8 rounded-lg shadow-md w-full backdrop-filter backdrop-blur-lg bg-opacity-30  relative">
               <div className="mb-8 text-center">
-                <div>
-                  <Toaster />
-                </div>
                 <h2 className="text-2xl mb-5 font-bold text-gray-800">
                   Create Engineer
                 </h2>
@@ -293,16 +289,16 @@ const CreateEngineers = ({ adminId }) => {
 
                 <div>
                   <label
-                    htmlFor="EMP_id"
+                    htmlFor="eng_emp"
                     className="block text-sm font-medium text-black"
                   >
                     Employee ID
                   </label>
                   <input
                     type="text"
-                    id="EMP_id"
-                    value={formData.EMP_id}
-                    name="EMP_id"
+                    id="eng_emp"
+                    value={formData.eng_emp}
+                    name="eng_emp"
                     onChange={handleInputChange}
                     className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-indigo-500"
                   />
@@ -341,6 +337,18 @@ const CreateEngineers = ({ adminId }) => {
               </form>
             </div>
           </div>
+        </div>
+        <div
+          style={{
+            position: "fixed",
+            top: "10px",
+            width: "fit-content",
+            left: "50%",
+            transform: "translateX(-50%)", // Center horizontally
+            zIndex: "9999",
+          }}
+        >
+          <Toaster />
         </div>
       </div>
     </div>

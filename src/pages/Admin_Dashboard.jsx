@@ -1,24 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginTimer from "../components/loginTimer";
 import PropTypes from "prop-types";
 import CallPieChart from "../components/CallPieChart";
 import useFetchCallsByStatus from "../hooks/useFetchCallsByStatus";
 import TodaysCallComponent from "./TodaysCallComponent";
-
-const engineers = ["Tapas", "Engineer 2"]; // replace with your actual list of engineers
+import { GET_ALL_ENGINEERS } from "../graphql/queries/graphql_queries";
+import { useQuery } from "@apollo/client";
 
 const Admin_Dashboard = ({ role }) => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
-  const [selectedEngineer, setSelectedEngineer] = useState(engineers[0]);
   const navigate = useNavigate();
-  const status = "ALL"; 
-  const { calls  } = useFetchCallsByStatus(status);
+  const [engineers, setEngineers] = useState([]);
+  const { data } = useQuery(GET_ALL_ENGINEERS, {
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`,
+      },
+    },
+    fetchPolicy: "network-only",
+  });
+  const [selectedEngineer, setSelectedEngineer] = useState(engineers[0]);
+  const status = "ALL";
+  const { calls } = useFetchCallsByStatus(status);
+  console.log({ calls });
+
+  useEffect(() => {
+    if (data) {
+      setEngineers(data.engineers);
+    }
+  }, [data]);
 
   const pendingCalls = calls.filter((call) => call.status == "PENDING");
   const completedCalls = calls.filter((call) => call.status == "COMPLETED");
 
-  const callData = [{ completed: 14 }, { pending: 16 }];
+  console.log({ pendingCalls });
+
+  const callData = [
+    { completed: completedCalls?.length || 0 },
+    { pending: pendingCalls.length || 0 },
+  ];
   const handleMonthChange = (month) => {
     setSelectedMonth(month);
   };
@@ -154,7 +175,7 @@ const Admin_Dashboard = ({ role }) => {
                   </div>
 
                   <div className="grid lg:grid-cols-2 mx-auto w-auto mt-10 px-10 gap-10">
-                    <TodaysCallComponent/>
+                    <TodaysCallComponent />
 
                     <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
                       <div className="bg-orange-500 w-16 h-16 flex items-center justify-center rounded-full"></div>
@@ -181,7 +202,7 @@ const Admin_Dashboard = ({ role }) => {
                       <div className="analytic-info">
                         <h4>Total Calls</h4>
                         <h1 className="font-bold">
-                        {calls.length > 0 ? calls.length : 0}
+                          {calls.length > 0 ? calls.length : 0}
                         </h1>
                       </div>
                     </div>
@@ -217,8 +238,8 @@ const Admin_Dashboard = ({ role }) => {
                       onChange={handleEngineerChange}
                     >
                       {engineers.map((engineer, index) => (
-                        <option key={index} value={engineer}>
-                          {engineer}
+                        <option key={index} value={engineer.Fname}>
+                          {engineer.Fname}
                         </option>
                       ))}
                     </select>

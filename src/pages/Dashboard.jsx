@@ -10,11 +10,16 @@ const Dashboard = ({ engineer_info }) => {
     completed_call: 0,
     pending_call: 0,
     today_call: 0,
+    recent_call: 0,
   });
+
+  console.log({ engineer_info });
+
+  const eng_id = engineer_info ? engineer_info.engineerByObject.eng_emp : "";
 
   const { data } = useQuery(GET_CALLS_BY_ENGINEER, {
     variables: {
-      eng_emp: "123/modon/2023",
+      eng_emp: eng_id,
       status: "ALL",
     },
     context: {
@@ -24,10 +29,12 @@ const Dashboard = ({ engineer_info }) => {
     },
   });
 
+  // console.log(engineer_info.engineerByObject.eng_emp);
+
   useEffect(() => {
     if (data && data.callsByEng) {
       const callList = data.callsByEng.call_list;
-
+      console.log({ callList });
       // Count calls based on status
       const completedCalls = callList.filter(
         (call) => call.status === "COMPLETED"
@@ -38,15 +45,32 @@ const Dashboard = ({ engineer_info }) => {
       const todayCalls = callList.filter(
         (call) => call.status === "TODAY"
       ).length;
+      const recentCallsArray = callList
+        .filter((call) => {
+          const submitDate = new Date(call.assigned_date);
+          const currentDate = new Date();
+          const tenDaysAgo = new Date(currentDate);
+          tenDaysAgo.setDate(currentDate.getDate() - 10);
+          return submitDate >= tenDaysAgo;
+        })
+        .sort((a, b) => {
+          const dateA = new Date(a.date);
+          const dateB = new Date(b.date);
+          return dateB - dateA; // Sort in descending order by submit date
+        });
+      const recentCalls = recentCallsArray.length;
 
       // Update state with total numbers
       setCallNumbers({
         completed_call: completedCalls,
         pending_call: pendingCalls,
         today_call: todayCalls,
+        recent_call: recentCalls,
       });
     }
   }, [data]);
+
+  const total_call = callNumbers?.completed_call + callNumbers?.pending_call;
 
   return (
     <>
@@ -67,7 +91,7 @@ const Dashboard = ({ engineer_info }) => {
                 <div className="lg:flex md:flex items-center justify-between w-full h-fit text-white ">
                   <div className="mb-3 lg:mb-0">
                     <h1 className="lg:text-4xl md:text-2xl text-xl font-bold">
-                      Welcome, {engineer_info?.engineer?.Fname}
+                      Welcome, {engineer_info?.engineerByObject?.Fname}
                     </h1>
                   </div>
                   <div className="">
@@ -96,7 +120,9 @@ const Dashboard = ({ engineer_info }) => {
                       </div>
                       <div className="analytic-info">
                         <h4>New Calls</h4>
-                        <h1 className="font-bold"></h1>
+                        <h1 className="font-bold">
+                          {callNumbers?.recent_call}
+                        </h1>
                       </div>
                     </div>
                     <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
@@ -125,9 +151,7 @@ const Dashboard = ({ engineer_info }) => {
                       </div>
                       <div className="analytic-info">
                         <h4>Total Calls</h4>
-                        <h1 className="font-bold">
-                          {callNumbers?.completed_call}
-                        </h1>
+                        <h1 className="font-bold">{total_call}</h1>
                       </div>
                     </div>
                   </div>

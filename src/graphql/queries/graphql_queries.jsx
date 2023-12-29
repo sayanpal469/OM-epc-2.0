@@ -8,7 +8,7 @@ export const GET_ENGINEERS = gql`
       Lname
       contact
       age
-      EMP_id
+      eng_emp
       address
       email
       password
@@ -29,7 +29,6 @@ export const GET_CALLS_BY_STATUS = gql`
       eng_emp
       assigned_date
       assigned_time
-      description
       call_id
       submit_date
       completed
@@ -46,7 +45,7 @@ export const GET_ALL_ENGINEERS = gql`
       _id
       Fname
       Lname
-      EMP_id
+      eng_emp
       email
       age
       designation
@@ -57,7 +56,7 @@ export const GET_ALL_ENGINEERS = gql`
 export const GET_CALLS_BY_ENGINEER = gql`
   query GetCallsByEngineer($eng_emp: String!, $status: CallStatus!) {
     callsByEng(eng_emp: $eng_emp, status: $status) {
-      eng_id
+      eng_emp
       eng_name
       call_list {
         call_id
@@ -87,7 +86,6 @@ export const GET_EXPENSE_BY_STATUS = gql`
       company_name
       company_location
       call_id
-      total_expense
       total_kilometer
       expense_amount
       isApprove
@@ -98,14 +96,31 @@ export const GET_EXPENSE_BY_STATUS = gql`
   }
 `;
 export const GET_ENGINEER = gql`
-query Engineer($empId: String) {
-  engineer(EMP_id: $empId) {
+  query Engineer($engEmp: String!) {
+    engineer(eng_emp: $engEmp) {
+      _id
+      Fname
+      Lname
+      contact
+      age
+      eng_emp
+      address
+      email
+      password
+      designation
+    }
+  }
+`;
+
+export const GET_ENGINEER_BY_OBJECT_ID = gql`
+query EngineerByObject($id: ID!) {
+  engineerByObject(_id: $id) {
     _id
     Fname
     Lname
     contact
     age
-    EMP_id
+    eng_emp
     address
     email
     password
@@ -113,5 +128,3 @@ query Engineer($empId: String) {
   }
 }
 `;
-
-

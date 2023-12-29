@@ -15,7 +15,7 @@ export const CREATE_ENGINEER_MUTATION = gql`
       Lname
       contact
       age
-      EMP_id
+      eng_emp
       address
       email
       designation

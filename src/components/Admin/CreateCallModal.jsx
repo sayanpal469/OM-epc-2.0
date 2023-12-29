@@ -7,7 +7,7 @@ import StepOne from "./StepOne";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_ENGINEERS } from "../../graphql/queries/graphql_queries";
 import { CREATE_CALL_MUTATION } from "../../graphql/mutations/graphql.mutations";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 const fakeDelay = (delay = 500) => new Promise((r) => setTimeout(r, delay));
 
@@ -128,23 +128,32 @@ const CreateCallModal = ({ closeModal }) => {
   };
 
   const form = useForm({
-    onSubmit: async (valus) => {
-      console.log("Submitting form", valus);
-      await fakeDelay();
-      console.log(formData);
-      closeModal();
-      await toast.promise(
-        createCallMutation({
-          variables: {
-            call: formData,
-          },
-        }),
-        {
-          loading: "Creating Call...",
-          success: <b>🎉 Call created successfully!</b>,
-          error: <b>{callError.message}</b>,
-        }
-      );
+    onSubmit: async (values) => {
+      try {
+        // console.log("Submitting form", values);
+        await fakeDelay();
+
+        await toast.promise(
+          createCallMutation({
+            variables: {
+              call: formData,
+            },
+          }),
+          {
+            loading: "Creating Call...",
+            success: <b>🎉 Call created successfully!</b>,
+            error: <b>Something went wrong</b>,
+          }
+        );
+
+        // After the toast is shown and promise is resolved, close the modal
+        setTimeout(() => {
+          closeModal();
+        }, 3000);
+      } catch (error) {
+        console.error("Error submitting form", error);
+        // Handle error as needed
+      }
     },
   });
 
@@ -156,12 +165,11 @@ const CreateCallModal = ({ closeModal }) => {
     }
   }, [data]);
 
-
   // console.log(data);
 
   return (
     <div className="h-screen fixed inset-0 z-10 overflow-y-hidden bg-gray-100">
-      <div className="w-full h-full px-20 py-8 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">
+      <div className="w-full h-full px-20 py-8 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50 relative">
         <Formiz connect={form}>
           <form noValidate onSubmit={handleSubmitStep}>
             <div>
@@ -245,6 +253,20 @@ const CreateCallModal = ({ closeModal }) => {
             </div>
           </form>
         </Formiz>
+      </div>
+      <div
+        className="z-1"
+        style={{
+          position: "fixed",
+          top: "10px",
+          width: "100%",
+          left: "50%",
+          border: "1px solid red",
+          transform: "translateX(-50%)",
+          zIndex: "9999", // Center horizontally
+        }}
+      >
+        <Toaster />
       </div>
     </div>
   );
