@@ -38,7 +38,6 @@ const Engineer_Calls = ({ engineer_data }) => {
     },
   });
 
-  console.log({ data });
 
   const handleSave = () => {
     console.log("Selected Search Option:", searchOption);
@@ -246,7 +245,7 @@ const Engineer_Calls = ({ engineer_data }) => {
             ) : null}
           </div>
 
-          {isLoading && <Loading />}
+          {/* {isLoading && <Loading />} */}
           <CallsTables
             tablesData={tablesData}
             selectedCallTab={selectedCallTab}

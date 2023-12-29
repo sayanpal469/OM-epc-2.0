@@ -168,7 +168,7 @@ const Engineer_Report = () => {
             ) : null}
           </div>
 
-          {isLoading && <Loading />}
+          {/* {isLoading && <Loading />} */}
           <ReportTables selectedCallTab={selectedCallTab} />
 
           {isReportModalOpen ? (
