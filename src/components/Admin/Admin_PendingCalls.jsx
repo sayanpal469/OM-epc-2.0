@@ -1,8 +1,20 @@
+import { useState } from "react";
 import useFetchCallsByStatus from "../../hooks/useFetchCallsByStatus";
+import Edit_Call from "./EditCall/EditCall";
 
 const Admin_PendingCalls = () => {
   const status = "PENDING";
   const { calls, data } = useFetchCallsByStatus(status);
+  
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); 
+
+  const close_Edit_Modal = ()=>{
+    setIsEditModalOpen(false)
+  }
+  const Open_Edit_Modal = ()=>{
+    setIsEditModalOpen(true)
+  }
+
 
   return (
     <div>
@@ -29,7 +41,9 @@ const Admin_PendingCalls = () => {
                   <td data-label="Assigned Date">{call.assigned_date}</td>
                   <td data-label="Submit Date">{call.submit_date}</td>
                   <td data-label="Actions">
-                    <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                    onClick={Open_Edit_Modal}
+                    >
                       Edit Call
                     </button>
                   </td>
@@ -37,7 +51,13 @@ const Admin_PendingCalls = () => {
               ))}
             </tbody>
           </table>
+          {isEditModalOpen ? (
+           <Edit_Call
+           closeModal={close_Edit_Modal}
+           />
+          ):null}
         </div>
+        
       ) : (
         <div className="h-full mt-40 flex justify-center items-center">
           No Calls to Show

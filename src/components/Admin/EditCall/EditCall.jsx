@@ -31,13 +31,16 @@ const handleSave = ()=>{
       <div>
       <section className="w-full h-full">
   <div className="lg:flex lg:justify-between lg:items-center flex-col p-5 space-y-5">
-    <div className="flex lg:flex-row sm:flex-col sm:space-y-5 lg:w-[50%] w-full space-y-5 flex-col justify-center items-center lg:items-end lg:space-x-4">
-      <button className="bg-blue-500 hover:bg-transparent text-white font-semibold hover:text-blue-700 py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-        Edit Call
-      </button>
-      <button onClick={handleDelete} className="bg-red-500 hover:bg-transparent text-white font-semibold hover:text-red-700 py-2 px-4 border border-red-500 hover:border-transparent rounded">
-        Delete
-      </button>
+    {/* <div className="flex lg:flex-row sm:flex-col sm:space-y-5 lg:w-[50%] w-full space-y-5 flex-col justify-center items-center lg:items-end lg:space-x-4"> */}
+      <div className="flex flex-col items-center space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+
+        <button className="w-full bg-blue-500 hover:bg-transparent text-white font-semibold hover:text-blue-700 py-2 px-4 border border-blue-500 hover:border-blue-200 rounded">
+          Edit Call
+        </button>
+        <button onClick={handleDelete} className="w-full bg-red-500 hover:bg-transparent text-white font-semibold hover:text-red-700 py-2 px-4 border border-red-500 hover:border-red-200 rounded">
+          Delete
+        </button>
+      {/* </div> */}
     </div>
     <div>
       <div className="mb-4">
@@ -79,7 +82,7 @@ const handleSave = ()=>{
 
       </div>
     </div>
-    </div>
+     </div>
   );
 };
 Edit_Call.propTypes = {

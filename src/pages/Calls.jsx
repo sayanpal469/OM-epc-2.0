@@ -14,6 +14,7 @@ const Calls = ({ role, engId }) => {
         authorization: `${localStorage.getItem("token")}`,
       },
     },
+    fetchPolicy:"network-only",
     skip: role !== "Engineer", // Skip the query if the role is not Engineer
   });
   return (
