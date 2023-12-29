@@ -1,6 +1,8 @@
 import { useState } from "react";
 import CallDetailsModal from "./CallDetailsModal";
-import RescheduleCallModal from "./ReschudleCallModal";
+
+import Reschudle_Call from "./ReschudleCall/ReschudleCall";
+// import RescheduleCallModal from "./ReschudleCall/ReschudleCallModal";
 
 const AllCalls = () => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
@@ -95,15 +97,8 @@ const AllCalls = () => {
           closeModal={close_Call_Details_Modal}
         />
       ) : isReschudleModalOpen ? (
-        <RescheduleCallModal
-          CallID="call_08/12/2023_01"
-          companyName="Visa - 3412"
-          Location="KOlkata"
-          assignedDate="04/01/2016"
-          DescriptionByAdmin="checkk"
-          submitDate="04/01/2016"
-          closeModal={close_Reschudle_Details_Modal}
-        />
+        <Reschudle_Call 
+        closeModal={close_Reschudle_Details_Modal}/>
       ) : null}
     </div>
   );

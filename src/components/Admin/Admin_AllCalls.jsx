@@ -1,9 +1,11 @@
 import { useState } from "react";
 import CallDetailsModal from "../CallDetailsModal";
+import Edit_Call from "./EditCall/EditCall";
 
 
 const Admin_AllCalls = () => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); 
   
   const open_Call_Details_Modal = () => {
     setIsViewModalOpen(true);
@@ -13,6 +15,12 @@ const Admin_AllCalls = () => {
     setIsViewModalOpen(false);
   };
 
+  const open_Edit_Modal = ()=>{
+    setIsEditModalOpen(true)
+  }
+  const close_Edit_Modal = ()=>{
+    setIsEditModalOpen(false)
+  }
 
   return (
     <div>
@@ -52,6 +60,7 @@ const Admin_AllCalls = () => {
             <td data-label="Actions">
               <button
                 className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                onClick={open_Edit_Modal}
               >
                Edit Call
               </button>
@@ -83,8 +92,11 @@ const Admin_AllCalls = () => {
           closeModal={close_Call_Details_Modal}
         />
       ) 
-     
-      : null}
+     : isEditModalOpen ? (
+      <Edit_Call
+      closeModal={close_Edit_Modal}
+      />
+     ):null}
     </div>
   );
 }

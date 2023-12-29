@@ -75,11 +75,9 @@ const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padSt
     ac_output_single_phase_LN:'',
     ac_output_single_phase_NE:'',
     ac_output_single_phase_LE:'',
-
     V:'',
     V_withMains:'',
     V_withoutMains:'',
-
     power_cut:'',
     battery_make:'',
     battery_type:'',
@@ -89,7 +87,6 @@ const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padSt
     eng_sign:'',
     sys_msg:'This Report is System Generated',
     AssignedTime:formattedTime,
-
     SiteImagesInput:[]
   });
 

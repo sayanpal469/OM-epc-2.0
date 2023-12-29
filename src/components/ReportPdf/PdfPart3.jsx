@@ -75,7 +75,6 @@ const Part3 = ({
 };
 Part3.propTypes ={
   BatteryData: PropTypes.array.isRequired,
-  CustomerRemarks: PropTypes.string.isRequired
 }
 export default Part3;
 

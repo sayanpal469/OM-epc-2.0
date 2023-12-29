@@ -1,6 +1,6 @@
 import CallDetailsModal from "./CallDetailsModal"; // Import your modal component
 import { useState } from "react";
-import RescheduleCallModal from "./ReschudleCallModal";
+import RescheduleCallModal from "./ReschudleCall/ReschudleCallModal";
 const TodaysCalls = () => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isReschudleModalOpen, setIsReschudleModalOpen] = useState(false);
