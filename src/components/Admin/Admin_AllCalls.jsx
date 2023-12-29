@@ -1,11 +1,19 @@
 import { useState } from "react";
 import CallDetailsModal from "../CallDetailsModal";
+
+import Edit_Call from "./EditCall/EditCall";
+
 import useFetchCallsByStatus from "../../hooks/useFetchCallsByStatus";
+
 
 const Admin_calls = () => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); 
+  
+
   const status = "ALL"; 
   const { calls, data } = useFetchCallsByStatus(status);
+
 
   const open_Call_Details_Modal = () => {
     setIsViewModalOpen(true);
@@ -15,6 +23,11 @@ const Admin_calls = () => {
     setIsViewModalOpen(false);
   };
 
+  const close_Edit_Modal = ()=>{
+    setIsEditModalOpen(false)
+  }
+
+ 
   return (
     <div>
       {data ? (
@@ -51,20 +64,26 @@ const Admin_calls = () => {
             </tbody>
           </table>
           {isViewModalOpen ? (
-            <CallDetailsModal
-              companyName="Visa - 3412"
-              assignedDate="04/01/2016 "
-              submitDate="04/01/2016"
-              reportName="Random.pdf"
-              closeModal={close_Call_Details_Modal}
-            />
-          ) : null}
+        <CallDetailsModal
+          companyName="Visa - 3412"
+          assignedDate="04/01/2016 "
+          submitDate="04/01/2016"
+          reportName="Random.pdf"
+          closeModal={close_Call_Details_Modal}
+        />
+      ) 
+     : isEditModalOpen ? (
+      <Edit_Call
+      closeModal={close_Edit_Modal}
+      />
+     ):null}
         </div>
       ) : (
         <div className="h-full mt-40 flex justify-center items-center">
           No Calls to Show
         </div>
       )}
+
     </div>
   );
 };

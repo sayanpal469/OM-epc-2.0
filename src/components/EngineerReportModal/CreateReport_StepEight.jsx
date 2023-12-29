@@ -16,8 +16,6 @@ useEffect(() => {
   if(imageFiles.length>0){
     setFormData({ ...formData, ['site_images']: imageFiles });
   }
-
- 
 }, [imageFiles])
 
   const handleFileChange = async (event) => {

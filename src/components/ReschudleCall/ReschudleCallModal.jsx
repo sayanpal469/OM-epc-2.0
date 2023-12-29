@@ -36,8 +36,7 @@ const RescheduleCallModal = ({ companyName, assignedDate, closeModal, CallID, Lo
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
-      <div className="relative w-full h-full max-w-screen-md mx-auto my-6 bg-opacity-50 backdrop-filter backdrop-blur-md">
+    <div>
         {/* Modal content */}
         <div className="relative flex flex-col bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
           {/* Header */}
@@ -120,7 +119,7 @@ const RescheduleCallModal = ({ companyName, assignedDate, closeModal, CallID, Lo
           </div>
         </div>
       </div>
-    </div>
+   
   );
 };
 

@@ -93,7 +93,6 @@ const CreateReportModal = ({ closeModal }) => {
       ac_output_single_phase_NE: "",
       ac_output_single_phase_LE: "",
     },
-
     DC: {
       V: "",
       V_withMains: "",
