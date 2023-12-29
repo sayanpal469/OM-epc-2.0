@@ -2,105 +2,116 @@ import PropTypes from "prop-types";
 
 const StepOne = ({
   handleChange,
-  EmpID,
-  CallID,
-  CompanyName,
-  CompanyDetails,
-  CompanyLocation,
-  CompanyAddress
- }) => {
-  
-
+  call_id,
+  customer_contact,
+  company_name,
+  company_details,
+  company_location,
+  company_address,
+}) => {
   return (
     <div>
       <div className="mb-4">
-        <label htmlFor="CallID" className="block text-gray-700 font-bold mb-2">
+        <label htmlFor="call_id" className="block text-gray-700 font-bold mb-2">
           Call ID
         </label>
         <input
           type="text"
-          id="CallID"
-          name="CallID"
+          id="call_id"
+          name="call_id"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
           placeholder="Enter Call ID"
-          value={CallID}
+          value={call_id}
           onChange={handleChange}
           required
         />
-        
       </div>
       <div className="mb-4">
-        <label htmlFor="EmpID" className="block text-gray-700 font-bold mb-2">
-          Employee ID
+        <label
+          htmlFor="customer_contact"
+          className="block text-gray-700 font-bold mb-2"
+        >
+          Contact
         </label>
         <input
           type="text"
-          id="EmpID"
-          name="EmpID"
+          id="customer_contact"
+          name="customer_contact"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-          placeholder="Enter Employee ID"
-          value={EmpID}
+          placeholder="Enter Contact"
+          value={customer_contact}
           onChange={handleChange}
           required
         />
-        
       </div>
       <div className="mb-4">
-        <label htmlFor="companyName" className="block text-gray-700 font-bold mb-2">
+        <label
+          htmlFor="company_name"
+          className="block text-gray-700 font-bold mb-2"
+        >
           Company Name
         </label>
         <input
           type="text"
-          id="companyName"
-          name="CompanyName"
+          id="company_name"
+          name="company_name"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
           placeholder="Enter company name"
-          value={CompanyName}
+          value={company_name}
           onChange={handleChange}
           required
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="companyDetails" className="block text-gray-700 font-bold mb-2">
+        <label
+          htmlFor="company_details"
+          className="block text-gray-700 font-bold mb-2"
+        >
           Company Details
         </label>
         <input
           type="text"
-          id="companyDetais"
-          name="CompanyDetails"
+          id="company_details"
+          name="company_details"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
           placeholder="Enter Company Details"
-          value={CompanyDetails}
+          value={company_details}
           onChange={handleChange}
           required
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="companyLocation" className="block text-gray-700 font-bold mb-2">
+        <label
+          htmlFor="company_location"
+          className="block text-gray-700 font-bold mb-2"
+        >
           Company Location
         </label>
         <input
           type="text"
-          id="companyLocation"
-          name="CompanyLocation"
+          id="company_location"
+          name="company_location"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
           placeholder="Enter Company Location"
-          value={CompanyLocation}
+          value={company_location}
           onChange={handleChange}
           required
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="companyAddress" className="block text-gray-700 font-bold mb-2">
+        <label
+          htmlFor="companyAddress"
+          className="block text-gray-700 font-bold mb-2"
+        >
           Company Address
         </label>
         <input
           type="text"
-          id="companyAddress"
-          name="CompanyAddress"
+          id="company_address"
+          name="company_address"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
           placeholder="Enter Company Address"
-          value={CompanyAddress}
+          value={company_address}
           onChange={handleChange}
           required
         />
@@ -110,13 +121,12 @@ const StepOne = ({
 };
 StepOne.propTypes = {
   handleChange: PropTypes.func.isRequired,
-  EmpID: PropTypes.string.isRequired,
-  CallID: PropTypes.string.isRequired,
-  CompanyName: PropTypes.string.isRequired,
-  CompanyAddress: PropTypes.string.isRequired,
-  CompanyLocation: PropTypes.string.isRequired,
-  CompanyDetails: PropTypes.string.isRequired,
+  call_id: PropTypes.string.isRequired,
+  customer_contact: PropTypes.string.isRequired,
+  company_name: PropTypes.string.isRequired,
+  company_address: PropTypes.string.isRequired,
+  company_location: PropTypes.string.isRequired,
+  company_details: PropTypes.string.isRequired,
 };
 
 export default StepOne;
-

@@ -45,7 +45,7 @@ const amOrPm = hours >= 12 ? 'PM' : 'AM';
 hours = hours % 12 || 12;
 
 // Format the time
-const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')} ${amOrPm}`;
+const formattedTime = ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')} ${amOrPm};
 
  
   const [formData, setFormData] = useState({
@@ -142,7 +142,7 @@ const handleSubmitSignature = (name , value)=>{
     for (const field of requiredFields) {
       if (!formData[field]) {
         setErrorDiv(true);
-        setStepOneError(`Please Enter the ${field.replace(/([A-Z])/g, ' $1').trim()}`);
+        setStepOneError(Please Enter the ${field.replace(/([A-Z])/g, ' $1').trim()});
         setTimeout(() => {
           setErrorDiv(false);
           setStepOneError('');
@@ -356,7 +356,7 @@ return (
     )}
     <button
       type="submit"
-      className={`w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 rounded-md ${isLoading ? 'bg-gray-400' : 'bg-blue-500 text-white'}`}
+      className={w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 rounded-md ${isLoading ? 'bg-gray-400' : 'bg-blue-500 text-white'}}
       disabled={(form.isLastStep ? !form.isValid : !form.isStepValid) && form.isStepSubmitted}
     >
       {form.isLastStep ? 'Submit' : 'Next'}

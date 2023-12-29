@@ -24,30 +24,41 @@ const apolloClient = new ApolloClient({
 
 function App() {
   const [role, setRole] = useState("");
-  const [admin_id, set_Admin_id] = useState("");
+  const [adminId, setAdminId] = useState("");
+  const [engId, setEngId] = useState("");
+  console.log({ engId });
   const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
     {
       path: "/",
-      element: <Nav role={role} />,
+      element: <Nav role={role} engId={engId} />,
       children: [
         {
           index: true,
-          element: <PrivateRoute element={<Home role={role} />} />,
+          element: (
+            <PrivateRoute element={<Home role={role} engId={engId} />} />
+          ),
         },
 
         {
           path: "/calls",
-          element: <PrivateRoute element={<Calls role={role} />} />,
+          element: (
+            <PrivateRoute element={<Calls role={role} engId={engId} />} />
+          ),
         },
         {
           path: "/expense",
           element: <PrivateRoute element={<Expenses role={role} />} />,
         },
-        { path: "/reports", element: <PrivateRoute element={<Reports role={role} />} /> },
+        {
+          path: "/reports",
+          element: <PrivateRoute element={<Reports role={role} />} />,
+        },
         {
           path: "/create-engineers",
-          element: <PrivateRoute element={<Create_Engineers admin_id={admin_id} />} />,
+          element: (
+            <PrivateRoute element={<Create_Engineers adminId={adminId} />} />
+          ),
         },
         {
           path: "/view-engineers",
@@ -66,9 +77,10 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       const decoded = jwtDecode(localStorage.getItem("token"));
-      console.log({ decoded });
-      set_Admin_id(decoded.admin);
       setRole(decoded.role);
+      setAdminId(decoded.admin);
+      setEngId(decoded.engineer ? decoded.engineer : "");
+      console.log({ decoded });
     }
   }, []);
 

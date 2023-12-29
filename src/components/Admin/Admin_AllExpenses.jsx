@@ -1,120 +1,150 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import ExpenseVeiwModal from "./ExpenseVeiwModal";
+import useFetchExpenseByStatus from "../../hooks/useFetchExpenseByStatus";
+import { JsonToExcel } from "react-json-to-excel";
 
+const Admin_AllExpenses = ({ savedSearch }) => {
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const status = "ALL";
+  const { expenses, data } = useFetchExpenseByStatus(status);
+  const [selectedExpense, setSelectedExpense] = useState(null);
 
-const Admin_AllExpenses = () => {
-    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-    
-    const open_Expense_Details_Modal = () => {
-      setIsViewModalOpen(true);
-    };
-  
-    const close_Expense_Details_Modal = () => {
-      setIsViewModalOpen(false);
-    };
+  const open_Expense_Details_Modal = (expense) => {
+    setSelectedExpense(expense);
+    setIsViewModalOpen(true);
+  };
+
+  const close_Expense_Details_Modal = () => {
+    setIsViewModalOpen(false);
+  };
+
+  console.log({ savedSearch });
+
+  const filteredExpenses = () => {
+    if (!savedSearch || !savedSearch.option || !savedSearch.value) {
+      // No saved search, return all expenses
+      return expenses;
+    }
+
+    // Filter based on savedSearch
+    if (savedSearch.option === "date") {
+      // Filter by expense submit date
+      return expenses.filter((expense) => expense.date === savedSearch.value);
+    } else if (savedSearch.option === "name") {
+      // Filter by engineer name
+      return expenses.filter((expense) =>
+        expense.eng_name.toLowerCase().includes(savedSearch.value.toLowerCase())
+      );
+    }
+
+    // Default: return all expenses
+    return expenses;
+  };
+
+  const jsonData = expenses.map((expense) => ({
+    date: expense.date,
+    time: expense.time,
+    emp_id: expense.eng_emp,
+    eng_name: expense.eng_name,
+    company_name: expense.company_name,
+    company_location: expense.company_location,
+    call_id: expense.call_id,
+    total_kilometer: expense.total_kilometer,
+    expense_amount: expense.expense_amount,
+    isApprove: expense.isApprove,
+    status: expense.status,
+    eng_desc: expense.eng_desc,
+    admin_desc: expense.admin_desc,
+  }));
   return (
     <div>
-     <table>
-          <thead>
-            <tr>
-            <th scope="col">Call_ID</th>
-              <th scope="col">Company Name</th>
-              <th scope="col">Location</th>
-              <th scope="col">Engineer Name</th>
-              <th scope="col">Amount</th>
-              <th scope="col">Submit Date</th>
-              <th scope="col">Status</th>
-              <th scope="col">Expense Status</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-            <td data-label="Call_ID">call_08/12/2023_01</td>
-              <td data-label="Company Name">Visa - 3412</td>
-              <td data-label="Location">Kolkata</td>
-              <td data-label="Enginner Name">Engineer 1</td>
-              <td data-label="Amount">9999</td>
-              <td data-label="Submit Date">09/11/2016</td>
-              <td data-label="status">Completed</td>
-              <td data-label="Expense Status">No</td>
-              <td data-label="Actions">
-                <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                onClick={open_Expense_Details_Modal}
-                >
-                  View
-                </button>
-              </td>
-            </tr>
-            <tr>
-            <td data-label="Call_ID">call_08/12/2023_01</td>
-            <td data-label="Company Name">Visa - 3412</td>
-              <td data-label="Location">Kolkata</td>
-              <td data-label="Enginner Name">Engineer 2</td>
-              <td data-label="Amount">9999</td>
-              <td data-label="Submit Date">04/02/2016</td>
-              <td data-label="status">Pending</td>
-              <td data-label="Expense Status">No</td>
-              <td data-label="Actions">
-                <span
-                  className="Font-semiBold"
-                  disabled
-                >
-                NA
-                </span>
-              </td>
-            </tr>
-            <tr>
-            <td data-label="Call_ID">call_08/12/2023_01</td>
-            <td data-label="Company Name">Visa - 3412</td>
-              <td data-label="Location">Kolkata</td>
-              <td data-label="Enginner Name">Engineer 3</td>
-              <td data-label="Amount">9999</td>
-              <td data-label="Submit Date">14/01/2018</td>
-              <td data-label="status">Completed</td>
-              <td data-label="Expense Status">No</td>
-              <td data-label="Actions">
-                <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                onClick={open_Expense_Details_Modal}
-                >
-                  View
-                </button>
-              </td>
-            </tr>
-            <tr>
-            <td data-label="Call_ID">call_08/12/2023_01</td>
-            <td data-label="Company Name">Visa - 3412</td>
-              <td data-label="Location">Kolkata</td>
-              <td data-label="Enginner Name">Engineer 4</td>
-              <td data-label="Amount">9999</td>
-              <td data-label="Submit Date">22/01/2016</td>
-              <td data-label="status">completed</td>
-              <td data-label="Expense Status">Yes</td>
-              <td data-label="Actions">
-                <button
-                  className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded cursor-not-allowed opacity-50"
-                  disabled
-                >
-                 Rejected
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        {isViewModalOpen ? (
-        <ExpenseVeiwModal
-          companyName="Visa - 3412"
-          CallID="call_08/12/2023_01"
-          location="Kolkata"
-          engineerName="Engineer 1"
-          amount="77777"
-          submitDate="15/01/2018"
-          Kilometer="15 Km"
-          closeModal={close_Expense_Details_Modal}
-        />
-      )  : null}
+      {data ? (
+        <div>
+          <JsonToExcel
+            title="Download as Excel"
+            data={jsonData}
+            fileName="all-expense-report"
+            btnClassName=""
+            btnColor="#7CB9E8"
+          />
+          <table className="mt-2">
+            <thead>
+              <tr>
+                <th scope="col">Call ID</th>
+                <th scope="col">Company Name</th>
+                <th scope="col">Location</th>
+                <th scope="col">Engineer Name</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Submit Date</th>
+                <th scope="col">Status</th>
+                {/* <th scope="col">Expense Status</th> */}
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredExpenses().map((expense, index) => (
+                <tr key={index}>
+                  <td data-label="Call ID">{expense.call_id}</td>
+                  <td data-label="Company Name">{expense.company_name}</td>
+                  <td data-label="Location">{expense.company_location}</td>
+                  <td data-label="Engineer Name">{expense.eng_name}</td>
+                  <td data-label="Amount">{expense.expense_amount}</td>
+                  <td data-label="Submit Date">
+                    {expense.date.split("-").reverse().join("-")}
+                  </td>
+                  <td data-label="Status">{expense.status}</td>
+                  {/* <td data-label="Expense Status">{expense.expense_status}</td> */}
+                  {expense.status === "APPROVE" && (
+                    <td data-label="Status" className="text-blue-500 text-lg">
+                      Approved
+                    </td>
+                  )}
+                  {expense.status === "REJECT" && (
+                    <td data-label="Status" className="text-red-500 text-lg">
+                      Rejected
+                    </td>
+                  )}
+                  {expense.status === "PENDING" && (
+                    <td data-label="Status">
+                      <button
+                        className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                        onClick={() => open_Expense_Details_Modal(expense)}
+                      >
+                        {" "}
+                        View{" "}
+                      </button>
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {isViewModalOpen ? (
+            <ExpenseVeiwModal
+              id={selectedExpense._id}
+              companyName={selectedExpense.company_name}
+              CallID={selectedExpense.call_id}
+              location={selectedExpense.company_location}
+              engineerName={selectedExpense.eng_name}
+              amount={selectedExpense.expense_amount}
+              submitDate={selectedExpense.date}
+              Kilometer={selectedExpense.total_kilometer}
+              closeModal={close_Expense_Details_Modal}
+            />
+          ) : null}
+        </div>
+      ) : (
+        <div className="h-full mt-40 flex justify-center items-center">
+          No Expense to Show
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Admin_AllExpenses
+Admin_AllExpenses.propTypes = {
+  savedSearch: PropTypes.object,
+};
+
+export default Admin_AllExpenses;
