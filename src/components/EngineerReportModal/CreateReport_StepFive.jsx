@@ -1,111 +1,85 @@
 import PropTypes from "prop-types";
 
+
+
 const EnginnerReport_StepFive = ({
   handleChange,
-  AcInputThreePhase_RY,
-  AcInputThreePhase_YB,
-  AcInputThreePhase_RB,
-  AcInputThreePhase_NR,
-  AcOutputThreePhase_RY,
-  AcOutputThreePhase_YB,
-  AcOutputThreePhase_RB,
-  AcOutputThreePhase_NR,
+  AcInputSinglePhase_LN,
+  AcInputSinglePhase_NE,
+  AcInputSinglePhase_LE,
+  AcOutputSinglePhase_LN,
+  AcOutputSinglePhase_NE,
+  AcOutputSinglePhase_LE,
  }) => {
 
 
   return (
     <div className="md:flex md:flex-wrap md:-mx-2">
   <div className="mb-4 md:w-1/2 md:px-2">
-    <label htmlFor="AcInputThreePhase" className="block text-gray-700 font-bold mb-2">
-      AC Input(Three Phase)
+    <label htmlFor="AcInputSinglePhase" className="block text-gray-700 font-bold mb-2">
+      AC Input (Single Phase)
     </label>
     <div className="md:flex md:flex-wrap">
       <input
         type="number"
-        id="AcInputThreePhase_RY"
-        name="AcInputThreePhase_RY"
+        id="ac_input_single_phase_LN"
+        name="ac_input_single_phase_LN"
         className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:mr-2 focus:outline-none focus:border-blue-500"
-        placeholder="Enter R-Y"
-        value={AcInputThreePhase_RY}
+        placeholder="Enter L-N"
+        value={AcInputSinglePhase_LN}
         onChange={handleChange}
-        required
       />
       <input
         type="number"
-        id="AcInputThreePhase_YB"
-        name="AcInputThreePhase_YB"
+        id="ac_input_single_phase_NE"
+        name="ac_input_single_phase_NE"
         className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:ml-2 focus:outline-none focus:border-blue-500"
-        placeholder="Enter Y-B"
-        value={AcInputThreePhase_YB}
+        placeholder="Enter N-E"
+        value={AcInputSinglePhase_NE}
         onChange={handleChange}
-        required
       />
       <input
         type="number"
-        id="AcInputThreePhase_RB"
-        name="AcInputThreePhase_RB"
+        id="ac_input_single_phase_LE"
+        name="ac_input_single_phase_LE"
         className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:mr-2 focus:outline-none focus:border-blue-500"
-        placeholder="Enter R-B"
-        value={AcInputThreePhase_RB}
+        placeholder="Enter L-E"
+        value={AcInputSinglePhase_LE}
         onChange={handleChange}
-        required
-      />
-      <input
-        type="number"
-        id="AcInputThreePhase_NR"
-        name="AcInputThreePhase_NR"
-        className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:ml-2 focus:outline-none focus:border-blue-500"
-        placeholder="Enter N-R"
-        value={AcInputThreePhase_NR}
-        onChange={handleChange}
-        required
       />
     </div>
   </div>
   <div className="mb-4 md:w-1/2 md:px-2">
-    <label htmlFor="AcOutputThreePhase" className="block text-gray-700 font-bold mb-2">
-      AC Output(Three Phase)
+    <label htmlFor="AcOutputSinglePhase" className="block text-gray-700 font-bold mb-2">
+      AC Output (Single Phase)
     </label>
     <div className="md:flex md:flex-wrap">
       <input
         type="number"
-        id="AcOutputThreePhase_RY"
-        name="AcOutputThreePhase_RY"
+        id="ac_output_single_phase_LN"
+        name="ac_output_single_phase_LN"
         className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:mr-2 focus:outline-none focus:border-blue-500"
-        placeholder="Enter R-Y"
-        value={AcOutputThreePhase_RY}
+        placeholder="Enter L-N"
+        value={AcOutputSinglePhase_LN}
         onChange={handleChange}
-        required
       />
       <input
         type="number"
-        id="AcOutputThreePhase_YB"
-        name="AcOutputThreePhase_YB"
+        id="ac_output_single_phase_NE"
+        name="ac_output_single_phase_NE"
         className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:ml-2 focus:outline-none focus:border-blue-500"
-        placeholder="Enter Y-B"
-        value={AcOutputThreePhase_YB}
+        placeholder="Enter N-E"
+        value={AcOutputSinglePhase_NE}
         onChange={handleChange}
-        required
       />
       <input
         type="number"
-        id="AcOutputThreePhase_RB"
-        name="AcOutputThreePhase_RB"
+        id="ac_output_single_phase_LE"
+        name="ac_output_single_phase_LE"
         className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:mr-2 focus:outline-none focus:border-blue-500"
-        placeholder="Enter R-B"
-        value={AcOutputThreePhase_RB}
+        placeholder="Enter L-E"
+        value={AcOutputSinglePhase_LE}
         onChange={handleChange}
-        required
-      />
-      <input
-        type="number"
-        id="AcOutputThreePhase_NR"
-        name="AcOutputThreePhase_NR"
-        className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:ml-2 focus:outline-none focus:border-blue-500"
-        placeholder="Enter N-R"
-        value={AcOutputThreePhase_NR}
-        onChange={handleChange}
-        required
       />
     </div>
   </div>
@@ -116,14 +90,12 @@ const EnginnerReport_StepFive = ({
 };
 EnginnerReport_StepFive.propTypes = {
     handleChange: PropTypes.func.isRequired,
-    AcInputThreePhase_RY: PropTypes.string.isRequired,
-    AcInputThreePhase_YB: PropTypes.string.isRequired,
-    AcInputThreePhase_RB: PropTypes.string.isRequired,
-    AcInputThreePhase_NR: PropTypes.string.isRequired,
-    AcOutputThreePhase_RY: PropTypes.string.isRequired,
-    AcOutputThreePhase_YB: PropTypes.string.isRequired,
-    AcOutputThreePhase_RB: PropTypes.string.isRequired,
-    AcOutputThreePhase_NR: PropTypes.string.isRequired,
+    AcInputSinglePhase_LN: PropTypes.string.isRequired,
+    AcInputSinglePhase_NE: PropTypes.string.isRequired,
+    AcInputSinglePhase_LE: PropTypes.string.isRequired,
+    AcOutputSinglePhase_LN: PropTypes.string.isRequired,
+    AcOutputSinglePhase_NE: PropTypes.string.isRequired,
+    AcOutputSinglePhase_LE: PropTypes.string.isRequired,
 };
 
 export default EnginnerReport_StepFive;

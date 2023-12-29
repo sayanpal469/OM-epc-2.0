@@ -17,6 +17,7 @@ const CreateEngineers = ({ admin_id }) => {
     EMP_id: "",
     designation: "",
     contact: "",
+    eng_sign: "",
   });
 
   const [createEngineerMutation, { data, error }] = useMutation(

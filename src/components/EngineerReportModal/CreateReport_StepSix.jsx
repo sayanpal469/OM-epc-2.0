@@ -4,99 +4,88 @@ import PropTypes from "prop-types";
 
 const EnginnerReport_StepSix = ({
   handleChange,
-  AcInputSinglePhase_LN,
-  AcInputSinglePhase_NE,
-  AcInputSinglePhase_LE,
-  AcOutputSinglePhase_LN,
-  AcOutputSinglePhase_NE,
-  AcOutputSinglePhase_LE,
+    UpsInvertDCV,
+    DCV_WithMains,
+    DCV_WithoutMains,
+    PowerCut,
  }) => {
 
 
+  
   return (
-    <div className="md:flex md:flex-wrap md:-mx-2">
-  <div className="mb-4 md:w-1/2 md:px-2">
-    <label htmlFor="AcInputSinglePhase" className="block text-gray-700 font-bold mb-2">
-      AC Input (Single Phase)
-    </label>
-    <div className="md:flex md:flex-wrap">
-      <input
-        type="number"
-        id="AcInputSinglePhase_LN"
-        name="AcInputSinglePhase_LN"
-        className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:mr-2 focus:outline-none focus:border-blue-500"
-        placeholder="Enter L-N"
-        value={AcInputSinglePhase_LN}
-        onChange={handleChange}
-      />
-      <input
-        type="number"
-        id="AcInputSinglePhase_NE"
-        name="AcInputSinglePhase_NE"
-        className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:ml-2 focus:outline-none focus:border-blue-500"
-        placeholder="Enter N-E"
-        value={AcInputSinglePhase_NE}
-        onChange={handleChange}
-      />
-      <input
-        type="number"
-        id="AcInputSinglePhase_LE"
-        name="AcInputSinglePhase_LE"
-        className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:mr-2 focus:outline-none focus:border-blue-500"
-        placeholder="Enter L-E"
-        value={AcInputSinglePhase_LE}
-        onChange={handleChange}
-      />
+    <div>
+      <div className="mb-4">
+        <label htmlFor="V" className="block text-gray-700 font-bold mb-2">
+        UPS/Inverter DC.V
+        </label>
+        <input
+          type="number"
+          id="V"
+          name="V"
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+          placeholder="Enter UPS/Inverter DC.V"
+          value={UpsInvertDCV}
+          onChange={handleChange}
+          required
+        />
+        
+      </div>
+      <div className="mb-4">
+        <label htmlFor="V_withMains" className="block text-gray-700 font-bold mb-2">
+        DC.V (With Mains)
+        </label>
+        <input
+          type="number"
+          id="V_withMains"
+          name="V_withMains"
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+          placeholder="Enter DC.V (With Mains)"
+          value={DCV_WithMains}
+          onChange={handleChange}
+          required
+        />
+        
+      </div>
+      <div className="mb-4">
+        <label htmlFor="V_withoutMains" className="block text-gray-700 font-bold mb-2">
+        DC.V (Without Mains)
+        </label>
+        <input
+          type="number"
+          id="V_withoutMains"
+          name="V_withoutMains"
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+          placeholder="Enter DC.V (Without Mains)"
+          value={DCV_WithoutMains}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="power_cut" className="block text-gray-700 font-bold mb-2">
+        Power Cut
+        </label>
+        <input
+          type="number"
+          id=" power_cut"
+          name="power_cut"
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+          placeholder="Enter Power Cut"
+          value={PowerCut}
+          onChange={handleChange}
+          required
+        />
+      </div>
     </div>
-  </div>
-  <div className="mb-4 md:w-1/2 md:px-2">
-    <label htmlFor="AcOutputSinglePhase" className="block text-gray-700 font-bold mb-2">
-      AC Output (Single Phase)
-    </label>
-    <div className="md:flex md:flex-wrap">
-      <input
-        type="number"
-        id="AcOutputSinglePhase_LN"
-        name="AcOutputSinglePhase_LN"
-        className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:mr-2 focus:outline-none focus:border-blue-500"
-        placeholder="Enter L-N"
-        value={AcOutputSinglePhase_LN}
-        onChange={handleChange}
-      />
-      <input
-        type="number"
-        id="AcOutputSinglePhase_NE"
-        name="AcOutputSinglePhase_NE"
-        className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:ml-2 focus:outline-none focus:border-blue-500"
-        placeholder="Enter N-E"
-        value={AcOutputSinglePhase_NE}
-        onChange={handleChange}
-      />
-      <input
-        type="number"
-        id="AcOutputSinglePhase_LE"
-        name="AcOutputSinglePhase_LE"
-        className="w-full md:w-1/2 px-3 py-2 border rounded-md mb-2 md:mb-0 md:mr-2 focus:outline-none focus:border-blue-500"
-        placeholder="Enter L-E"
-        value={AcOutputSinglePhase_LE}
-        onChange={handleChange}
-      />
-    </div>
-  </div>
-</div>
-
     
   );
 };
 EnginnerReport_StepSix.propTypes = {
-    handleChange: PropTypes.func.isRequired,
-    AcInputSinglePhase_LN: PropTypes.string.isRequired,
-    AcInputSinglePhase_NE: PropTypes.string.isRequired,
-    AcInputSinglePhase_LE: PropTypes.string.isRequired,
-    AcOutputSinglePhase_LN: PropTypes.string.isRequired,
-    AcOutputSinglePhase_NE: PropTypes.string.isRequired,
-    AcOutputSinglePhase_LE: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  UpsInvertDCV: PropTypes.string.isRequired,
+  DCV_WithMains: PropTypes.string.isRequired,
+  DCV_WithoutMains: PropTypes.string.isRequired,
+  PowerCut: PropTypes.string.isRequired,
 };
 
 export default EnginnerReport_StepSix;
-
