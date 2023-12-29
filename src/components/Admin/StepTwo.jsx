@@ -1,32 +1,30 @@
 import PropTypes from "prop-types";
 const StepTwo = ({
   handleChange,
-  EngineerName,
-  AssignedDate,
-  AssignedTime,
-  Description,
+  eng_name,
+  eng_emp,
+  assigned_date,
+  assigned_time,
+  description,
   engineers,
 }) => {
- 
-
   console.log({ engineers });
-
- 
+  
 
   return (
     <div>
       <div className="mb-4">
         <label
-          htmlFor="EngineerName"
+          htmlFor="eng_name"
           className="block text-gray-700 font-bold mb-2"
         >
           Engineer Name
         </label>
         <select
-          id="EngineerName"
-          name="EngineerName"
+          id="eng_name"
+          name="eng_name"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-          value={EngineerName}
+          value={eng_name}
           onChange={handleChange}
           required
         >
@@ -34,7 +32,11 @@ const StepTwo = ({
             Select an engineer
           </option>
           {engineers.map((engineer, index) => (
-            <option key={index} value={engineer} className="text-sm">
+            <option
+              key={index}
+              value={`${engineer.Fname} ${engineer.Lname}`}
+              className="text-sm"
+            >
               {engineer.Fname} {engineer.Lname}
             </option>
           ))}
@@ -42,37 +44,60 @@ const StepTwo = ({
       </div>
 
       <div className="mb-4">
+        <label htmlFor="eng_emp" className="block text-gray-700 font-bold mb-2">
+          Engineer Employee Id
+        </label>
+        <select
+          id="eng_emp"
+          name="eng_emp"
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+          value={eng_emp}
+          onChange={handleChange}
+          required
+        >
+          <option value="" disabled>
+            Select Id
+          </option>
+          {engineers.map((engineer, index) => (
+            <option key={index} value={engineer.eng_emp} className="text-sm">
+              {engineer.eng_emp}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="mb-4">
         <label
-          htmlFor="AssingnedDate"
+          htmlFor="assigned_date"
           className="block text-gray-700 font-bold mb-2"
         >
           Assigned Date
         </label>
         <input
           type="date"
-          id="AssignedDate"
-          name="AssignedDate"
+          id="assigned_date"
+          name="assigned_date"
           disabled="true"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-          value={AssignedDate}
+          value={assigned_date}
           onChange={handleChange}
         />
       </div>
 
       <div className="mb-4">
         <label
-          htmlFor="AssignedTime"
+          htmlFor="assigned_time"
           className="block text-gray-700 font-bold mb-2"
         >
           Assigned Time
         </label>
         <input
           type="string"
-          id="AssignedTime"
-          name="AssignedTime"
+          id="assigned_time"
+          name="assigned_time"
           disabled="true"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-          value={AssignedTime} // Corrected value reference
+          value={assigned_time} // Corrected value reference
           onChange={handleChange}
         />
       </div>
@@ -86,11 +111,11 @@ const StepTwo = ({
           <span className="text-gray-500 text-sm font-light"> (optional)</span>
         </label>
         <textarea
-          id="Description"
-          name="Description"
+          id="description"
+          name="description"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
           placeholder="Enter description"
-          value={Description}
+          value={description}
           onChange={handleChange}
           required
         ></textarea>
@@ -100,10 +125,11 @@ const StepTwo = ({
 };
 StepTwo.propTypes = {
   handleChange: PropTypes.func.isRequired,
-  EngineerName: PropTypes.string.isRequired,
-  Description: PropTypes.string.isRequired,
-  AssignedDate: PropTypes.string.isRequired,
-  AssignedTime: PropTypes.string.isRequired,
+  eng_name: PropTypes.string.isRequired,
+  eng_emp: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  assigned_date: PropTypes.string.isRequired,
+  assigned_time: PropTypes.string.isRequired,
   engineers: PropTypes.array.isRequired,
 };
 

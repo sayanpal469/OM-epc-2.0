@@ -8,6 +8,8 @@ import { FaArrowAltCircleRight } from "react-icons/fa";
 import { FiUserPlus } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa6";
 import PropTypes from "prop-types";
+import { GET_ENGINEER_BY_OBJECT_ID } from "../../graphql/queries/graphql_queries";
+import { useQuery } from "@apollo/client";
 const AdminMenus = [
   { title: "Dashboard", icon: <MdSpaceDashboard />, link: "/" },
   { title: "Calls", icon: <FaPhoneVolume />, link: "/calls" },
@@ -31,12 +33,23 @@ const Menus = [
   { title: "Expense", icon: <SiExpensify />, link: "/expense" },
 ];
 
-const Nav = ({ role }) => {
+const Nav = ({ role, engId }) => {
   const [open, setOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [activeLink, setActiveLink] = useState("/");
   const location = useLocation();
 
+  const { data } = useQuery(GET_ENGINEER_BY_OBJECT_ID, {
+    variables: {
+      id: engId,
+    },
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`,
+      },
+    },
+    skip: role !== "Engineer", // Skip the query if the role is not Engineer
+  });
   const handleSignOut = () => {
     localStorage.removeItem("token");
     setIsLogin(false);
@@ -45,10 +58,10 @@ const Nav = ({ role }) => {
   useEffect(() => {
     // Update active link when location changes
     setActiveLink(location.pathname);
-    console.log(location.pathname);
+    // console.log(location.pathname);
   }, [location.pathname, role]);
 
-  console.log({ role });
+  // console.log({ role });
   return (
     <div>
       {isLogin && (
@@ -77,14 +90,14 @@ const Nav = ({ role }) => {
                   !open && "scale-0"
                 }`}
               >
-                Engineer
+                {role === "Admin" ? "Admin" : "Engineer"}
               </h1>
               <h3
                 className={`text-black origin-left font-medium duration-200 ${
                   !open && "scale-0"
                 }`}
               >
-                Subhojit Dutta
+                {role === "Admin" ? "Palas jana" : `${data?.engineerByObject?.Fname} ${data?.engineerByObject?.Lname}`}
               </h3>
             </div>
             <ul className="pt-6">
@@ -159,5 +172,6 @@ const Nav = ({ role }) => {
 };
 Nav.propTypes = {
   role: PropTypes.string.isRequired,
+  engId: PropTypes.string.isRequired,
 };
 export default Nav;

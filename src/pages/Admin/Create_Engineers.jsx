@@ -1,20 +1,22 @@
+import { useMutation } from "@apollo/client";
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FaFaceGrinStars } from "react-icons/fa6";
-import PropTypes from "prop-types";
-import { CREATE_ENGINEER_MUTATION } from "../../graphql/graphql";
-import { useMutation } from "@apollo/client";
 import toast, { Toaster } from "react-hot-toast";
-const CreateEngineers = ({ admin_id }) => {
+import { CREATE_ENGINEER_MUTATION } from "../../graphql/mutations/graphql.mutations";
+
+const CreateEngineers = ({ adminId }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     Fname: "",
     Lname: "",
+    contact: "",
     age: "",
+    eng_emp: "",
     email: "",
     password: "",
     address: "",
-    EMP_id: "",
     designation: "",
     contact: "",
     eng_sign: "",
@@ -23,15 +25,22 @@ const CreateEngineers = ({ admin_id }) => {
   const [createEngineerMutation, { data, error }] = useMutation(
     CREATE_ENGINEER_MUTATION,
     {
+      variables: {
+        adminId: adminId,
+      },
       context: {
         headers: {
-          authorization: `${localStorage.getItem("token")}`, // Include the token from local storage
+          authorization: `${localStorage.getItem("token")}`,
         },
       },
     }
   );
 
   const [passwordError, setPasswordError] = useState("");
+
+  console.log(adminId);
+  // console.log({ data });
+  // console.log({ error });
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -64,11 +73,11 @@ const CreateEngineers = ({ admin_id }) => {
     setFormData((prevData) => ({ ...prevData, age: value }));
   };
 
-  const validatePassword = (password) => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-    return passwordRegex.test(password);
-  };
+  // const validatePassword = (password) => {
+  //   const passwordRegex =
+  //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+  //   return passwordRegex.test(password);
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,16 +91,16 @@ const CreateEngineers = ({ admin_id }) => {
     }
 
     // Check if password meets criteria
-    if (!validatePassword(formData.password)) {
-      setPasswordError(
-        "Password must meet the following criteria:\n" +
-          "1. At least one lowercase letter\n" +
-          "2. At least one uppercase letter\n" +
-          "3. At least one special character (@$!%*?&)\n" +
-          "4. At least 6 characters long"
-      );
-      return;
-    }
+    // if (!validatePassword(formData.password)) {
+    //   setPasswordError(
+    //     "Password must meet the following criteria:\n" +
+    //       "1. At least one lowercase letter\n" +
+    //       "2. At least one uppercase letter\n" +
+    //       "3. At least one special character (@$!%*?&)\n" +
+    //       "4. At least 6 characters long"
+    //   );
+    //   return;
+    // }
 
     // Reset password error if validation passes
     setPasswordError("");
@@ -101,7 +110,7 @@ const CreateEngineers = ({ admin_id }) => {
         createEngineerMutation({
           variables: {
             engineer: formData,
-            adminId: admin_id,
+            adminId: adminId,
           },
         }),
         {
@@ -119,7 +128,7 @@ const CreateEngineers = ({ admin_id }) => {
         email: "",
         password: "",
         address: "",
-        EMP_id: "",
+        eng_emp: "",
         designation: "",
         contact: "",
       });
@@ -137,11 +146,8 @@ const CreateEngineers = ({ admin_id }) => {
       <div className="flex-1">
         <div className="flex h-full bg-white">
           <div className="w-full flex justify-center items-center ">
-            <div className="bg-white p-8 rounded-lg shadow-md w-full backdrop-filter backdrop-blur-lg bg-opacity-30">
+            <div className="bg-white p-8 rounded-lg shadow-md w-full backdrop-filter backdrop-blur-lg bg-opacity-30  relative">
               <div className="mb-8 text-center">
-                <div>
-                  <Toaster />
-                </div>
                 <h2 className="text-2xl mb-5 font-bold text-gray-800">
                   Create Engineer
                 </h2>
@@ -208,6 +214,23 @@ const CreateEngineers = ({ admin_id }) => {
 
                 <div>
                   <label
+                    htmlFor="age"
+                    className="block text-sm font-medium text-black"
+                  >
+                    Contact
+                  </label>
+                  <input
+                    type="text"
+                    id="contact"
+                    name="contact"
+                    value={formData.contact}
+                    onChange={handleInputChange}
+                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-indigo-500"
+                  />
+                </div>
+
+                <div>
+                  <label
                     htmlFor="email"
                     className="block text-sm font-medium text-black"
                   >
@@ -218,22 +241,6 @@ const CreateEngineers = ({ admin_id }) => {
                     id="email"
                     name="email"
                     value={formData.email}
-                    onChange={handleInputChange}
-                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-indigo-500"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="contact"
-                    className="block text-sm font-medium text-black"
-                  >
-                    Contact
-                  </label>
-                  <input
-                    type="text"
-                    id="contact"
-                    name="contact"
-                    value={formData.contact}
                     onChange={handleInputChange}
                     className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-indigo-500"
                   />
@@ -284,16 +291,16 @@ const CreateEngineers = ({ admin_id }) => {
 
                 <div>
                   <label
-                    htmlFor="EMP_id"
+                    htmlFor="eng_emp"
                     className="block text-sm font-medium text-black"
                   >
                     Employee ID
                   </label>
                   <input
                     type="text"
-                    id="EMP_id"
-                    value={formData.EMP_id}
-                    name="EMP_id"
+                    id="eng_emp"
+                    value={formData.eng_emp}
+                    name="eng_emp"
                     onChange={handleInputChange}
                     className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-indigo-500"
                   />
@@ -333,12 +340,28 @@ const CreateEngineers = ({ admin_id }) => {
             </div>
           </div>
         </div>
+        <div
+          style={{
+            position: "fixed",
+            top: "10px",
+            width: "fit-content",
+            left: "50%",
+            transform: "translateX(-50%)", // Center horizontally
+            zIndex: "9999",
+          }}
+        >
+          <Toaster />
+        </div>
       </div>
     </div>
   );
 };
 CreateEngineers.propTypes = {
   admin_id: PropTypes.string.isRequired,
+};
+
+CreateEngineers.propTypes = {
+  adminId: PropTypes.string.isRequired,
 };
 
 export default CreateEngineers;

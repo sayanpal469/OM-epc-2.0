@@ -52,7 +52,7 @@ const Admin_Report = () => {
 
   return (
     <div className="flex">
-      <div className="w-12 h-screen lg:w-20">
+      <div className="">
         {/* Empty space for navbar here */}
       </div>
       <div className="flex-1">

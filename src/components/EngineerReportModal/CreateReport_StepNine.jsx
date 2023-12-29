@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+mport PropTypes from "prop-types";
 import { useRef} from "react";
 import SignatureCanvas from "react-signature-canvas";
 
