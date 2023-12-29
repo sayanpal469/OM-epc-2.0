@@ -1,6 +1,7 @@
 import { useState } from "react";
+
+import RescheduleCallModal from "./ReschudleCall/ReschudleCallModal";
 import PropTypes from "prop-types";
-import RescheduleCallModal from "./ReschudleCallModal";
 
 const PendingCalls = ({ tablesData }) => {
   const [isReschudleModalOpen, setIsReschudleModalOpen] = useState(false);
