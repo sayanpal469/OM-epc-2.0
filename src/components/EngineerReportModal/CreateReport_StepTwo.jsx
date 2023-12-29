@@ -4,120 +4,165 @@ import PropTypes from "prop-types";
 
 const EnginnerReport_StepTwo = ({
   handleChange,
-  CustomerName,
-  ClientName,
-  SiteId_ATMId,
-  PhNo,
-  Address,
-  SiteType
+  WorkType,
+  Device,
  }) => {
 
 
   
   return (
     <div>
-     
-      <div className="mb-4">
-        <label htmlFor="CustomerName" className="block text-gray-700 font-bold mb-2">
-         Customer Name
+        <div className="mb-4 ">
+        <label htmlFor="work_type" className="block text-gray-700 font-bold mb-4">
+         Work Type
         </label>
-        <input
-          type="text"
-          id="CustomerName"
-          name="CustomerName"
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-          placeholder="Enter Customer Name"
-          value={CustomerName}
-          onChange={handleChange}
-          required
-        />
-        
-      </div>
-      <div className="mb-4">
-        <label htmlFor="ClientName" className="block text-gray-700 font-bold mb-2">
-          Client Name
-        </label>
-        <input
-          type="text"
-          id="ClientName"
-          name="ClientName"
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-          placeholder="Enter Customer Name"
-          value={ClientName}
-          onChange={handleChange}
-          required
-        />
-        
-      </div>
-      <div className="mb-4">
-        <label htmlFor="SiteId_ATMId" className="block text-gray-700 font-bold mb-2">
-          Site ID/ATM ID
-        </label>
-        <input
-          type="text"
-          id="SiteId_ATMId"
-          name="SiteId_ATMId"
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-          placeholder="Enter  Site ID/ATM ID"
-          value={SiteId_ATMId}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="PhNo" className="block text-gray-700 font-bold mb-2">
-          Phone Number
-        </label>
-        <input
-          type="number"
-          id="PhNo"
-          name="PhNo"
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-          placeholder="Enter Phone Number"
-          value={PhNo}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="Address" className="block text-gray-700 font-bold mb-2">
-          Address
-        </label>
-        <input
-          type="text"
-          id="Address"
-          name="Address"
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-          placeholder="Enter Address"
-          value={Address}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="SiteType" className="block text-gray-700 font-bold mb-4">
-         Site Type
-        </label>
-        <div className="flex gap-x-4">
+        <div className="flex flex-col gap-y-2">
         <label>
           <input
             type="radio"
-            name="SiteType"
-            value="OnSite"
-            checked={SiteType === "OnSite"}
+            name="work_type"
+            value="Warrenty"
+            checked={WorkType === "Warrenty"}
             onChange={handleChange}
           />
-          On Site
+          Warrenty
         </label>
         <label>
           <input
             type="radio"
-            name="SiteType"
-            value="OffSite"
-            checked={SiteType === "OffSite"}
+            name="work_type"
+            value="AMC"
+            checked={WorkType === "AMC"}
             onChange={handleChange}
           />
-          Off Site
+          AMC
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="work_type"
+            value="Installation"
+            checked={WorkType === "Installation"}
+            onChange={handleChange}
+          />
+          Installation
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="work_type"
+            value="SiteInspection"
+            checked={WorkType === "SiteInspection"}
+            onChange={handleChange}
+          />
+          Site Inspection
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="WorkType"
+            value="Chargeable"
+            checked={WorkType === "Chargeable"}
+            onChange={handleChange}
+          />
+          Chargeable
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="work_type"
+            value="PM"
+            checked={WorkType === "PM"}
+            onChange={handleChange}
+          />
+          PM
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="work_type"
+            value="Service"
+            checked={WorkType === "Service"}
+            onChange={handleChange}
+          />
+          Service
+        </label>
+        </div>
+      </div>
+      <div className="mb-4">
+        <label htmlFor="device_type" className="block text-gray-700 font-bold mb-4">
+         Device Type
+        </label>
+        <div className="flex flex-col gap-y-2">
+        <label>
+          <input
+            type="radio"
+            name="device_type"
+            value="Ups&Battery"
+            checked={Device === "Ups&Battery"}
+            onChange={handleChange}
+          />
+          UPS & Battery
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="device_type"
+            value="Inverter&Battery"
+            checked={Device === "Inverter&Battery"}
+            onChange={handleChange}
+          />
+          Inverter & Battery
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="device_type"
+            value="Stabilizer"
+            checked={Device === "Stabilizer"}
+            onChange={handleChange}
+          />
+          Stabilizer
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="device_type"
+            value="Solar"
+            checked={Device === "Solar"}
+            onChange={handleChange}
+          />
+          Solar
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="device_type"
+            value="Computer"
+            checked={Device === "Computer"}
+            onChange={handleChange}
+          />
+          Computer
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="device_type"
+            value="Printer"
+            checked={Device === "Printer"}
+            onChange={handleChange}
+          />
+          Printer
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="device_type"
+            value="CCTV"
+            checked={Device === "CCTV"}
+            onChange={handleChange}
+          />
+          CCTV
         </label>
         </div>
       </div>
@@ -127,12 +172,8 @@ const EnginnerReport_StepTwo = ({
 };
 EnginnerReport_StepTwo.propTypes = {
   handleChange: PropTypes.func.isRequired,
-  PhNo: PropTypes.string.isRequired,
-  CustomerName: PropTypes.string.isRequired,
-  ClientName: PropTypes.string.isRequired,
-  Address: PropTypes.string.isRequired,
-  SiteId_ATMId: PropTypes.string.isRequired,
-  SiteType: PropTypes.string.isRequired,
+  WorkType: PropTypes.string.isRequired,
+  Device: PropTypes.string.isRequired,
 };
 
 export default EnginnerReport_StepTwo;
