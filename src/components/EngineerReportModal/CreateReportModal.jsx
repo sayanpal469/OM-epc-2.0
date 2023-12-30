@@ -112,32 +112,30 @@ const CreateReportModal = ({ closeModal }) => {
   // const [SiteImagesInput, setSiteImagesInput] = useState([]);
 
   const [BatteryDataInput, setBatteryDataInput] = useState({
-    After1hr: "",
-    After40min: "",
-    After20min: "",
-    After10min: "",
-    After5min: "",
-    WithMains: "",
-    BatteryBatchCode: "",
-    WithoutMains: "",
+    battery_catch_code: "",
+    with_mains: "",
+    without_mains: "",
+    after_5_min: "",
+    after_10_min: "",
+    after_20_min: "",
+    after_40_min: "",
+    after_1_hour: "",
   });
   const [BatteryData, setBatteryData] = useState([]);
 
   const addBatteryData = (data) => {
     setBatteryData((prevData) => [...prevData, data]);
     setBatteryDataInput({
-      BatteryBatchCode: "",
-      WithMains: "",
-      WithoutMains: "",
-      After5min: "",
-      After10min: "",
-      After20min: "",
-      After40min: "",
-      After1hr: "",
+      battery_catch_code: "",
+      with_mains: "",
+      without_mains: "",
+      after_5_min: "",
+      after_10_min: "",
+      after_20_min: "",
+      after_40_min: "",
+      after_1_hour: "",
     });
   };
-
-  console.log(BatteryData);
 
   const handleSubmitSignature = (name, value) => {
     setFormData({ ...formData, [name]: value });
@@ -247,7 +245,6 @@ const CreateReportModal = ({ closeModal }) => {
       await fakeDelay();
       try {
         // Execute the mutation with the form data and context token
-        console.log({ Result });
         await addReportMutation({
           variables: {
             report: {

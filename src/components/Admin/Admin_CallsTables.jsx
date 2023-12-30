@@ -4,18 +4,19 @@ import Admin_TodaysCalls from "./Admin_TodaysCalls";
 import Admin_PendingCalls from "./Admin_PendingCalls";
 import Admin_CompleteCall from "./Admin_CompleteCall";
 
-const Admin_CallsTables = ({ selectedCallTab }) => {
+const Admin_CallsTables = ({ selectedCallTab, saved_search }) => {
+  
   return (
     <div className="px-4">
       {selectedCallTab === "" || selectedCallTab === "All_Calls" ? (
-       <Admin_AllCalls/>
+        <Admin_AllCalls saved_search={saved_search} />
       ) : selectedCallTab === "Today_Calls" ? (
-      <Admin_TodaysCalls/>
+        <Admin_TodaysCalls saved_search={saved_search} />
       ) : selectedCallTab === "Pending_Calls" ? (
-      <Admin_PendingCalls/>
+        <Admin_PendingCalls saved_search={saved_search} />
       ) : selectedCallTab === "Completed_Calls" ? (
-      <Admin_CompleteCall/>
-      ): (
+        <Admin_CompleteCall saved_search={saved_search} />
+      ) : (
         <div className="h-full mt-40 flex justify-center items-center">
           No Calls to Show
         </div>
@@ -26,6 +27,7 @@ const Admin_CallsTables = ({ selectedCallTab }) => {
 
 Admin_CallsTables.propTypes = {
   selectedCallTab: PropTypes.any,
+  saved_search: PropTypes.object,
 };
 
 export default Admin_CallsTables;

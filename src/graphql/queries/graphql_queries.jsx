@@ -35,6 +35,11 @@ export const GET_CALLS_BY_STATUS = gql`
       expense_amount
       report
       status
+      admin_desc
+      customer_contact
+      visit_date
+      eng_desc
+      completed
     }
   }
 `;
@@ -69,7 +74,6 @@ export const GET_CALLS_BY_ENGINEER = gql`
         submit_date
         report
         status
-        description
       }
     }
   }
@@ -108,23 +112,24 @@ export const GET_ENGINEER = gql`
       email
       password
       designation
+      eng_sign
     }
   }
 `;
 
 export const GET_ENGINEER_BY_OBJECT_ID = gql`
-query EngineerByObject($id: ID!) {
-  engineerByObject(_id: $id) {
-    _id
-    Fname
-    Lname
-    contact
-    age
-    eng_emp
-    address
-    email
-    password
-    designation
+  query EngineerByObject($id: ID!) {
+    engineerByObject(_id: $id) {
+      _id
+      Fname
+      Lname
+      contact
+      age
+      eng_emp
+      address
+      email
+      password
+      designation
+    }
   }
-}
 `;

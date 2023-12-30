@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 
 import { useMutation } from "@apollo/client";
@@ -40,62 +39,54 @@ const CreateEngineers = ({ adminId }) => {
   );
 
   const [passwordError, setPasswordError] = useState("");
-  const [imageFiles, setImageFiles] = useState([])
+  const [imageFile, setImageFile] = useState("");
 
   useEffect(() => {
-    if(imageFiles.length>0){
-      setFormData({ ...formData, ['eng_sign']: imageFiles });
+    if (imageFile !== "") {
+      setFormData({ ...formData, ["eng_sign"]: imageFile });
     }
-  
-   
-  }, [imageFiles])
-  
-    const handleFileChange = async (event) => {
-      const files = event.target.files;
-  
-      // Check if there are any files
-      if (files.length === 0) {
-        return;
-      }
-  
-      // Filter out non-image files (jpeg, jpg, png)
-      const imageFilesArray = Array.from(files).filter(
-        (file) =>
-          file.type === 'image/jpeg' ||
-          file.type === 'image/jpg' ||
-          file.type === 'image/png'
-      );
-  
-      // Convert each image file to base64
-      const base64Promises = imageFilesArray.map(async (file) => {
-        const base64 = await convertFileToBase64(file);
-        return base64;
-      });
-  
-      // Wait for all base64 conversions to complete
-      const base64Images = await Promise.all(base64Promises);
-  
-      // Update state with base64 images
-      setImageFiles((prevImages) => [...prevImages, ...base64Images]);
-    };
-  
-    const convertFileToBase64 = (file) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-  
-        reader.onload = () => {
-          const base64Data = reader.result.split(',')[1]; // Extract base64 data (after the comma)
-          resolve(`data:${file.type};base64,${base64Data}`);
-        };
-  
-        reader.onerror = (error) => {
-          reject(error);
-        };
-  
-        reader.readAsDataURL(file);
-      });
-    };
-    
+  }, [imageFile]);
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+
+    // Check if there is any file
+    if (!file) {
+      return;
+    }
+
+    // Check if the file is an image (jpeg, jpg, png)
+    if (
+      file.type === "image/jpeg" ||
+      file.type === "image/jpg" ||
+      file.type === "image/png"
+    ) {
+      // Convert the image file to base64
+      const base64 = await convertFileToBase64(file);
+
+      // Update state with base64 image
+      setImageFile(base64);
+    } else {
+      // Handle non-image file
+      console.log("Please select a valid image file (jpeg, jpg, png).");
+    }
+  };
+  const convertFileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const base64Data = reader.result.split(",")[1]; // Extract base64 data (after the comma)
+        resolve(`data:${file.type};base64,${base64Data}`);
+      };
+
+      reader.onerror = (error) => {
+        reject(error);
+      };
+
+      reader.readAsDataURL(file);
+    });
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -186,7 +177,7 @@ const CreateEngineers = ({ adminId }) => {
         eng_emp: "",
         designation: "",
         contact: "",
-        eng_sign:""
+        eng_sign: "",
       });
     } catch (error) {
       // Handle other errors if needed
@@ -387,8 +378,8 @@ const CreateEngineers = ({ adminId }) => {
                     Signature
                   </label>
                   <input
-                    type="file" 
-                    accept=".jpeg, .jpg, .png" 
+                    type="file"
+                    accept=".jpeg, .jpg, .png"
                     onChange={handleFileChange}
                     className="mt-1 p-2 w-full"
                   />

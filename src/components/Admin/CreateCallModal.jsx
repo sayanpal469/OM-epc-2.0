@@ -24,16 +24,13 @@ const CreateCallModal = ({ closeModal }) => {
 
   const [engineers, setEngineers] = useState([]);
 
-  const [createCallMutation, { callError, createCallData }] = useMutation(
-    CREATE_CALL_MUTATION,
-    {
-      context: {
-        headers: {
-          authorization: `${localStorage.getItem("token")}`,
-        },
+  const [createCallMutation] = useMutation(CREATE_CALL_MUTATION, {
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`,
       },
-    }
-  );
+    },
+  });
 
   const { data } = useQuery(GET_ENGINEERS, {
     context: {
@@ -49,12 +46,6 @@ const CreateCallModal = ({ closeModal }) => {
   let hours = currentTime.getHours();
   let minutes = currentTime.getMinutes();
 
-  if (callError) {
-    console.log(callError);
-  }
-
-  console.log({ createCallData });
-
   // Convert to 12-hour format
   hours = hours % 12 || 12;
   // Determine AM or PM
@@ -64,6 +55,17 @@ const CreateCallModal = ({ closeModal }) => {
   const formattedTime = `${String(hours).padStart(2, "0")}:${String(
     minutes
   ).padStart(2, "0")} ${amOrPm}`;
+  const today = new Date();
+
+  const a = new Date();
+  console.log({ a });
+
+  const currentDate = new Date();
+  const day = currentDate.getDate().toString().padStart(2, "0");
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+  const year = currentDate.getFullYear();
+
+  const formattedDate = `${day}-${month}-${year}`;
 
   const [formData, setFormData] = useState({
     call_id: "",
@@ -74,10 +76,13 @@ const CreateCallModal = ({ closeModal }) => {
     company_address: "",
     eng_name: "",
     eng_emp: "",
-    assigned_date: new Date().toISOString().split("T")[0],
+    assigned_date: formattedDate,
     assigned_time: formattedTime,
-    description: "",
+    admin_desc: "",
+    eng_desc: "-",
   });
+
+  console.log({ formData });
 
   const [StepOneError, setStepOneError] = useState("");
   const [ErrorDiv, setErrorDiv] = useState(false);
@@ -128,12 +133,12 @@ const CreateCallModal = ({ closeModal }) => {
   };
 
   const form = useForm({
-    onSubmit: async (values) => {
+    onSubmit: async () => {
       try {
         // console.log("Submitting form", values);
         await fakeDelay();
 
-        await toast.promise(
+        const data = await toast.promise(
           createCallMutation({
             variables: {
               call: formData,
@@ -142,13 +147,15 @@ const CreateCallModal = ({ closeModal }) => {
           {
             loading: "Creating Call...",
             success: <b>🎉 Call created successfully!</b>,
-            error: <b>Something went wrong</b>,
+            error: (error) => <b>{error.message || "Something went wrong"}</b>,
           }
         );
 
         // After the toast is shown and promise is resolved, close the modal
+        console.log(data);
         setTimeout(() => {
           closeModal();
+          window.location.reload();
         }, 3000);
       } catch (error) {
         console.error("Error submitting form", error);
@@ -202,10 +209,12 @@ const CreateCallModal = ({ closeModal }) => {
                   handleChange={handleChange}
                   eng_name={formData.eng_name}
                   eng_emp={formData.eng_emp}
-                  assigned_date={formData.assigned_date}
+                  assigned_date={formattedDate}
                   assigned_time={formData.assigned_time}
-                  description={formData.description}
+                  description={formData.admin_desc}
                   engineers={engineers}
+                  setFormData={setFormData}
+                  formData={formData}
                 />
               </FormizStep>
 
@@ -261,7 +270,6 @@ const CreateCallModal = ({ closeModal }) => {
           top: "10px",
           width: "100%",
           left: "50%",
-          border: "1px solid red",
           transform: "translateX(-50%)",
           zIndex: "9999", // Center horizontally
         }}

@@ -34,7 +34,7 @@ const StepOne = ({
           Contact
         </label>
         <input
-          type="text"
+          type="number"
           id="customer_contact"
           name="customer_contact"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
@@ -42,6 +42,10 @@ const StepOne = ({
           value={customer_contact}
           onChange={handleChange}
           required
+          style={{
+            WebkitAppearance: "none",
+            MozAppearance: "textfield",
+          }}
         />
       </div>
       <div className="mb-4">

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import CallDetailsModal from "./CallDetailsModal";
-import RescheduleCallModal from "./ReschudleCallModal";
+import RescheduleCallModal from "../components/ReschudleCall/ReschudleCallModal";
 const NewCalls = ({ tablesData }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isReschudleModalOpen, setIsReschudleModalOpen] = useState(false);

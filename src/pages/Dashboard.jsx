@@ -95,7 +95,7 @@ const Dashboard = ({ engineer_info }) => {
                     </h1>
                   </div>
                   <div className="">
-                    <LoginTimer />
+                    <LoginTimer eng_id={eng_id} />
                   </div>
                 </div>
               </header>

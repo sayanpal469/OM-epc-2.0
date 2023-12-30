@@ -67,7 +67,7 @@ export const ADD_EXPENSE_MUTATION = gql`
 `;
 
 export const ADD_REPORT_MUTATION = gql`
-  mutation CreateReport($report: ReportInput!) {
+  mutation Mutation($report: ReportInput!) {
     createReport(report: $report) {
       _id
       company_name
@@ -89,8 +89,8 @@ export const ADD_REPORT_MUTATION = gql`
       ac_input_three_phase {
         ac_input_three_phase_RY
         ac_input_three_phase_YB
-        ac_input_three_phase_NR
         ac_input_three_phase_RB
+        ac_input_three_phase_NR
       }
       ac_output_three_phase {
         ac_output_three_phase_RY
@@ -99,14 +99,19 @@ export const ADD_REPORT_MUTATION = gql`
         ac_output_three_phase_NR
       }
       ac_input_single_phase {
-        ac_input_singel_phase_LN
-        ac_input_singel_phase_NE
-        ac_input_three_phase_LE
+        ac_input_single_phase_LN
+        ac_input_single_phase_NE
+        ac_input_single_phase_LE
       }
       ac_output_single_phase {
-        ac_input_singel_phase_LN
-        ac_input_singel_phase_NE
-        ac_input_three_phase_LE
+        ac_output_single_phase_LN
+        ac_output_single_phase_NE
+        ac_output_single_phase_LE
+      }
+      DC {
+        V
+        V_withMains
+        V_withoutMains
       }
       site_images
       power_cut
@@ -115,22 +120,53 @@ export const ADD_REPORT_MUTATION = gql`
       battery_AH
       quantity
       battery_test_report {
-        battery_catch_code
-        with_mains
-        without_mains
-        after_5_min
-        after_10_min
-        after_20_min
-        after_40_min
         after_1_hour
+        after_40_min
+        after_20_min
+        after_10_min
+        after_5_min
+        without_mains
+        with_mains
+        battery_catch_code
       }
       customer_sign
       eng_sign
-      DC {
-        V
-        V_withMains
-        V_withoutMains
-      }
     }
   }
+`;
+
+export const EDIT_CALL_BY_ADMIN_MUTATION = gql`
+  mutation EditCall_by_Admin($call: CallInput!) {
+    editCall_by_Admin(call: $call) {
+      _id
+      company_name
+      company_details
+      company_location
+      company_address
+      eng_name
+      eng_emp
+      assigned_date
+      assigned_time
+      eng_desc
+      admin_desc
+      call_id
+      customer_contact
+      submit_date
+      visit_date
+      completed
+      expense_amount
+      report
+      status
+    }
+  }
+`;
+
+export const SUBMIT_ATTENDENCE_MUTATION = gql`
+mutation SubmitAttendence($attendence: AttendenceInput!) {
+  submitAttendence(attendence: $attendence) {
+    eng_emp
+    eng_name
+    message
+  }
+}
 `;

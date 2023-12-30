@@ -3,12 +3,9 @@ import { useEffect } from "react";
 import { FaFilePdf } from "react-icons/fa";
 
 const CallDetailsModal = ({
-  CallID,
-  companyName,
-  assignedDate,
-  submitDate,
   reportName,
   closeModal,
+  selected_call_for_view,
 }) => {
   useEffect(() => {
     // Apply overflow-hidden to body when the modal is open
@@ -26,7 +23,9 @@ const CallDetailsModal = ({
         <div className="relative flex flex-col bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
           {/* Header */}
           <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h3 className="text-3xl font-semibold">{companyName}</h3>
+            <h3 className="text-3xl font-semibold">
+              {selected_call_for_view?.company_name || ""}
+            </h3>
             <button
               className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
               onClick={closeModal}
@@ -38,31 +37,39 @@ const CallDetailsModal = ({
           </div>
           {/* Body */}
           <div className="relative p-6 flex-auto">
-          <p className="mb-4">
-              <span className="font-semibold mr-5">
-               Call ID:
-              </span>{" "}
-              {CallID}
+            <p className="mb-4">
+              <span className="font-semibold mr-5">Call ID:</span>{" "}
+              {selected_call_for_view?.call_id || ""}
             </p>
             <p className="mb-4">
-              <span className="font-semibold mr-5">
-                Assigned Date by Admin:
-              </span>{" "}
-              {assignedDate}
+              <span className="font-semibold mr-5">Assigned Date By You:</span>{" "}
+              {selected_call_for_view?.assigned_date || ""}
+            </p>
+            <p className="mb-4">
+              <span className="font-semibold mr-5">Assigned To:</span>{" "}
+              {selected_call_for_view?.eng_name || ""}
             </p>
             <p className="mb-4">
               {" "}
               <span className="font-semibold mr-5">
-                Submit Date by You:
+                Submit Date By Engineer:
               </span>{" "}
-              {submitDate}
+              {selected_call_for_view?.submit_date || ""}
             </p>
-            <div className="flex items-center">
-              <span className="mr-2 cursor-pointer text-blue-500">
-                {reportName}
+            <p className="mb-4">
+              <span className="font-semibold mr-5">
+                Description Attached By You:
               </span>
-              <FaFilePdf className="text-red-500" />
-            </div>
+              {selected_call_for_view?.admin_desc || ""}
+            </p>
+            {selected_call_for_view?.submit_date !== "-" ? (
+              <div className="flex items-center">
+                <span className="mr-2 cursor-pointer text-blue-500">
+                  {reportName}
+                </span>
+                <FaFilePdf className="text-red-500" />
+              </div>
+            ) : null}
           </div>
           {/* Footer */}
           <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
@@ -87,6 +94,7 @@ CallDetailsModal.propTypes = {
   submitDate: PropTypes.string.isRequired,
   reportName: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
+  selected_call_for_view: PropTypes.object.isRequired,
 };
 
 export default CallDetailsModal;

@@ -19,7 +19,6 @@ const Admin_AllExpenses = ({ savedSearch }) => {
     setIsViewModalOpen(false);
   };
 
-  console.log({ savedSearch });
 
   const filteredExpenses = () => {
     if (!savedSearch || !savedSearch.option || !savedSearch.value) {

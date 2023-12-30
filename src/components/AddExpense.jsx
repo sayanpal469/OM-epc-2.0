@@ -18,7 +18,7 @@ const AddExpense = () => {
   });
   // Get the current date and time
   const currentTime = new Date();
-
+console.log({eng_emp_id})
   // Get hours, minutes, and seconds
   let hours = currentTime.getHours();
   let minutes = currentTime.getMinutes();
@@ -31,7 +31,7 @@ const AddExpense = () => {
 
   // Format the time
   const formattedTime = `${hours} : ${
-    minutes < 9 ? `0${minutes}` : minutes
+    minutes < 9 ? {minutes} : minutes
   } ${amOrPm}`;
   const currentDate = new Date();
 
@@ -72,6 +72,7 @@ const AddExpense = () => {
 
   useEffect(() => {
     if (data?.callsByEng?.call_list?.length > 0) {
+      console.log("ASDASDASDASDASdasd")
       const today = new Date().toLocaleDateString("en-GB").replace(/\//g, "-"); // Get the current date in the format "DD-MM-YYYY"
       // console.log({today});
 

@@ -1,15 +1,51 @@
 import PropTypes from "prop-types";
+import { useState, useEffect } from "react";
 const StepTwo = ({
   handleChange,
   eng_name,
-  eng_emp,
   assigned_date,
   assigned_time,
   description,
   engineers,
+  formData,
+  setFormData,
 }) => {
-  console.log({ engineers });
+  const [eng_emp_id, setEng_emp_id] = useState("");
+  const findEngineer = (e) => {
+    const { name, value } = e.target;
+    if (value !== "") {
+      const eng = engineers.find(
+        (engineer) => `${engineer.Fname} ${engineer.Lname}` === value
+      );
+      setEng_emp_id(eng.eng_emp);
+      // console.log(eng.eng_emp);
+      // console.log({ eng });
+      setFormData({ ...formData, [name]: value });
+    }
+  };
 
+  useEffect(() => {
+    setFormData({ ...formData, ["eng_emp"]: eng_emp_id });
+  }, [eng_emp_id]);
+
+  const handle_Admin_Desc = (e) => {
+    const { name, value } = e.target;
+    // Check the type of the value
+    if (typeof value === "number") {
+      // If it's a number, parse it to a string
+      const stringValue = value.toString();
+      setFormData({ ...formData, [name]: stringValue });
+      // Now you can use 'stringValue' as needed
+      // console.log("Parsed string value:", stringValue);
+    } else if (typeof value === "string") {
+      // If it's already a string, keep it as is
+      // Now you can use 'value' as needed
+      setFormData({ ...formData, [name]: value });
+
+      // console.log("Original string value:", value);
+    }
+    // Handle other types if needed
+  };
 
   return (
     <div>
@@ -25,7 +61,7 @@ const StepTwo = ({
           name="eng_name"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
           value={eng_name}
-          onChange={handleChange}
+          onChange={findEngineer}
           required
         >
           <option value="" disabled>
@@ -47,7 +83,16 @@ const StepTwo = ({
         <label htmlFor="eng_emp" className="block text-gray-700 font-bold mb-2">
           Engineer Employee Id
         </label>
-        <select
+        <input
+          type="text"
+          id="eng_emp"
+          name="eng_emp"
+          disabled="true"
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+          value={eng_emp_id}
+          onChange={handleChange}
+        />
+        {/* <select
           id="eng_emp"
           name="eng_emp"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
@@ -63,7 +108,7 @@ const StepTwo = ({
               {engineer.eng_emp}
             </option>
           ))}
-        </select>
+        </select> */}
       </div>
 
       <div className="mb-4">
@@ -111,12 +156,12 @@ const StepTwo = ({
           <span className="text-gray-500 text-sm font-light"> (optional)</span>
         </label>
         <textarea
-          id="description"
-          name="description"
+          id="admin_desc"
+          name="admin_desc"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
           placeholder="Enter description"
           value={description}
-          onChange={handleChange}
+          onChange={handle_Admin_Desc}
           required
         ></textarea>
       </div>
@@ -126,11 +171,12 @@ const StepTwo = ({
 StepTwo.propTypes = {
   handleChange: PropTypes.func.isRequired,
   eng_name: PropTypes.string.isRequired,
-  eng_emp: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   assigned_date: PropTypes.string.isRequired,
   assigned_time: PropTypes.string.isRequired,
   engineers: PropTypes.array.isRequired,
+  formData: PropTypes.object.isRequired,
+  setFormData: PropTypes.func.isRequired,
 };
 
 export default StepTwo;
