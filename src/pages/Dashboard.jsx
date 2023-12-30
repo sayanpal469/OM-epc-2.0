@@ -13,7 +13,7 @@ const Dashboard = ({ engineer_info }) => {
     recent_call: 0,
   });
 
-  console.log({ engineer_info });
+  // console.log({ engineer_info });
 
   const eng_id = engineer_info ? engineer_info.engineerByObject.eng_emp : "";
 
@@ -95,7 +95,9 @@ const Dashboard = ({ engineer_info }) => {
                     </h1>
                   </div>
                   <div className="">
-                    <LoginTimer eng_id={eng_id} />
+                    {engineer_info && (
+                      <LoginTimer engineer_info={engineer_info} />
+                    )}
                   </div>
                 </div>
               </header>

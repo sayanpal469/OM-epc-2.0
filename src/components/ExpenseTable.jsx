@@ -1,10 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddExpense from "./AddExpense";
-const ExpenseTable = () => {
+import PropTypes from "prop-types";
+import { useLazyQuery } from "@apollo/client";
+import { GET_EXPENSE_BY_ENG } from "../graphql/queries/graphql_queries";
+const ExpenseTable = ({ engineer_info }) => {
   const [searchOption, setSearchOption] = useState("");
+  const [expenseTable, setExpenseTable] = useState([]);
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [searchText, setSearchText] = useState("");
+
+  const [getExpenseByEng, { data: expenseData }] = useLazyQuery(
+    GET_EXPENSE_BY_ENG,
+    {
+      context: {
+        headers: {
+          authorization: `${localStorage.getItem("token")}`,
+        },
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (engineer_info) {
+      const timerId = setTimeout(() => {
+        getExpenseByEng({
+          variables: {
+            engEmp: engineer_info.engineerByObject.eng_emp,
+          },
+        });
+      }, 2000);
+      return () => clearTimeout(timerId);
+    }
+  }, [engineer_info]);
+
+  useEffect(() => {
+    if (
+      expenseData?.expenseReportByEng?.expense_list?.length > 0 &&
+      expenseData
+    ) {
+      setExpenseTable(expenseData.expenseReportByEng.expense_list);
+    }
+  }, [expenseData]);
+  // console.log({ engineer_info });
+
   const handleSave = () => {
     console.log("Selected Search Option:", searchOption);
     if (searchOption === "between_dates") {
@@ -25,9 +64,13 @@ const ExpenseTable = () => {
     setToDate("");
   };
 
+  console.log({ expenseTable });
+
   return (
     <div className="mx-5">
-      <AddExpense />
+      {engineer_info && (
+        <AddExpense engineer_id={engineer_info.engineerByObject.eng_emp} />
+      )}
       <div className="w-full flex flex-col items-center my-5 lg:flex-row lg:justify-evenly">
         <div className="lg:flex lg:items-center lg:justify-between lg:w-[30%] w-full  space-y-4 lg:space-y-0">
           <div className="w-full lg:mb-0 mb-5">
@@ -39,9 +82,7 @@ const ExpenseTable = () => {
               <option value="defaule">Select Search Option</option>
               <option value="name">Search by Name/Company</option>
               <option value="date">Search by Date</option>
-              <option value="between_dates">Search Between Dates</option>
             </select>
-           
           </div>
         </div>
         <div className="lg:w-[60%] w-full ">
@@ -96,54 +137,54 @@ const ExpenseTable = () => {
         <table>
           <thead>
             <tr>
-            <th scope="col">Call ID</th>
+              <th scope="col">Call ID</th>
               <th scope="col">Company Name</th>
-              <th scope="col"> Assigned Date</th>
+              <th scope="col"> Company Location</th>
+              <th scope="col">Expense Amount</th>
               <th scope="col">Status</th>
-              <th scope="col">Submit Date</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-            <td data-label="Call ID">call_08/12/2023_01</td>
-              <td data-label="Company Name">Visa - 3412</td>
-              <td data-label="Assigned Date">04/01/2016</td>
-              <td data-label="status">Yes</td>
-              <td data-label="Submit Date">04/01/2016</td>
-              <td data-label="Actions">
-                <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                  View
-                </button>
-              </td>
-            </tr>
-            <tr>
-            <td data-label="Call ID">call_08/12/2023_01</td>
-              <td data-label="Company Name">Visa - 3412</td>
-              <td data-label="Assigned Date">04/01/2016</td>
-              <td data-label="status">No</td>
-              <td data-label="Submit Date">NIL</td>
-              <td data-label="Actions">
-                <button
-                  className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded cursor-not-allowed opacity-50"
-                  disabled
-                >
-                  Not Available
-                </button>
-              </td>
-            </tr>
-            <tr>
-            <td data-label="Call ID">call_08/12/2023_01</td>
-              <td data-label="Company Name">Visa - 3412</td>
-              <td data-label="Assigned Date">04/01/2016</td>
-              <td data-label="status">Yes</td>
-              <td data-label="Submit Date">04/01/2016</td>
-              <td data-label="Actions">
-                <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                  View
-                </button>
-              </td>
-            </tr>
+            {expenseTable?.map((expenseTable, index) => (
+              <tr key={index}>
+                <td data-label="Call ID">{expenseTable.call_id}</td>
+                <td data-label="Company Name">{expenseTable.company_name}</td>
+                <td data-label="Location">{expenseTable.company_location}</td>
+                <td data-label="Expense Amount">
+                  {expenseTable.expense_amount}
+                </td>
+                <td data-label="Status">{expenseTable.isApprove}</td>
+                <td data-label="Actions">
+                  {expenseTable.isApprove === "PENDING" ? (
+                    <button
+                      // onClick={() => open_Reschudle_Details_Modal(index)}
+                      className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                    >
+                      View
+                    </button>
+                  ) : expenseTable.isApprove === "APPROVED" ? (
+                    <button
+                      onClick={() => {
+                        // open_Call_Details_Modal(index);
+                      }}
+                      className="bg-transparent hover:bg-green-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded"
+                    >
+                      View
+                    </button>
+                  ) : expenseTable.isApprove === "Reject" ? (
+                    <button
+                      onClick={() => {
+                        // open_Call_Details_Modal(index);
+                      }}
+                      className="bg-transparent hover:bg-red-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                    >
+                      View
+                    </button>
+                  ) : null}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -151,5 +192,7 @@ const ExpenseTable = () => {
     </div>
   );
 };
-
+ExpenseTable.propTypes = {
+  engineer_info: PropTypes.string.isRequired,
+};
 export default ExpenseTable;

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { GET_CALLS_BY_ENGINEER } from "../graphql/queries/graphql_queries";
 import CallsTables from "./CallsTables";
-import Loading from "./Loading";
 
 const Engineer_Calls = ({ engineer_data }) => {
   const [selectedCallTab, setSelectedCallTab] = useState("");
