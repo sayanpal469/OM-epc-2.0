@@ -15,11 +15,26 @@ const CallsTables = ({ selectedCallTab, tablesData, refetch,eng_emp }) => {
           eng_emp={eng_emp}
         />
       ) : selectedCallTab === "Today_Calls" ? (
-        <TodaysCalls tablesData={tablesData} />
+        <TodaysCalls 
+        refetch={refetch}
+          tablesData={tablesData}
+          selectedCallTab={selectedCallTab}
+          eng_emp={eng_emp}
+           />
       ) : selectedCallTab === "Pending_Calls" ? (
-        <PendingCalls tablesData={tablesData} />
+        <PendingCalls 
+        refetch={refetch}
+         tablesData={tablesData}
+        selectedCallTab={selectedCallTab}
+        eng_emp={eng_emp}
+        />
       ) : selectedCallTab === "New_Calls" ? (
-        <NewCalls tablesData={tablesData} />
+        <NewCalls 
+        refetch={refetch}
+          tablesData={tablesData}
+          selectedCallTab={selectedCallTab}
+          eng_emp={eng_emp}
+        />
       ) : (
         <div className="h-full mt-40 flex justify-center items-center">
           No Calls to Show

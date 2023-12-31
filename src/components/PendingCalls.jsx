@@ -4,7 +4,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import Reschudle_Call from "./ReschudleCall/ReschudleCall";
 
-const PendingCalls = ({ tablesData }) => {
+const PendingCalls = ({ tablesData, refetch, selectedCallTab,eng_emp  }) => {
   const [isReschudleModalOpen, setIsReschudleModalOpen] = useState(false);
   const [selectedCall, setSelectedCall] = useState({});
   const open_Reschudle_Details_Modal = (index) => {
@@ -21,10 +21,10 @@ const PendingCalls = ({ tablesData }) => {
       <table>
         <thead>
           <tr>
-            <th scope="col">Call ID</th>
+          <th scope="col">Call ID</th>
             <th scope="col">Company Name</th>
-            <th scope="col">Location</th>
             <th scope="col"> Assigned Date</th>
+            <th scope="col">Visit Date</th>
             <th scope="col">Status</th>
             <th scope="col">Submit Date</th>
             <th scope="col">Actions</th>
@@ -35,8 +35,8 @@ const PendingCalls = ({ tablesData }) => {
             <tr key={index}>
               <td data-label="Call ID">{callDetails.call_id}</td>
               <td data-label="Company Name">{callDetails.company_name}</td>
-              <td data-label="Location">{callDetails.company_location}</td>
               <td data-label="Assigned Date">{callDetails.assigned_date}</td>
+              <td data-label="Visit Dtae">{callDetails.visit_date}</td>
               <td data-label="Status">{callDetails.status}</td>
               <td data-label="Submit Date">{callDetails.submit_date}</td>
               <td data-label="Actions">
@@ -55,8 +55,11 @@ const PendingCalls = ({ tablesData }) => {
       </table>
       {isReschudleModalOpen ? (
         <Reschudle_Call
-          selectedCall={selectedCall}
-          closeModal={close_Reschudle_Details_Modal}
+        selectedCall={selectedCall}
+        closeModal={close_Reschudle_Details_Modal}
+        refetch={refetch}
+        selectedCallTab_Parent={selectedCallTab}
+        eng_emp={eng_emp}
         />
       ) : null}
     </div>
@@ -64,6 +67,9 @@ const PendingCalls = ({ tablesData }) => {
 };
 PendingCalls.propTypes = {
   tablesData: PropTypes.any.isRequired,
+  refetch: PropTypes.func.isRequired,
+  selectedCallTab: PropTypes.string.isRequired,
+  eng_emp: PropTypes.string.isRequired,
 };
 
 export default PendingCalls;

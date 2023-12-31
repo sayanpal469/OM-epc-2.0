@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import CallDetailsModal from "./CallDetailsModal";
-import RescheduleCallModal from "../components/ReschudleCall/ReschudleCallModal";
-const NewCalls = ({ tablesData }) => {
+import Reschudle_Call from "./ReschudleCall/ReschudleCall";
+const NewCalls = ({ tablesData, refetch, selectedCallTab,eng_emp }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isReschudleModalOpen, setIsReschudleModalOpen] = useState(false);
   const [selectedCall, setSelectedCall] = useState({});
@@ -44,8 +44,8 @@ const NewCalls = ({ tablesData }) => {
           <tr>
             <th scope="col">Call ID</th>
             <th scope="col">Company Name</th>
-            <th scope="col">Location</th>
             <th scope="col"> Assigned Date</th>
+            <th scope="col">Visit Date</th>
             <th scope="col">Status</th>
             <th scope="col">Submit Date</th>
             <th scope="col">Actions</th>
@@ -56,8 +56,8 @@ const NewCalls = ({ tablesData }) => {
             <tr key={index}>
               <td data-label="Call ID">{callDetails.call_id}</td>
               <td data-label="Company Name">{callDetails.company_name}</td>
-              <td data-label="Location">{callDetails.company_location}</td>
               <td data-label="Assigned Date">{callDetails.assigned_date}</td>
+              <td data-label="Visit Date">{callDetails.visit_date}</td>
               <td data-label="Status">{callDetails.status}</td>
               <td data-label="Submit Date">{callDetails.submit_date}</td>
               <td data-label="Actions">
@@ -91,14 +91,12 @@ const NewCalls = ({ tablesData }) => {
           closeModal={close_Call_Details_Modal}
         />
       ) : isReschudleModalOpen ? (
-        <RescheduleCallModal
-          CallID={selectedCall.call_id}
-          companyName={selectedCall.company_name}
-          Location={selectedCall.company_location}
-          assignedDate={selectedCall.assigned_date}
-          DescriptionByAdmin="checkk"
-          submitDate={selectedCall.submit_date}
-          closeModal={close_Reschudle_Details_Modal}
+        <Reschudle_Call
+        selectedCall={selectedCall}
+        closeModal={close_Reschudle_Details_Modal}
+        refetch={refetch}
+        selectedCallTab_Parent={selectedCallTab}
+        eng_emp={eng_emp}
         />
       ) : null}
     </div>
@@ -107,6 +105,9 @@ const NewCalls = ({ tablesData }) => {
 
 NewCalls.propTypes = {
   tablesData: PropTypes.any.isRequired,
+  refetch: PropTypes.func.isRequired,
+  selectedCallTab: PropTypes.string.isRequired,
+  eng_emp: PropTypes.string.isRequired,
 };
 
 export default NewCalls;
