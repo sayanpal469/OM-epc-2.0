@@ -32,11 +32,11 @@ export const CREATE_CALL_MUTATION = gql`
 `;
 
 export const DELETE_CALL_MUTATION = gql`
-mutation DeleteCall($_id: ID!) {
-  deleteCall(_id: $_id) {
-    message
+  mutation DeleteCall($_id: ID!) {
+    deleteCall(_id: $_id) {
+      message
+    }
   }
-}
 `;
 
 export const DELETE_ENGINEER_MUTATION = gql`
@@ -48,18 +48,22 @@ export const DELETE_ENGINEER_MUTATION = gql`
 `;
 
 export const APPROVE_EXPENSE_MUTATION = gql`
-mutation ApproveExpenseReport(
-  $callId: String!
-  $approveStatus: ExpenseApproveEnum!
-  $admin_desc: String
-) {
-  approveExpenseReport(call_id: $callId, approveStatus: $approveStatus, admin_desc: $admin_desc) {
-    isApprove
-    status
-    call_id
-    admin_desc
+  mutation ApproveExpenseReport(
+    $callId: String!
+    $approveStatus: ExpenseApproveEnum!
+    $admin_desc: String
+  ) {
+    approveExpenseReport(
+      call_id: $callId
+      approveStatus: $approveStatus
+      admin_desc: $admin_desc
+    ) {
+      isApprove
+      status
+      call_id
+      admin_desc
+    }
   }
-}
 `;
 
 export const ADD_EXPENSE_MUTATION = gql`
@@ -167,11 +171,37 @@ export const EDIT_CALL_BY_ADMIN_MUTATION = gql`
 `;
 
 export const SUBMIT_ATTENDENCE_MUTATION = gql`
-mutation SubmitAttendence($attendence: AttendenceInput!) {
-  submitAttendence(attendence: $attendence) {
-    eng_emp
-    eng_name
-    message
+  mutation SubmitAttendence($attendence: AttendenceInput!) {
+    submitAttendence(attendence: $attendence) {
+      eng_emp
+      eng_name
+      message
+    }
   }
-}
+`;
+
+export const RESCHEDULE_CALL_BY_ENG__MUTATION = gql`
+  mutation RescheduleCall($call: RescheduleInput!) {
+    rescheduleCall(call: $call) {
+      _id
+      company_name
+      company_details
+      company_location
+      company_address
+      eng_name
+      eng_emp
+      assigned_date
+      assigned_time
+      eng_desc
+      admin_desc
+      call_id
+      customer_contact
+      submit_date
+      visit_date
+      completed
+      expense_amount
+      report
+      status
+    }
+  }
 `;
