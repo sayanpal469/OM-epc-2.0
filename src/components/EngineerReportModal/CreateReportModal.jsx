@@ -16,7 +16,7 @@ import { ADD_REPORT_MUTATION } from "../../graphql/mutations/graphql.mutations";
 import { useMutation } from "@apollo/client";
 
 const fakeDelay = (delay = 500) => new Promise((r) => setTimeout(r, delay));
-const CreateReportModal = ({ closeModal }) => {
+const CreateReportModal = ({ closeModal, eng_emp }) => {
   const [addReportMutation] = useMutation(ADD_REPORT_MUTATION, {
     context: {
       headers: {
@@ -58,13 +58,13 @@ const CreateReportModal = ({ closeModal }) => {
   const day = currentDate.getDate().toString().padStart(2, "0");
   const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because months are zero-based
   const year = currentDate.getFullYear().toString();
-  const formattedDate = `${day}/${month}/${year}`;
+  const formattedDate = `${day}-${month}-${year}`;
 
   const [formData, setFormData] = useState({
     date: formattedDate,
     company_name: "",
     call_id: "",
-    eng_emp: "",
+    eng_emp: eng_emp,
     complain_id: "",
     client_name: "",
     contact: "",
@@ -273,7 +273,7 @@ const CreateReportModal = ({ closeModal }) => {
 
   return (
     <div className="h-screen fixed inset-0 z-10 overflow-y-hidden bg-gray-100">
-    <div className="w-full h-full px-10 py-4 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">  
+      <div className="w-full h-full px-10 py-4 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">
         <Formiz connect={form}>
           <form noValidate onSubmit={handleSubmitStep}>
             <div>
@@ -514,6 +514,7 @@ const CreateReportModal = ({ closeModal }) => {
 
 CreateReportModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
+  eng_emp: PropTypes.string.isRequired,
 };
 
 export default CreateReportModal;

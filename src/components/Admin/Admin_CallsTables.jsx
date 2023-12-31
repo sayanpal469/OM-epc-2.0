@@ -4,12 +4,12 @@ import Admin_TodaysCalls from "./Admin_TodaysCalls";
 import Admin_PendingCalls from "./Admin_PendingCalls";
 import Admin_CompleteCall from "./Admin_CompleteCall";
 
-const Admin_CallsTables = ({ selectedCallTab, saved_search }) => {
-  
+
+const Admin_CallsTables = ({ selectedCallTab, saved_search, calls }) => {
   return (
     <div className="px-4">
       {selectedCallTab === "" || selectedCallTab === "All_Calls" ? (
-        <Admin_AllCalls saved_search={saved_search} />
+        <Admin_AllCalls calls={calls} saved_search={saved_search} />
       ) : selectedCallTab === "Today_Calls" ? (
         <Admin_TodaysCalls saved_search={saved_search} />
       ) : selectedCallTab === "Pending_Calls" ? (
@@ -28,6 +28,7 @@ const Admin_CallsTables = ({ selectedCallTab, saved_search }) => {
 Admin_CallsTables.propTypes = {
   selectedCallTab: PropTypes.any,
   saved_search: PropTypes.object,
+  calls: PropTypes.array,
 };
 
 export default Admin_CallsTables;
