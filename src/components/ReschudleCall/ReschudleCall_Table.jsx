@@ -3,7 +3,7 @@ import ReschudleCallModal from "./ReschudleCallModal";
 import CreateReportModal from "../EngineerReportModal/CreateReportModal";
 import UpdateStatusModal from "./UpdateStatusModal";
 
-const ReschudleCall_Table = ({ closeModal, selectedCallTab, selectedCall }) => {
+const ReschudleCall_Table = ({ closeModal, selectedCallTab, selectedCall,refetch,selectedCallTab_Parent,eng_emp, }) => {
   return (
     <div className="px-4">
       {selectedCallTab === "" || selectedCallTab === "Reschudle_Call" ? (
@@ -16,6 +16,9 @@ const ReschudleCall_Table = ({ closeModal, selectedCallTab, selectedCall }) => {
           submitDate={selectedCall?.submit_date}
           closeModal={closeModal}
           selectedCall={selectedCall}
+          refetch={refetch}
+          eng_emp={eng_emp}
+          selectedCallTab_Parent={selectedCallTab_Parent}
         />
       ) : selectedCallTab === "Submit_Report" ? (
         <CreateReportModal closeModal={closeModal} />
@@ -34,6 +37,10 @@ ReschudleCall_Table.propTypes = {
   selectedCallTab: PropTypes.any,
   closeModal: PropTypes.func,
   selectedCall: PropTypes.object,
+  refetch: PropTypes.func.isRequired,
+  selectedCallTab_Parent:PropTypes.string.isRequired,
+  eng_emp:PropTypes.string.isRequired
+  
 };
 
 export default ReschudleCall_Table;

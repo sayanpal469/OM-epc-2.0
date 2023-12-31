@@ -258,7 +258,9 @@ const Engineer_Calls = ({ engineer_data }) => {
           {/* {isLoading && <Loading />} */}
           <CallsTables
             tablesData={tablesData}
+            refetch={getCallsByEng}
             selectedCallTab={selectedCallTab}
+            eng_emp = {engineer_data?.engineerByObject?.eng_emp}
           />
         </section>
       </div>

@@ -2,10 +2,15 @@ import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import Loading from "../Loading";
 import ReschudleCall_Table from "./ReschudleCall_Table";
-const Reschudle_Call = ({ closeModal, selectedCall }) => {
+const Reschudle_Call = ({
+  closeModal,
+  selectedCall,
+  refetch,
+  selectedCallTab_Parent,
+  eng_emp,
+}) => {
   const [selectedCallTab, setSelectedCallTab] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
 
   //   useEffect(() => {
   //     // Apply overflow-hidden to body when the modal is open
@@ -75,7 +80,10 @@ const Reschudle_Call = ({ closeModal, selectedCall }) => {
             <ReschudleCall_Table
               closeModal={closeModal}
               selectedCallTab={selectedCallTab}
+              selectedCallTab_Parent={selectedCallTab_Parent}
               selectedCall={selectedCall}
+              refetch={refetch}
+              eng_emp={eng_emp}
             />
           </section>
         </div>
@@ -86,5 +94,8 @@ const Reschudle_Call = ({ closeModal, selectedCall }) => {
 Reschudle_Call.propTypes = {
   closeModal: PropTypes.func,
   selectedCall: PropTypes.object,
+  refetch: PropTypes.func.isRequired,
+  selectedCallTab_Parent: PropTypes.string.isRequired,
+  eng_emp: PropTypes.string.isRequired,
 };
 export default Reschudle_Call;
