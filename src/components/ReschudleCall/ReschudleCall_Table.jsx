@@ -21,7 +21,11 @@ const ReschudleCall_Table = ({ closeModal, selectedCallTab, selectedCall,refetch
           selectedCallTab_Parent={selectedCallTab_Parent}
         />
       ) : selectedCallTab === "Submit_Report" ? (
-        <CreateReportModal eng_emp={eng_emp} closeModal={closeModal} />
+        <CreateReportModal 
+        selectedCall={selectedCall}
+         eng_emp={eng_emp}
+         closeModal={closeModal} 
+        />
       ) : selectedCallTab === "Update_Status" ? (
         <UpdateStatusModal  selectedCall={selectedCall} closeModal={closeModal} />
       ) : (

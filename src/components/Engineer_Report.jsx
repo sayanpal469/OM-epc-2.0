@@ -1,8 +1,12 @@
+import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 // import Loading from "../components/Loading";
 import ReportTables from "../components/ReportTables";
 import CreateReportModal from "../components/EngineerReportModal/CreateReportModal";
-const Engineer_Report = () => {
+import { useQuery } from "@apollo/client";
+import { GET_REPORT_BY_ENG } from "../graphql/queries/graphql_queries";
+
+const Engineer_Report = ({engineer_data}) => {
   const [selectedCallTab, setSelectedCallTab] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [searchOption, setSearchOption] = useState("");
@@ -10,7 +14,32 @@ const Engineer_Report = () => {
   const [toDate, setToDate] = useState("");
   const [searchText, setSearchText] = useState("");
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [tableData, setTableData] = useState([]);
   console.log(isLoading);
+  
+   const eng_emp = engineer_data?.engineerByObject?.eng_emp
+  const { data } = useQuery(GET_REPORT_BY_ENG, {
+    variables:{
+      engEmp: eng_emp
+    },
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`,
+      },
+    },
+    fetchPolicy: "network-only",
+  });
+  
+  console.log(data);
+
+useEffect(() => {
+  if(data){
+    setTableData(data.reportByEngineer)
+  }
+
+}, [data])
+
+
   const handleSave = () => {
     console.log("Selected Search Option:", searchOption);
     if (searchOption === "between_dates") {
@@ -22,6 +51,7 @@ const Engineer_Report = () => {
       console.log("Selected Date:", fromDate);
     }
   };
+
 
   const handleCallTab = (callTab) => {
     setIsLoading(true);
@@ -169,7 +199,10 @@ const Engineer_Report = () => {
           </div>
 
           {/* {isLoading && <Loading />} */}
-          <ReportTables selectedCallTab={selectedCallTab} />
+          <ReportTables 
+          selectedCallTab={selectedCallTab}
+          tableData = {tableData}
+           />
 
           {isReportModalOpen ? (
             <CreateReportModal closeModal={close_Create_Report_Modal} />
@@ -180,4 +213,7 @@ const Engineer_Report = () => {
   );
 };
 
+Engineer_Report.propTypes = {
+  engineer_data: PropTypes.object.isRequired,
+};
 export default Engineer_Report;
