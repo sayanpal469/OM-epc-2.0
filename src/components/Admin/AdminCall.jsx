@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import Admin_CallsTables from "./Admin_CallsTables";
 import CreateCallModal from "./CreateCallModal";
 import { MdAddIcCall } from "react-icons/md";
-import { GET_ENGINEERS } from "../../graphql/queries/graphql_queries";
+import {
+  GET_CALLS_BY_STATUS,
+  GET_ENGINEERS,
+} from "../../graphql/queries/graphql_queries";
 import { useQuery } from "@apollo/client";
 
 function AdminCall() {
@@ -18,7 +21,25 @@ function AdminCall() {
   const [saved_search_date, setSaved_search_date] = useState("");
   const [saved_search, setSaved_search] = useState({ option: "", value: "" });
   const [engineers, setEngineers] = useState([]);
-  const { data } = useQuery(GET_ENGINEERS, {
+  const [calls, setCalls] = useState([]);
+  const { data, refetch } = useQuery(GET_CALLS_BY_STATUS, {
+    variables: {
+      status: "ALL",
+    },
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`,
+      },
+    },
+    // pollInterval: 2000,
+  });
+  useEffect(() => {
+    if (data) {
+      setCalls(data.calls);
+    }
+  }, [data]);
+
+  const { data: EngineersData } = useQuery(GET_ENGINEERS, {
     context: {
       headers: {
         authorization: `${localStorage.getItem("token")}`, // Include the token from local storage
@@ -56,10 +77,10 @@ function AdminCall() {
   console.log({ saved_search });
 
   useEffect(() => {
-    if (data?.engineers?.length > 0) {
-      setEngineers(data.engineers);
+    if (EngineersData?.engineers?.length > 0) {
+      setEngineers(EngineersData.engineers);
     }
-  }, [data]);
+  }, [EngineersData]);
 
   const handleCallTab = (callTab) => {
     setIsLoading(true);
@@ -225,11 +246,15 @@ function AdminCall() {
             <Admin_CallsTables
               saved_search={saved_search}
               selectedCallTab={selectedCallTab}
+              calls={calls}
             />
           }
 
           {isCallModalOpen ? (
-            <CreateCallModal closeModal={close_Create_Call_Modal} />
+            <CreateCallModal
+              refetch={refetch}
+              closeModal={close_Create_Call_Modal}
+            />
           ) : null}
         </section>
       </div>

@@ -1,19 +1,17 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { JsonToExcel } from "react-json-to-excel";
-
 import Edit_Call from "./EditCall/EditCall";
 
-import useFetchCallsByStatus from "../../hooks/useFetchCallsByStatus";
 import CallDetailsModal_Admin from "./CallDetailsModal_Admin";
-const Admin_calls = ({ saved_search }) => {
+const Admin_calls = ({ saved_search, calls }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selected_call_for_view, setSelected_call_for_view] = useState({});
 
-  const status = "ALL";
-  const { calls, data } = useFetchCallsByStatus(status);
-
+  console.log({ calls });
+  const l = calls.length;
+  console.log({ l });
   const filteredCalls = () => {
     if (!saved_search || !saved_search.option || !saved_search.value) {
       // No saved search, return all calls
@@ -77,7 +75,7 @@ const Admin_calls = ({ saved_search }) => {
 
   return (
     <div>
-      {data ? (
+      {calls?.length > 0 ? (
         <div>
           <JsonToExcel
             title="Download as Excel"
@@ -156,5 +154,6 @@ const Admin_calls = ({ saved_search }) => {
 
 Admin_calls.propTypes = {
   saved_search: PropTypes.object,
+  calls: PropTypes.array,
 };
 export default Admin_calls;

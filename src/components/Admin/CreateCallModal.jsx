@@ -11,7 +11,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const fakeDelay = (delay = 500) => new Promise((r) => setTimeout(r, delay));
 
-const CreateCallModal = ({ closeModal }) => {
+const CreateCallModal = ({ closeModal, refetch }) => {
   useEffect(() => {
     // Apply overflow-hidden to body when the modal is open
     document.body.style.overflow = "hidden";
@@ -55,8 +55,6 @@ const CreateCallModal = ({ closeModal }) => {
   const formattedTime = `${String(hours).padStart(2, "0")}:${String(
     minutes
   ).padStart(2, "0")} ${amOrPm}`;
-  
-
 
   const currentDate = new Date();
   const day = currentDate.getDate().toString().padStart(2, "0");
@@ -79,8 +77,6 @@ const CreateCallModal = ({ closeModal }) => {
     admin_desc: "",
     eng_desc: "-",
   });
-
-
 
   const [StepOneError, setStepOneError] = useState("");
   const [ErrorDiv, setErrorDiv] = useState(false);
@@ -150,10 +146,9 @@ const CreateCallModal = ({ closeModal }) => {
         );
 
         // After the toast is shown and promise is resolved, close the modal
-        console.log(data);
+        refetch({ status: "ALL" });
         setTimeout(() => {
           closeModal();
-          window.location.reload();
         }, 3000);
       } catch (error) {
         console.error("Error submitting form", error);
@@ -280,6 +275,7 @@ const CreateCallModal = ({ closeModal }) => {
 
 CreateCallModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
+  refetch: PropTypes.func.isRequired,
 };
 
 export default CreateCallModal;
