@@ -37,12 +37,12 @@ const Admin_Dashboard = () => {
   );
 
   useEffect(() => {
-    if (engineers) {
+    if (engineers && selectedEngineer) {
       const timerId = setTimeout(() => {
         const selctedEngData = engineers.filter(
           (eng) => `${eng.Fname}` === selectedEngineer
         );
-        console.log({ selctedEngData });
+        // console.log({ selctedEngData });
         getAttendenceByEng({
           variables: {
             engEmp: selctedEngData[0]?.eng_emp,
@@ -58,12 +58,11 @@ const Admin_Dashboard = () => {
       attendenceData?.getAttendenceByEng?.attendence?.length > 0 &&
       attendenceData
     ) {
-      console.log("ASDASDASDASDASDASDASDASD");
       const attendenceArr = attendenceData.getAttendenceByEng.attendence;
-
+      // console.log(attendenceArr);
       // Extract and format the date as "DD/MM/YYYY"
       const highlightedDates = attendenceArr.map((attendence) => {
-        const [day, month, year] = attendence.date.split("-");
+        const [day, month, year] = attendence.date.split("/");
         return `${day}/${month}/${year}`;
       });
 
@@ -100,7 +99,7 @@ const Admin_Dashboard = () => {
   };
 
   const handleEngineerChange = (e) => {
-    console.log();
+    // console.log();
     setSelectedEngineer(e.target.value);
   };
 
@@ -188,7 +187,7 @@ const Admin_Dashboard = () => {
   };
 
   // console.log({ selectedMonth });
-  // console.log({ selectedEngineer });
+  // console.log({ highlightedDates });
 
   return (
     <>
@@ -326,7 +325,5 @@ const Admin_Dashboard = () => {
     </>
   );
 };
-
-
 
 export default Admin_Dashboard;

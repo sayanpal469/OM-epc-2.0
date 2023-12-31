@@ -61,7 +61,7 @@ const AddExpense = ({ engineer_id, this_month_expense_amount }) => {
       const timerId = setTimeout(() => {
         getCallsByEng({
           variables: {
-            eng_emp: eng_emp_id,
+            engEmp: eng_emp_id,
             status: "ALL",
           },
         });

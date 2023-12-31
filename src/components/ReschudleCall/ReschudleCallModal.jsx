@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 
-const RescheduleCallModal = ({ companyName, assignedDate, closeModal, CallID, Location, DescriptionByAdmin }) => {
+const RescheduleCallModal = ({ companyName, assignedDate, closeModal, CallID, Location, DescriptionByAdmin,selectedCall }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [Description, setDescription] = useState(null);
   const [showSaveButton, setShowSaveButton] = useState(false);
@@ -30,7 +30,7 @@ const RescheduleCallModal = ({ companyName, assignedDate, closeModal, CallID, Lo
       console.log("Company Name:", companyName);
       console.log("Selected Date:", selectedDate);
       console.log("Despriction:", Description)
-      closeModal();
+      // closeModal();
       // Perform any additional actions with the saved data
     }
   };
@@ -130,6 +130,7 @@ RescheduleCallModal.propTypes = {
   Location: PropTypes.string.isRequired,
   DescriptionByAdmin: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
+  selectedCall: PropTypes.object.isRequired,
 };
 
 export default RescheduleCallModal;

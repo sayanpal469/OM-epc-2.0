@@ -44,9 +44,9 @@ const Engineer_Report = () => {
     return () => clearTimeout(delay);
   }, [selectedCallTab]);
 
-  const open_Create_Report_Modal = () => {
-    setIsReportModalOpen(true);
-  };
+  // const open_Create_Report_Modal = () => {
+  //   setIsReportModalOpen(true);
+  // };
 
   const close_Create_Report_Modal = () => {
     setIsReportModalOpen(false);
@@ -93,14 +93,14 @@ const Engineer_Report = () => {
               >
                 All Reports
               </button>
-              <button
+              {/* <button
                 onClick={open_Create_Report_Modal}
                 className={`border py-2 w-full rounded ${buttonClasses(
                   "Create_Report"
                 )}`}
               >
                 Create Report
-              </button>
+              </button> */}
             </div>
 
             <div className="w-full flex flex-col items-center my-5 lg:flex-row lg:justify-evenly">

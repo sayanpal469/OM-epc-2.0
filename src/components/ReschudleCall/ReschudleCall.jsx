@@ -2,21 +2,20 @@ import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import Loading from "../Loading";
 import ReschudleCall_Table from "./ReschudleCall_Table";
-const Reschudle_Call = ({
-    closeModal
-}) => {
+const Reschudle_Call = ({ closeModal, selectedCall }) => {
   const [selectedCallTab, setSelectedCallTab] = useState("");
   const [isLoading, setIsLoading] = useState(false);
- 
-//   useEffect(() => {
-//     // Apply overflow-hidden to body when the modal is open
-//     document.body.style.overflow = "hidden";
 
-//     // Cleanup function to remove the style when the component unmounts or modal is closed
-//     return () => {
-//       document.body.style.overflow = "auto";
-//     };
-//   }, []);
+
+  //   useEffect(() => {
+  //     // Apply overflow-hidden to body when the modal is open
+  //     document.body.style.overflow = "hidden";
+
+  //     // Cleanup function to remove the style when the component unmounts or modal is closed
+  //     return () => {
+  //       document.body.style.overflow = "auto";
+  //     };
+  //   }, []);
 
   const handleCallTab = (callTab) => {
     setIsLoading(true);
@@ -42,51 +41,50 @@ const Reschudle_Call = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-gray-100">
-    <div className="relative w-full h-full max-w-screen-md mx-auto my-6 bg-opacity-50 backdrop-filter backdrop-blur-md">
-      <div>
-        {/* Empty space for navbar here */}
-      </div>
-      <div>
-        <section className="w-full h-full">
-          <div className="lg:flex lg:justify-between lg:items-center flex-col p-5 space-y-5">
-            <div className="flex lg:flex-row sm:space-y-0 lg:w-[50%] w-[100%] space-y-5  flex-col justify-center items-end space-x-4">
-             
-            <button
-                onClick={() => handleCallTab("Reschudle_Call")}
-                className={`border  py-2 w-full rounded ${button_All_Classes}`}
-              >
-               Reschudle Call
-              </button>
-              <button
-                onClick={() => handleCallTab("Submit_Report")}
-                className={`border py-2 w-full rounded ${buttonClasses(
-                  "Submit_Report"
-                )}`}
-              >
-            Submit Report
-              </button>
-              <button
-                onClick={() => handleCallTab("Update_Status")}
-                className={`border py-2 w-full rounded ${buttonClasses(
-                  "Update_Status"
-                )}`}
-              >
-                Update Status
-              </button>
+      <div className="relative w-full h-full max-w-screen-md mx-auto my-6 bg-opacity-50 backdrop-filter backdrop-blur-md">
+        <div>{/* Empty space for navbar here */}</div>
+        <div>
+          <section className="w-full h-full">
+            <div className="lg:flex lg:justify-between lg:items-center flex-col p-5 space-y-5">
+              <div className="flex lg:flex-row sm:space-y-0 lg:w-[50%] w-[100%] space-y-5  flex-col justify-center items-end space-x-4">
+                <button
+                  onClick={() => handleCallTab("Reschudle_Call")}
+                  className={`border  py-2 w-full rounded ${button_All_Classes}`}
+                >
+                  Reschudle Call
+                </button>
+                <button
+                  onClick={() => handleCallTab("Submit_Report")}
+                  className={`border py-2 w-full rounded ${buttonClasses(
+                    "Submit_Report"
+                  )}`}
+                >
+                  Submit Report
+                </button>
+                <button
+                  onClick={() => handleCallTab("Update_Status")}
+                  className={`border py-2 w-full rounded ${buttonClasses(
+                    "Update_Status"
+                  )}`}
+                >
+                  Update Status
+                </button>
+              </div>
             </div>
-
-           </div>
-          {isLoading && <Loading />}
-          <ReschudleCall_Table 
-          closeModal={closeModal}
-          selectedCallTab={selectedCallTab} />
-        </section>
+            {isLoading && <Loading />}
+            <ReschudleCall_Table
+              closeModal={closeModal}
+              selectedCallTab={selectedCallTab}
+              selectedCall={selectedCall}
+            />
+          </section>
+        </div>
       </div>
-    </div>
     </div>
   );
 };
 Reschudle_Call.propTypes = {
-    closeModal: PropTypes.func
-}
+  closeModal: PropTypes.func,
+  selectedCall: PropTypes.object,
+};
 export default Reschudle_Call;
