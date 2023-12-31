@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import LoginTimer from "../components/loginTimer";
-import PropTypes from "prop-types";
+import { GET_ATTENDENCE_BY_ENG } from "../graphql/queries/graphql_queries";
 import CallPieChart from "../components/CallPieChart";
 import useFetchCallsByStatus from "../hooks/useFetchCallsByStatus";
 import TodaysCallComponent from "./TodaysCallComponent";
 import { GET_ALL_ENGINEERS } from "../graphql/queries/graphql_queries";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 
-const Admin_Dashboard = ({ role }) => {
+const Admin_Dashboard = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  // const highlightedDates = ["07/08/2023", "19/08/2023", "22/11/2023"]; // replace with your actual highlighted dates
+  const [highlightedDates, setHighlightedDates] = useState([]);
   const navigate = useNavigate();
   const [engineers, setEngineers] = useState([]);
   const { data } = useQuery(GET_ALL_ENGINEERS, {
@@ -23,7 +24,61 @@ const Admin_Dashboard = ({ role }) => {
   const [selectedEngineer, setSelectedEngineer] = useState(engineers[0]);
   const status = "ALL";
   const { calls } = useFetchCallsByStatus(status);
-  console.log({ calls });
+  // console.log({ calls });
+  const [getAttendenceByEng, { data: attendenceData }] = useLazyQuery(
+    GET_ATTENDENCE_BY_ENG,
+    {
+      context: {
+        headers: {
+          authorization: `${localStorage.getItem("token")}`,
+        },
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (engineers) {
+      const timerId = setTimeout(() => {
+        const selctedEngData = engineers.filter(
+          (eng) => `${eng.Fname}` === selectedEngineer
+        );
+        console.log({ selctedEngData });
+        getAttendenceByEng({
+          variables: {
+            engEmp: selctedEngData[0]?.eng_emp,
+          },
+        });
+      }, 3000);
+      return () => clearTimeout(timerId);
+    }
+  }, [engineers, selectedEngineer]);
+
+  useEffect(() => {
+    if (
+      attendenceData?.getAttendenceByEng?.attendence?.length > 0 &&
+      attendenceData
+    ) {
+      console.log("ASDASDASDASDASDASDASDASD");
+      const attendenceArr = attendenceData.getAttendenceByEng.attendence;
+
+      // Extract and format the date as "DD/MM/YYYY"
+      const highlightedDates = attendenceArr.map((attendence) => {
+        const [day, month, year] = attendence.date.split("-");
+        return `${day}/${month}/${year}`;
+      });
+
+      setHighlightedDates(highlightedDates);
+    } else {
+      setHighlightedDates([]);
+    }
+  }, [attendenceData]);
+
+  useEffect(() => {
+    if (engineers.length > 0) {
+      const name = `${engineers[0].Fname}`;
+      setSelectedEngineer(name);
+    }
+  }, [engineers]);
 
   useEffect(() => {
     if (data) {
@@ -34,7 +89,7 @@ const Admin_Dashboard = ({ role }) => {
   const pendingCalls = calls.filter((call) => call.status == "PENDING");
   const completedCalls = calls.filter((call) => call.status == "COMPLETED");
 
-  console.log({ pendingCalls });
+  // console.log({ pendingCalls });
 
   const callData = [
     { completed: completedCalls?.length || 0 },
@@ -45,6 +100,7 @@ const Admin_Dashboard = ({ role }) => {
   };
 
   const handleEngineerChange = (e) => {
+    console.log();
     setSelectedEngineer(e.target.value);
   };
 
@@ -62,7 +118,7 @@ const Admin_Dashboard = ({ role }) => {
 
   const renderCalendar = () => {
     const daysInMonth = getDaysInMonth(new Date().getFullYear(), selectedMonth);
-    const highlightedDates = ["07/08/2023", "19/08/2023", "22/11/2023"]; // replace with your actual highlighted dates
+
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     // Calculate the day of the week for the 1st day of the selected month
@@ -131,6 +187,9 @@ const Admin_Dashboard = ({ role }) => {
     );
   };
 
+  // console.log({ selectedMonth });
+  // console.log({ selectedEngineer });
+
   return (
     <>
       <div className="flex">
@@ -153,11 +212,6 @@ const Admin_Dashboard = ({ role }) => {
                       Welcome, Palash
                     </h1>
                   </div>
-                  {role !== "Admin" ? (
-                    <div className="">
-                      <LoginTimer />
-                    </div>
-                  ) : null}
                 </div>
               </header>
               <main className="mt-5">
@@ -273,8 +327,6 @@ const Admin_Dashboard = ({ role }) => {
   );
 };
 
-Admin_Dashboard.propTypes = {
-  role: PropTypes.string.isRequired,
-};
+
 
 export default Admin_Dashboard;

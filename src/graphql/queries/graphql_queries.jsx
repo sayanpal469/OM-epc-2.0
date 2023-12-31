@@ -133,3 +133,40 @@ export const GET_ENGINEER_BY_OBJECT_ID = gql`
     }
   }
 `;
+
+export const GET_ATTENDENCE_BY_ENG = gql`
+  query GetAttendenceByEng($engEmp: String!) {
+    getAttendenceByEng(eng_emp: $engEmp) {
+      eng_name
+      eng_emp
+      attendence {
+        time
+        date
+      }
+    }
+  }
+`;
+
+export const GET_EXPENSE_BY_ENG = gql`
+  query Query($engEmp: String!) {
+    expenseReportByEng(eng_emp: $engEmp) {
+      eng_emp
+      eng_name
+      expense_list {
+        date
+        time
+        eng_emp
+        eng_name
+        company_name
+        company_location
+        call_id
+        total_kilometer
+        expense_amount
+        isApprove
+        status
+        eng_desc
+        admin_desc
+      }
+    }
+  }
+`;

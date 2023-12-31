@@ -18,19 +18,21 @@ const Home = ({ role, engId }) => {
     },
     skip: role !== "Engineer", // Skip the query if the role is not Engineer
   });
+
   useEffect(() => {
     setEngineer_info(data);
   }, [data, role]);
-  console.log({data})
+
+  console.log({ data });
   return (
     <div>
       {/* Content here */}
       {/* <Navbar/> */}
-      {role === "Engineer" ? (
-        <Dashboard engineer_info={engineer_info} />
-      ) : (
-        <Admin_Dashboard role={role} />
-      )}
+      {role === "Engineer" && engineer_info ? (
+        <Dashboard engineer_info={engineer_info} engId={engId} />
+      ) : role === "Admin" ? (
+        <Admin_Dashboard  />
+      ) : null}
     </div>
   );
 };

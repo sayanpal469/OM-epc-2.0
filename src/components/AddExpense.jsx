@@ -1,13 +1,14 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { ADD_EXPENSE_MUTATION } from "../graphql/mutations/graphql.mutations";
 import { GET_CALLS_BY_ENGINEER } from "../graphql/queries/graphql_queries";
-
-const AddExpense = () => {
+import PropTypes from "prop-types";
+import toast, { Toaster } from "react-hot-toast";
+const AddExpense = ({ engineer_id }) => {
   const [todays_call, setTodays_call] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const [engName, setEngName] = useState("");
-  const [eng_emp_id, setEngEmpId] = useState("858");
+  const [eng_emp_id, setEngEmpId] = useState(engineer_id);
 
   const [addExpenseMutation] = useMutation(ADD_EXPENSE_MUTATION, {
     context: {
@@ -17,33 +18,19 @@ const AddExpense = () => {
     },
   });
   // Get the current date and time
-  const currentTime = new Date();
-console.log({eng_emp_id})
-  // Get hours, minutes, and seconds
-  let hours = currentTime.getHours();
-  let minutes = currentTime.getMinutes();
-
-  // Determine AM or PM
-  const amOrPm = hours >= 12 ? "PM" : "AM";
-
-  // Convert to 12-hour format
-  hours = hours % 12 || 12;
-
-  // Format the time
-  const formattedTime = `${hours} : ${
-    minutes < 9 ? {minutes} : minutes
-  } ${amOrPm}`;
   const currentDate = new Date();
+  const day = currentDate.getDate().toString().padStart(2, "0");
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because months are zero-based
+  const year = currentDate.getFullYear().toString();
+  const formattedDate = `${day}/${month}/${year}`;
 
-  // Get day, month, and year
-  const day = currentDate.getDate();
-  const month = currentDate.getMonth() + 1; // Months are zero-based, so add 1
-  const year = currentDate.getFullYear();
-  const { data } = useQuery(GET_CALLS_BY_ENGINEER, {
-    variables: {
-      eng_emp: "858",
-      status: "ALL",
-    },
+  // Format the time as hh:mm AM/PM
+  const hours = currentDate.getHours() % 12 || 12;
+  const minutes = currentDate.getMinutes().toString().padStart(2, "0");
+  const ampm = currentDate.getHours() >= 12 ? "PM" : "AM";
+  const formattedTime = `${hours}:${minutes} ${ampm}`;
+
+  const [getCallsByEng, { data }] = useLazyQuery(GET_CALLS_BY_ENGINEER, {
     context: {
       headers: {
         authorization: `${localStorage.getItem("token")}`,
@@ -53,7 +40,6 @@ console.log({eng_emp_id})
   });
   // Format the date
 
-  const formattedDate = `${day}/${month}/${year}`;
   const [formData, setFormData] = useState({
     company_name: "",
     call_id: "",
@@ -63,7 +49,7 @@ console.log({eng_emp_id})
     time: formattedTime,
     date: formattedDate,
     admin_desc: "",
-    eng_emp: "858",
+    eng_emp: engineer_id,
     eng_name: engName,
     eng_desc: "",
     isApprove: "PENDING",
@@ -71,8 +57,21 @@ console.log({eng_emp_id})
   });
 
   useEffect(() => {
+    if (engineer_id) {
+      const timerId = setTimeout(() => {
+        getCallsByEng({
+          variables: {
+            eng_emp: eng_emp_id,
+            status: "ALL",
+          },
+        });
+      }, 2000);
+      return () => clearTimeout(timerId);
+    }
+  }, [engineer_id]);
+
+  useEffect(() => {
     if (data?.callsByEng?.call_list?.length > 0) {
-      console.log("ASDASDASDASDASdasd")
       const today = new Date().toLocaleDateString("en-GB").replace(/\//g, "-"); // Get the current date in the format "DD-MM-YYYY"
       // console.log({today});
 
@@ -84,7 +83,7 @@ console.log({eng_emp_id})
       setEngEmpId(data.callsByEng.eng_id);
       setFormData({
         ...formData,
-        eng_emp: "858",
+        eng_emp: eng_emp_id,
         eng_name: data.callsByEng.eng_name,
       });
     }
@@ -112,17 +111,23 @@ console.log({eng_emp_id})
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log({ formData });
     try {
-      // Execute the mutation with the form data and context token
-      const { data } = await addExpenseMutation({
-        variables: {
-          expenseReport: {
-            ...formData,
+      // Execute the mutation with the form data and context toke
+      const data = await toast.promise(
+        addExpenseMutation({
+          variables: {
+            expenseReport: {
+              ...formData,
+              eng_emp: engineer_id,
+            },
           },
-        },
-      });
+        }),
+        {
+          loading: "Creating Call...",
+          success: <b>🎉 Call created successfully!</b>,
+          error: (error) => <b>{error.message || "Something went wrong"}</b>,
+        }
+      );
 
       // Handle the response data if needed
       console.log("Mutation Response:", data);
@@ -134,6 +139,7 @@ console.log({eng_emp_id})
       console.error("Mutation Error:", error);
     }
   };
+
   const handleCompanyChange = (selectedCompanyId) => {
     const selectedCompany = todays_call.find(
       (call) => call.call_id === selectedCompanyId
@@ -245,25 +251,21 @@ console.log({eng_emp_id})
                 className="block mt-4 mb-2 font-semibold text-blue-800"
                 htmlFor="totalExpense"
               >
-                Total Expense
+                Add your description
               </label>
-              <input
-                type="number"
-                id="totalExpense"
-                name="totalExpense"
-                value={formData.expense_amount}
+              <textarea
+                id="eng_desc"
+                name="eng_desc"
+                value={formData.eng_desc}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    expense_amount: e.target.value,
+                    eng_desc: e.target.value,
                   })
                 }
                 className="w-full p-3 border rounded-md focus:outline-none focus:border-indigo-600 appearance-none"
-                style={{
-                  MozAppearance: "textfield",
-                }}
-                required
               />
+
               <label
                 className="block my-4 font-semibold text-blue-800"
                 htmlFor="totalKilometer"
@@ -279,6 +281,26 @@ console.log({eng_emp_id})
                   setFormData({
                     ...formData,
                     total_kilometer: e.target.value,
+                  })
+                }
+                className="w-full p-3 border rounded-md focus:outline-none focus:border-indigo-600"
+                required
+              />
+              <label
+                className="block my-4 font-semibold text-blue-800"
+                htmlFor="totalKilometer"
+              >
+                Total Expense
+              </label>
+              <input
+                type="number"
+                id="expense_amount"
+                name="expense_amount"
+                value={formData.expense_amount}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    expense_amount: e.target.value,
                   })
                 }
                 className="w-full p-3 border rounded-md focus:outline-none focus:border-indigo-600"
@@ -344,6 +366,19 @@ console.log({eng_emp_id})
               </div>
             </div>
           </form>
+          <div
+            className="z-1"
+            style={{
+              position: "fixed",
+              top: "10px",
+              width: "100%",
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: "9999", // Center horizontally
+            }}
+          >
+            <Toaster />
+          </div>
         </div>
       )}
       <style>
@@ -361,6 +396,10 @@ console.log({eng_emp_id})
       </style>
     </div>
   );
+};
+
+AddExpense.propTypes = {
+  engineer_id: PropTypes.string.isRequired,
 };
 
 export default AddExpense;

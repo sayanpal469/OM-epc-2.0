@@ -14,7 +14,6 @@ import Create_Engineers from "./pages/Admin/Create_Engineers";
 import View_Engineers from "./pages/Admin/View_Engineers";
 import ReportModalPdf from "./components/ReportPdf/ReportModalPdf";
 
-
 const graphqlEndpoint = "http://localhost:4000"; // Replace with your GraphQL server endpoint
 
 const apolloClient = new ApolloClient({
@@ -26,7 +25,6 @@ function App() {
   const [role, setRole] = useState("");
   const [adminId, setAdminId] = useState("");
   const [engId, setEngId] = useState("");
-  console.log({ engId });
   const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
     {
@@ -48,7 +46,9 @@ function App() {
         },
         {
           path: "/expense",
-          element: <PrivateRoute element={<Expenses role={role} />} />,
+          element: (
+            <PrivateRoute element={<Expenses engId={engId} role={role} />} />
+          ),
         },
         {
           path: "/reports",
@@ -66,9 +66,9 @@ function App() {
         },
         {
           path: "/view-engineers-report",
-          element: <PrivateRoute element={<ReportModalPdf/>} />,
+          element: <PrivateRoute element={<ReportModalPdf />} />,
         },
-        
+
         // Conditional route based on role
       ],
     },
