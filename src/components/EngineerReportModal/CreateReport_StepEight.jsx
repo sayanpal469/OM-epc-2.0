@@ -76,7 +76,7 @@ useEffect(() => {
   };
   return (
     <div className=" w-full">
-      <div className="mb-4">
+      <div className="mb-2">
         <p className="block text-gray-700 font-bold mb-2">Battery Test Report</p>
              <div className="flex flex-col sm:flex-row items-start sm:items-center ">
       <button
@@ -103,7 +103,9 @@ useEffect(() => {
         )}
         {showTable ? 'Show Input ' : 'Show Table'}
       </button>
-      <input type="file" accept=".jpeg, .jpg, .png" multiple onChange={handleFileChange} />
+      <div className="w-full my-2 h-10">
+     <input type="file" accept=".jpeg, .jpg, .png" multiple onChange={handleFileChange} className="w-full h-full" />
+</div>
     </div>
 
       </div>
