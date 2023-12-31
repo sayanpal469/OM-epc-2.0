@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { EDIT_CALL_BY_ADMIN_MUTATION } from "../../../graphql/mutations/graphql.mutations";
+import { DELETE_CALL_MUTATION, EDIT_CALL_BY_ADMIN_MUTATION } from "../../../graphql/mutations/graphql.mutations";
 import { GET_ENGINEERS } from "../../../graphql/queries/graphql_queries";
 
 const Edit_Call = ({ closeModal, selected_call_for_view }) => {
@@ -17,7 +17,17 @@ const Edit_Call = ({ closeModal, selected_call_for_view }) => {
     },
   });
 
+  
+
   const [updateCall] = useMutation(EDIT_CALL_BY_ADMIN_MUTATION, {
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`,
+      },
+    },
+  });
+
+  const [deleteCall] = useMutation(DELETE_CALL_MUTATION, {
     context: {
       headers: {
         authorization: `${localStorage.getItem("token")}`,
@@ -33,10 +43,24 @@ const Edit_Call = ({ closeModal, selected_call_for_view }) => {
     }
   }, [data]);
 
-  const handleDelete = () => {
-    console.log("deleted");
-    closeModal();
+//  console.log({selected_call_for_view})
+
+
+  const handleDelete = async () => {
+    await toast.promise(
+      deleteCall({ variables: {_id : selected_call_for_view._id}}),
+      {
+        loading: "Deleting Call....",
+        success: () => {
+          closeModal()
+          window.location.reload();
+          return <b>Engineer Deleted</b>;
+        },
+        error: (err) => <b>{err.message}</b>,
+      }
+    );
   };
+
   const handleChange = (e) => {
     const { value } = e.target;
     setEngineer(value);

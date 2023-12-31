@@ -13,7 +13,6 @@ const ExpenseVeiwModal = ({
   submitDate,
   closeModal,
   Kilometer,
-  id,
 }) => {
   const [changeExpenseStatus, { data, loading, }] = useMutation(
     APPROVE_EXPENSE_MUTATION,
@@ -41,15 +40,15 @@ const ExpenseVeiwModal = ({
   };
 
   const handelChangeStatus = async (status) => {
-    window.location.reload();
     await changeExpenseStatus({
       variables: {
-        _id: id,
+        callId: CallID,
         approveStatus: status,
         admin_desc: description,
       },
     }),
       await closeModal();
+      window.location.reload();
   };
 
   console.log(data);

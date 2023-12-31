@@ -31,6 +31,14 @@ export const CREATE_CALL_MUTATION = gql`
   }
 `;
 
+export const DELETE_CALL_MUTATION = gql`
+mutation DeleteCall($_id: ID!) {
+  deleteCall(_id: $_id) {
+    message
+  }
+}
+`;
+
 export const DELETE_ENGINEER_MUTATION = gql`
   mutation DeteleEngineer($eng_emp: String!) {
     deleteEngineer(eng_emp: $eng_emp) {
@@ -40,21 +48,18 @@ export const DELETE_ENGINEER_MUTATION = gql`
 `;
 
 export const APPROVE_EXPENSE_MUTATION = gql`
-  mutation ApproveExpenseReport(
-    $_id: ID!
-    $approveStatus: ExpenseApproveEnum!
-    $admin_desc: String
-  ) {
-    status: approveExpenseReport(
-      _id: $_id
-      approveStatus: $approveStatus
-      admin_desc: $admin_desc
-    ) {
-      _id
-      isApprove
-      admin_desc
-    }
+mutation ApproveExpenseReport(
+  $callId: String!
+  $approveStatus: ExpenseApproveEnum!
+  $admin_desc: String
+) {
+  approveExpenseReport(call_id: $callId, approveStatus: $approveStatus, admin_desc: $admin_desc) {
+    isApprove
+    status
+    call_id
+    admin_desc
   }
+}
 `;
 
 export const ADD_EXPENSE_MUTATION = gql`
