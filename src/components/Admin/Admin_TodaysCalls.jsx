@@ -1,14 +1,13 @@
-import useFetchCallsByStatus from "../../hooks/useFetchCallsByStatus";
+
 import PropTypes from "prop-types";
 import { useState } from "react";
 import Edit_Call from "./EditCall/EditCall";
 import CallDetailsModal from "../CallDetailsModal";
-const Admin_TodaysCalls = ({ saved_search }) => {
+const Admin_TodaysCalls = ({ saved_search, calls, refetch }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selected_call_for_view, setSelected_call_for_view] = useState({});
-  const status = "TODAY";
-  const { calls, data } = useFetchCallsByStatus(status);
+ 
   const filteredCalls = () => {
     if (!saved_search || !saved_search.option || !saved_search.value) {
       // No saved search, return all calls
@@ -46,7 +45,7 @@ const Admin_TodaysCalls = ({ saved_search }) => {
 
   return (
     <div>
-      {data ? (
+      {calls?.length > 0 ? (
         <div>
           <table>
             <thead>
@@ -103,6 +102,7 @@ const Admin_TodaysCalls = ({ saved_search }) => {
             />
           ) : isEditModalOpen ? (
             <Edit_Call
+            refetch={refetch}
               selected_call_for_view={selected_call_for_view}
               closeModal={close_Edit_Modal}
             />
@@ -118,5 +118,7 @@ const Admin_TodaysCalls = ({ saved_search }) => {
 };
 Admin_TodaysCalls.propTypes = {
   saved_search: PropTypes.object,
+  calls: PropTypes.array,
+  refetch: PropTypes.func,
 };
 export default Admin_TodaysCalls;

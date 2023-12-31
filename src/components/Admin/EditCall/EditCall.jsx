@@ -2,10 +2,13 @@ import { useMutation, useQuery } from "@apollo/client";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { DELETE_CALL_MUTATION, EDIT_CALL_BY_ADMIN_MUTATION } from "../../../graphql/mutations/graphql.mutations";
+import {
+  DELETE_CALL_MUTATION,
+  EDIT_CALL_BY_ADMIN_MUTATION,
+} from "../../../graphql/mutations/graphql.mutations";
 import { GET_ENGINEERS } from "../../../graphql/queries/graphql_queries";
 
-const Edit_Call = ({ closeModal, selected_call_for_view }) => {
+const Edit_Call = ({ closeModal, selected_call_for_view, refetch }) => {
   const [engineer, setEngineer] = useState("");
   const [engineer_id, setEngineer_id] = useState("");
   const [engineers, setEngineers] = useState([]);
@@ -16,8 +19,6 @@ const Edit_Call = ({ closeModal, selected_call_for_view }) => {
       },
     },
   });
-
-  
 
   const [updateCall] = useMutation(EDIT_CALL_BY_ADMIN_MUTATION, {
     context: {
@@ -43,17 +44,16 @@ const Edit_Call = ({ closeModal, selected_call_for_view }) => {
     }
   }, [data]);
 
-//  console.log({selected_call_for_view})
-
+  //  console.log({selected_call_for_view})
 
   const handleDelete = async () => {
     await toast.promise(
-      deleteCall({ variables: {_id : selected_call_for_view._id}}),
+      deleteCall({ variables: { _id: selected_call_for_view._id } }),
       {
         loading: "Deleting Call....",
         success: () => {
-          closeModal()
-          window.location.reload();
+          closeModal();
+          refetch({ status: "ALL" });
           return <b>Engineer Deleted</b>;
         },
         error: (err) => <b>{err.message}</b>,
@@ -105,10 +105,11 @@ const Edit_Call = ({ closeModal, selected_call_for_view }) => {
 
       // After the toast is shown and promise is resolved, close the modal
       console.log(data);
-      setTimeout(() => {
-        closeModal();
-        window.location.reload();
-      }, 3000);
+      closeModal();
+      refetch({status: "ALL"})
+      // setTimeout(() => {
+      //   // window.location.reload();
+      // }, 3000);
     } catch (error) {
       console.error("Error submitting form", error);
       // Handle error as needed
@@ -236,6 +237,7 @@ const Edit_Call = ({ closeModal, selected_call_for_view }) => {
 };
 Edit_Call.propTypes = {
   closeModal: PropTypes.func,
+  refetch: PropTypes.func,
   selected_call_for_view: PropTypes.object,
 };
 export default Edit_Call;

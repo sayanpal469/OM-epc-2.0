@@ -1,15 +1,13 @@
-import useFetchCallsByStatus from "../../hooks/useFetchCallsByStatus";
 import PropTypes from "prop-types";
 import Edit_Call from "./EditCall/EditCall";
 import { useState } from "react";
 import CallDetailsModal from "../CallDetailsModal";
 
-const Admin_PendingCalls = ({ saved_search }) => {
+const Admin_PendingCalls = ({ saved_search, calls, refetch }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selected_call_for_view, setSelected_call_for_view] = useState({});
-  const status = "PENDING";
-  const { calls, data } = useFetchCallsByStatus(status);
+
   const filteredCalls = () => {
     if (!saved_search || !saved_search.option || !saved_search.value) {
       // No saved search, return all calls
@@ -47,7 +45,7 @@ const Admin_PendingCalls = ({ saved_search }) => {
   };
   return (
     <div>
-      {data ? (
+      {calls?.length > 0 ? (
         <div>
           <table>
             <thead>
@@ -104,6 +102,7 @@ const Admin_PendingCalls = ({ saved_search }) => {
             />
           ) : isEditModalOpen ? (
             <Edit_Call
+              refetch={refetch}
               selected_call_for_view={selected_call_for_view}
               closeModal={close_Edit_Modal}
             />
@@ -120,6 +119,8 @@ const Admin_PendingCalls = ({ saved_search }) => {
 
 Admin_PendingCalls.propTypes = {
   saved_search: PropTypes.object,
+  calls: PropTypes.array,
+  refetch: PropTypes.func,
 };
 
 export default Admin_PendingCalls;

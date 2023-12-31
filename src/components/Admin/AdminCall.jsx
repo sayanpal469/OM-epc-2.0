@@ -22,6 +22,9 @@ function AdminCall() {
   const [saved_search, setSaved_search] = useState({ option: "", value: "" });
   const [engineers, setEngineers] = useState([]);
   const [calls, setCalls] = useState([]);
+  const [status, setStatus] = useState("ALL")
+
+
   const { data, refetch } = useQuery(GET_CALLS_BY_STATUS, {
     variables: {
       status: "ALL",
@@ -82,9 +85,10 @@ function AdminCall() {
     }
   }, [EngineersData]);
 
-  const handleCallTab = (callTab) => {
+  const handleCallTab = (callTab, status) => {
     setIsLoading(true);
     setSelectedCallTab(callTab);
+    setStatus(status)
   };
 
   const handleSearchOption = (option) => {
@@ -128,7 +132,7 @@ function AdminCall() {
           <div className="lg:flex lg:justify-between lg:items-center flex-col p-5 space-y-5">
             <div className="flex lg:flex-row sm:space-y-0 lg:w-[50%] w-[100%] space-y-5  flex-col justify-center items-end space-x-4">
               <button
-                onClick={() => handleCallTab("Today_Calls")}
+                onClick={() => handleCallTab("Today_Calls", "TODAY")}
                 className={`border py-2 w-full rounded ${buttonClasses(
                   "Today_Calls"
                 )}`}
@@ -136,7 +140,7 @@ function AdminCall() {
                 Today Calls
               </button>
               <button
-                onClick={() => handleCallTab("Pending_Calls")}
+                onClick={() => handleCallTab("Pending_Calls", "PENDING")}
                 className={`border py-2 w-full rounded ${buttonClasses(
                   "Pending_Calls"
                 )}`}
@@ -144,7 +148,7 @@ function AdminCall() {
                 Pending Calls
               </button>
               <button
-                onClick={() => handleCallTab("Completed_Calls")}
+                onClick={() => handleCallTab("Completed_Calls", "COMPLETED")}
                 className={`border py-2  w-full rounded  ${buttonClasses(
                   "Completed_Calls"
                 )}`}
@@ -152,7 +156,7 @@ function AdminCall() {
                 Complete Call
               </button>
               <button
-                onClick={() => handleCallTab("All_Calls")}
+                onClick={() => handleCallTab("All_Calls", "ALL")}
                 className={`border  py-2 w-full rounded ${button_All_Classes}`}
               >
                 All Calls
@@ -247,6 +251,7 @@ function AdminCall() {
               saved_search={saved_search}
               selectedCallTab={selectedCallTab}
               calls={calls}
+              refetch={refetch}
             />
           }
 
