@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import CallDetailsModal from "./CallDetailsModal"; // Import your modal component
 import { useState } from "react";
-import RescheduleCallModal from "./ReschudleCall/ReschudleCallModal";
+import Reschudle_Call from "./ReschudleCall/ReschudleCall";
 
 const TodaysCalls = ({ tablesData }) => {
 
@@ -90,13 +90,8 @@ const TodaysCalls = ({ tablesData }) => {
           closeModal={close_Call_Details_Modal}
         />
       ) : isReschudleModalOpen ? (
-        <RescheduleCallModal
-          CallID={selectedCall.call_id}
-          companyName={selectedCall.company_name}
-          Location={selectedCall.company_location}
-          assignedDate={selectedCall.assigned_date}
-          DescriptionByAdmin="checkk"
-          submitDate={selectedCall.submit_date}
+        <Reschudle_Call
+          selectedCall={selectedCall}
           closeModal={close_Reschudle_Details_Modal}
         />
       ) : null}

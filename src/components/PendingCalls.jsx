@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-import RescheduleCallModal from "./ReschudleCall/ReschudleCallModal";
+// import RescheduleCallModal from "./ReschudleCall/ReschudleCallModal";
 import PropTypes from "prop-types";
+import Reschudle_Call from "./ReschudleCall/ReschudleCall";
 
 const PendingCalls = ({ tablesData }) => {
   const [isReschudleModalOpen, setIsReschudleModalOpen] = useState(false);
@@ -53,13 +54,8 @@ const PendingCalls = ({ tablesData }) => {
         </tbody>
       </table>
       {isReschudleModalOpen ? (
-        <RescheduleCallModal
-          CallID={selectedCall.call_id}
-          companyName={selectedCall.company_name}
-          Location={selectedCall.company_location}
-          assignedDate={selectedCall.assigned_date}
-          DescriptionByAdmin="checkk"
-          submitDate={selectedCall.submit_date}
+        <Reschudle_Call
+          selectedCall={selectedCall}
           closeModal={close_Reschudle_Details_Modal}
         />
       ) : null}

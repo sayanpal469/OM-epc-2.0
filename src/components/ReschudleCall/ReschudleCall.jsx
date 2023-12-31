@@ -41,7 +41,7 @@ const Reschudle_Call = ({ closeModal, selectedCall }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-gray-100">
-      <div className="relative w-full h-full max-w-screen-md mx-auto my-6 bg-opacity-50 backdrop-filter backdrop-blur-md">
+      <div className="relative w-full h-full  mx-auto my-6 bg-opacity-50 backdrop-filter backdrop-blur-md">
         <div>{/* Empty space for navbar here */}</div>
         <div>
           <section className="w-full h-full">

@@ -64,7 +64,7 @@ const CreateReportModal = ({ closeModal }) => {
     date: formattedDate,
     company_name: "",
     call_id: "",
-    eng_emp: "858",
+    eng_emp: "",
     complain_id: "",
     client_name: "",
     contact: "",
@@ -116,7 +116,6 @@ const CreateReportModal = ({ closeModal }) => {
   });
 
   // const [SiteImagesInput, setSiteImagesInput] = useState([]);
-
   const [BatteryDataInput, setBatteryDataInput] = useState({
     battery_catch_code: "",
     with_mains: "",
@@ -274,7 +273,7 @@ const CreateReportModal = ({ closeModal }) => {
 
   return (
     <div className="h-screen fixed inset-0 z-10 overflow-y-hidden bg-gray-100">
-      <div className="w-full h-full px-10 py-4 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">
+    <div className="w-full h-full px-10 py-4 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">  
         <Formiz connect={form}>
           <form noValidate onSubmit={handleSubmitStep}>
             <div>
@@ -464,7 +463,7 @@ const CreateReportModal = ({ closeModal }) => {
               </FormizStep>
 
               {form.steps?.length && (
-                <div className="flex flex-col sm:flex-row items-center justify-between ">
+                <div className="flex flex-col sm:flex-row items-center justify-between my-2 ">
                   <div>
                     {form.currentStep?.name === "step-1" && (
                       <button

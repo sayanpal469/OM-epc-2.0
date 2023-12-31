@@ -105,18 +105,22 @@ const EnginnerReport_StepEight = ({
             )}
             {showTable ? "Show Input " : "Show Table"}
           </button>
+          <div className="my-2">
           <input
-            type="file"
-            accept=".jpeg, .jpg, .png"
-            multiple
-            onChange={handleFileChange}
-          />
+  type="file"
+  accept=".jpeg, .jpg, .png"
+  multiple
+  onChange={handleFileChange}
+  className=" block w-full bg-transparent text-gray-700 border border-blue-500 rounded px-2 py-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+/>
+
+          </div>
         </div>
       </div>
       {showTable ? (
-        <div className="">
-          <table className="">
-            <thead>
+        <div>
+          <table>
+            <thead className="text-sm">
               <tr>
                 {Object.keys(BatteryDataInput).map((key, index) => (
                   <th key={index}>{key}</th>
