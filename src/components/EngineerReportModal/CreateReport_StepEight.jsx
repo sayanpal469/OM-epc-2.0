@@ -81,7 +81,7 @@ const EnginnerReport_StepEight = ({
           Battery Test Report
         </p>
         <div className="flex flex-col sm:flex-row items-start sm:items-center ">
-          <button
+          {!showTable && <button
             type="button"
             onClick={() => {
               addBatteryData(BatteryDataInput);
@@ -89,8 +89,7 @@ const EnginnerReport_StepEight = ({
             className="w-full sm:w-auto mt-1 sm:mt-0 px-4 py-1 bg-gray-300 rounded-md mb-2 sm:mb-0 sm:mr-2"
           >
             Add
-          </button>
-
+          </button>}
           <button
             type="button"
             onClick={toggleTable}
@@ -138,7 +137,7 @@ const EnginnerReport_StepEight = ({
                     <td>{data.after_10_min}</td>
                     <td>{data.after_20_min}</td>
                     <td>{data.after_40_min}</td>
-                    <td>{data.after_1_hr}</td>
+                    <td>{data.after_1_hour}</td>
                   </tr>
                 );
               })}
