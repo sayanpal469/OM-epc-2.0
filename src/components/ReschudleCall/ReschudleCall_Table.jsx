@@ -1,30 +1,27 @@
 import PropTypes from "prop-types";
-import ReschudleCallModal from './ReschudleCallModal'
-import CreateReportModal from '../EngineerReportModal/CreateReportModal'
+import ReschudleCallModal from "./ReschudleCallModal";
+import CreateReportModal from "../EngineerReportModal/CreateReportModal";
 import UpdateStatusModal from "./UpdateStatusModal";
 
-const ReschudleCall_Table = ({closeModal, selectedCallTab }) => {
+const ReschudleCall_Table = ({ closeModal, selectedCallTab, selectedCall }) => {
   return (
     <div className="px-4">
       {selectedCallTab === "" || selectedCallTab === "Reschudle_Call" ? (
         <ReschudleCallModal
-        CallID="call_08/12/2023_01"
-        companyName="Visa - 3412"
-        Location="KOlkata"
-        assignedDate="04/01/2016"
-        DescriptionByAdmin="checkk"
-        submitDate="04/01/2016"
-        closeModal={closeModal}
+          CallID={selectedCall?.call_id}
+          companyName={selectedCall?.company_name}
+          Location={selectedCall?.company_location}
+          assignedDate={selectedCall?.assigned_date}
+          DescriptionByAdmin={selectedCall?.admin_desc}
+          submitDate={selectedCall?.submit_date}
+          closeModal={closeModal}
+          selectedCall={selectedCall}
         />
       ) : selectedCallTab === "Submit_Report" ? (
-        <CreateReportModal 
-        closeModal={closeModal}
-        />
+        <CreateReportModal closeModal={closeModal} />
       ) : selectedCallTab === "Update_Status" ? (
-        <UpdateStatusModal
-        closeModal={closeModal}
-        />
-      ) :  (
+        <UpdateStatusModal closeModal={closeModal} />
+      ) : (
         <div className="h-full mt-40 flex justify-center items-center">
           No Calls to Show
         </div>
@@ -35,7 +32,8 @@ const ReschudleCall_Table = ({closeModal, selectedCallTab }) => {
 
 ReschudleCall_Table.propTypes = {
   selectedCallTab: PropTypes.any,
-  closeModal: PropTypes.func
+  closeModal: PropTypes.func,
+  selectedCall: PropTypes.object,
 };
 
 export default ReschudleCall_Table;

@@ -1,11 +1,9 @@
 import { useState } from "react";
 import CallDetailsModal from "./CallDetailsModal";
 
-
 import Reschudle_Call from "./ReschudleCall/ReschudleCall";
 
 import PropTypes from "prop-types";
-
 
 const AllCalls = ({ tablesData }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
@@ -31,7 +29,7 @@ const AllCalls = ({ tablesData }) => {
     setSelectedCall({});
   };
 
-  console.log(tablesData);
+  // console.log(tablesData);
   return (
     <div>
       <table>
@@ -88,10 +86,10 @@ const AllCalls = ({ tablesData }) => {
           closeModal={close_Call_Details_Modal}
         />
       ) : isReschudleModalOpen ? (
-
-        <Reschudle_Call 
-        closeModal={close_Reschudle_Details_Modal}/>
-
+        <Reschudle_Call
+          selectedCall={selectedCall}
+          closeModal={close_Reschudle_Details_Modal}
+        />
       ) : null}
     </div>
   );

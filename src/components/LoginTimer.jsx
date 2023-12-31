@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useLazyQuery, useMutation,  } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { SUBMIT_ATTENDENCE_MUTATION } from "../graphql/mutations/graphql.mutations";
 import { GET_ATTENDENCE_BY_ENG } from "../graphql/queries/graphql_queries";
 const LoginTimer = ({ engineer_info }) => {
@@ -24,7 +24,7 @@ const LoginTimer = ({ engineer_info }) => {
   const minutes = currentDate.getMinutes().toString().padStart(2, "0");
   const ampm = currentDate.getHours() >= 12 ? "PM" : "AM";
   const formattedTime = `${hours}:${minutes} ${ampm}`;
-  console.log({ engineer_info });
+  // console.log({ engineer_info });
   const eng_Name = `${engineer_info.engineerByObject.Fname} ${engineer_info.engineerByObject.Lname} `;
 
   const [getAttendenceByEng, { data: attendenceData }] = useLazyQuery(
@@ -59,12 +59,9 @@ const LoginTimer = ({ engineer_info }) => {
       const attendenceArr = attendenceData?.getAttendenceByEng?.attendence;
 
       // Get today's date in the format "30-12-2023"
-      const todayDate = new Date()
-        .toLocaleDateString("en-GB")
-        .split("/")
-        .reverse()
-        .join("-");
+      const todayDate = new Date().toLocaleDateString("en-GB");
 
+      console.log(todayDate);
       // Check if at least one element in attendenceArr has a date that matches today's date
       const hasTodayAttendence = attendenceArr.some((attendence) => {
         // Assuming attendence.date is in the format "30-12-2023"
@@ -77,6 +74,8 @@ const LoginTimer = ({ engineer_info }) => {
       }
     }
   }, [attendenceData]);
+
+  console.log(attendenceData);
 
   const handle_attendence = async () => {
     try {

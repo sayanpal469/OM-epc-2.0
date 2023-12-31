@@ -59,24 +59,28 @@ export const GET_ALL_ENGINEERS = gql`
 `;
 
 export const GET_CALLS_BY_ENGINEER = gql`
-  query GetCallsByEngineer($eng_emp: String!, $status: CallStatus!) {
-    callsByEng(eng_emp: $eng_emp, status: $status) {
-      eng_emp
-      eng_name
-      call_list {
-        call_id
-        company_name
-        company_details
-        company_location
-        company_address
-        assigned_date
-        assigned_time
-        submit_date
-        report
-        status
-      }
+query CallsByEng($engEmp: String!, $status: CallStatus!) {
+  callsByEng(eng_emp: $engEmp, status: $status) {
+    eng_emp
+    eng_name
+    call_list {
+      call_id
+      company_name
+      company_details
+      company_location
+      company_address
+      assigned_date
+      assigned_time
+      submit_date
+      visit_date
+      customer_contact
+      eng_desc
+      admin_desc
+      report
+      status
     }
   }
+}
 `;
 
 export const GET_EXPENSE_BY_STATUS = gql`

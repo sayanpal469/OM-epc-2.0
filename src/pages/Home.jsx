@@ -23,7 +23,7 @@ const Home = ({ role, engId }) => {
     setEngineer_info(data);
   }, [data, role]);
 
-  console.log({ data });
+  // console.log({ data });
   return (
     <div>
       {/* Content here */}

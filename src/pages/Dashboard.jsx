@@ -19,7 +19,7 @@ const Dashboard = ({ engineer_info }) => {
 
   const { data } = useQuery(GET_CALLS_BY_ENGINEER, {
     variables: {
-      eng_emp: eng_id,
+      engEmp: eng_id,
       status: "ALL",
     },
     context: {
@@ -28,6 +28,9 @@ const Dashboard = ({ engineer_info }) => {
       },
     },
   });
+
+
+
 
   // console.log(engineer_info.engineerByObject.eng_emp);
 

@@ -6,6 +6,8 @@ import { GET_EXPENSE_BY_ENG } from "../graphql/queries/graphql_queries";
 const ExpenseTable = ({ engineer_info }) => {
   const [searchOption, setSearchOption] = useState("");
   const [expenseTable, setExpenseTable] = useState([]);
+  const [this_month_expense_amount, setThis_month_expense_amount] =
+    useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [searchText, setSearchText] = useState("");
@@ -42,7 +44,36 @@ const ExpenseTable = ({ engineer_info }) => {
       setExpenseTable(expenseData.expenseReportByEng.expense_list);
     }
   }, [expenseData]);
-  // console.log({ engineer_info });
+
+  useEffect(() => {
+    // Function to check if a date falls within the current month
+    const isDateInCurrentMonth = (dateString) => {
+      const currentDate = new Date();
+      const [day, month, year] = dateString.split("/");
+      const dateToCheck = new Date(year, month - 1, day); // month is 0-indexed
+      return (
+        dateToCheck.getMonth() === currentDate.getMonth() &&
+        dateToCheck.getFullYear() === currentDate.getFullYear()
+      );
+    };
+
+    // Filter the expenseTable array
+    const filteredExpenses = expenseTable.filter((expense) => {
+      return (
+        expense.isApprove === "APPROVE" && isDateInCurrentMonth(expense.date)
+      );
+    });
+
+    // Calculate the sum of all expense_amount values
+    const totalExpenseAmount = filteredExpenses.reduce((sum, expense) => {
+      return sum + parseInt(expense.expense_amount, 10);
+    }, 0);
+
+    console.log(filteredExpenses);
+
+    // Set the totalExpenseAmount state or use it as needed
+    setThis_month_expense_amount(totalExpenseAmount);
+  }, [expenseTable]);
 
   const handleSave = () => {
     console.log("Selected Search Option:", searchOption);
@@ -69,7 +100,10 @@ const ExpenseTable = ({ engineer_info }) => {
   return (
     <div className="mx-5">
       {engineer_info && (
-        <AddExpense engineer_id={engineer_info.engineerByObject.eng_emp} />
+        <AddExpense
+          this_month_expense_amount={this_month_expense_amount}
+          engineer_id={engineer_info.engineerByObject.eng_emp}
+        />
       )}
       <div className="w-full flex flex-col items-center my-5 lg:flex-row lg:justify-evenly">
         <div className="lg:flex lg:items-center lg:justify-between lg:w-[30%] w-full  space-y-4 lg:space-y-0">
@@ -163,12 +197,12 @@ const ExpenseTable = ({ engineer_info }) => {
                     >
                       View
                     </button>
-                  ) : expenseTable.isApprove === "APPROVED" ? (
+                  ) : expenseTable.isApprove === "APPROVE" ? (
                     <button
                       onClick={() => {
                         // open_Call_Details_Modal(index);
                       }}
-                      className="bg-transparent hover:bg-green-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded"
+                      className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded"
                     >
                       View
                     </button>
@@ -177,7 +211,7 @@ const ExpenseTable = ({ engineer_info }) => {
                       onClick={() => {
                         // open_Call_Details_Modal(index);
                       }}
-                      className="bg-transparent hover:bg-red-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                      className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
                     >
                       View
                     </button>

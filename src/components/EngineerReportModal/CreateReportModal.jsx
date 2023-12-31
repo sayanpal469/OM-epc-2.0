@@ -54,8 +54,14 @@ const CreateReportModal = ({ closeModal }) => {
     minutes
   ).padStart(2, "0")} ${amOrPm}`;
 
+  const currentDate = new Date();
+  const day = currentDate.getDate().toString().padStart(2, "0");
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because months are zero-based
+  const year = currentDate.getFullYear().toString();
+  const formattedDate = `${day}/${month}/${year}`;
+
   const [formData, setFormData] = useState({
-    date: new Date().toISOString().split("T")[0],
+    date: formattedDate,
     company_name: "",
     call_id: "",
     eng_emp: "858",

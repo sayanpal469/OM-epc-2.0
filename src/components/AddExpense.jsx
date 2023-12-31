@@ -4,7 +4,7 @@ import { ADD_EXPENSE_MUTATION } from "../graphql/mutations/graphql.mutations";
 import { GET_CALLS_BY_ENGINEER } from "../graphql/queries/graphql_queries";
 import PropTypes from "prop-types";
 import toast, { Toaster } from "react-hot-toast";
-const AddExpense = ({ engineer_id }) => {
+const AddExpense = ({ engineer_id, this_month_expense_amount }) => {
   const [todays_call, setTodays_call] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const [engName, setEngName] = useState("");
@@ -61,7 +61,7 @@ const AddExpense = ({ engineer_id }) => {
       const timerId = setTimeout(() => {
         getCallsByEng({
           variables: {
-            eng_emp: eng_emp_id,
+            engEmp: eng_emp_id,
             status: "ALL",
           },
         });
@@ -175,7 +175,9 @@ const AddExpense = ({ engineer_id }) => {
             borderBottomLeftRadius: "50%",
           }}
         >
-          <span className="text-white text-3xl sm:text-4xl mb-2">Rs 2000</span>
+          <span className="text-white text-3xl sm:text-4xl mb-2">
+            Rs {this_month_expense_amount ? this_month_expense_amount : 0}
+          </span>
           <span className="text-white"> Upto This Month</span>
         </div>
       </div>
@@ -400,6 +402,7 @@ const AddExpense = ({ engineer_id }) => {
 
 AddExpense.propTypes = {
   engineer_id: PropTypes.string.isRequired,
+  this_month_expense_amount: PropTypes.string.isRequired,
 };
 
 export default AddExpense;

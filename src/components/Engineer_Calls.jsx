@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { GET_CALLS_BY_ENGINEER } from "../graphql/queries/graphql_queries";
@@ -13,30 +13,42 @@ const Engineer_Calls = ({ engineer_data }) => {
   const [searchCall_id, setSearchCall_id] = useState("");
   const [searchText, setSearchText] = useState("");
   const [tablesData, setTablesData] = useState([]);
-  console.log({ engineer_data });
-  const eng_emp_id =
-    engineer_data !== undefined ? engineer_data?.engineerByObject?.eng_emp : "";
-  const { data } = useQuery(GET_CALLS_BY_ENGINEER, {
-    variables: {
-      eng_emp: eng_emp_id,
-      status:
-        selectedCallTab === ""
-          ? "ALL"
-          : selectedCallTab === "Today_Calls"
-          ? "TODAY"
-          : selectedCallTab === "Pending_Calls"
-          ? "PENDING"
-          : selectedCallTab === "All_Calls"
-          ? "ALL"
-          : "",
-    },
+
+  const [getCallsByEng, { data }] = useLazyQuery(GET_CALLS_BY_ENGINEER, {
     context: {
       headers: {
         authorization: `${localStorage.getItem("token")}`,
       },
     },
+    fetchPolicy: "network-only",
   });
 
+  useEffect(() => {
+    if (engineer_data) {
+      const eng_emp_id = engineer_data?.engineerByObject?.eng_emp;
+
+      if (eng_emp_id) {
+        console.log({ eng_emp_id });
+        setTimeout(() => {
+          getCallsByEng({
+            variables: {
+              engEmp: eng_emp_id,
+              status:
+                selectedCallTab === ""
+                  ? "ALL"
+                  : selectedCallTab === "Today_Calls"
+                  ? "TODAY"
+                  : selectedCallTab === "Pending_Calls"
+                  ? "PENDING"
+                  : selectedCallTab === "All_Calls"
+                  ? "ALL"
+                  : "",
+            },
+          });
+        }, 1000);
+      }
+    }
+  }, [engineer_data, getCallsByEng, selectedCallTab]);
 
   const handleSave = () => {
     console.log("Selected Search Option:", searchOption);
@@ -105,7 +117,6 @@ const Engineer_Calls = ({ engineer_data }) => {
 
   useEffect(() => {
     if (!data) {
-      console.log("sadasdasdsads");
       setIsLoading(true);
     }
     if (data?.callsByEng?.call_list?.length > 0) {
