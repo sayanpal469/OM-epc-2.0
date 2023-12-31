@@ -60,7 +60,7 @@ const EnginnerReport_StepTwo = ({
         <label>
           <input
             type="radio"
-            name="WorkType"
+            name="work_type"
             value="Chargeable"
             checked={WorkType === "Chargeable"}
             onChange={handleChange}
