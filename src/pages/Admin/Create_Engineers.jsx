@@ -92,8 +92,8 @@ const CreateEngineers = ({ adminId }) => {
     setShowPassword(!showPassword);
   };
 
-  console.log({ data });
-  console.log({ error });
+  // console.log({ data });
+  // console.log({ error });
   // ############ For showing the Avatar name #########
 
   const getInitials = () => {
@@ -161,7 +161,13 @@ const CreateEngineers = ({ adminId }) => {
         }),
         {
           loading: "Creating Engineer...",
-          success: <b>🎉 Engineer created successfully!</b>,
+          success: ()=>{
+             <b>🎉 Engineer created successfully!</b>
+             setTimeout(() => {
+              window.location.reload()
+             }, 3000);
+          }
+          ,
           error: <b>Failed to create engineer. Please try again.</b>,
         }
       );

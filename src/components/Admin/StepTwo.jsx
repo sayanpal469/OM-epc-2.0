@@ -119,7 +119,7 @@ const StepTwo = ({
           Assigned Date
         </label>
         <input
-          type="date"
+          type="string"
           id="assigned_date"
           name="assigned_date"
           disabled="true"
