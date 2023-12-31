@@ -71,16 +71,7 @@ const RescheduleCallModal = ({
           refetch({
             variables: {
               engEmp: eng_emp,
-              status:
-                selectedCallTab_Parent === ""
-                  ? "ALL"
-                  : selectedCallTab_Parent === "Today_Calls"
-                  ? "TODAY"
-                  : selectedCallTab_Parent === "Pending_Calls"
-                  ? "PENDING"
-                  : selectedCallTab_Parent === "All_Calls"
-                  ? "ALL"
-                  : "",
+              status: "ALL",
             },
           });
 
