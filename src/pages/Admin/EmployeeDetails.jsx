@@ -62,29 +62,29 @@ const EmployeeDetails = ({ open, setOpen, EMP_id }) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+             <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                 <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                  {calls.length > 0 && (
+                  {data ? (
                     <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                      {calls.map((call) => (
-                        <div key={call.call_id}>
-                          {" "}
-                          {/* Add a unique key for each mapped element */}
-                          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            Call details
-                          </h5>
-                          <p className="font-normal text-gray-700 dark:text-gray-400">
-                            Total calls- {calls.length}
-                          </p>
-                          <p className="font-normal text-gray-700 dark:text-gray-400">
-                            Pending calls- {pendingCalls.length}
-                          </p>
-                          <p className="font-normal text-gray-700 dark:text-gray-400">
-                            Completed calls- {completedCalls.length}
-                          </p>
-                        </div>
-                      ))}
+                      <div>
+                        {" "}
+                        {/* Add a unique key for each mapped element */}
+                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                          Call details
+                        </h5>
+                        <p className="font-normal text-gray-700 dark:text-gray-400">
+                          Total calls- {calls.length}
+                        </p>
+                        <p className="font-normal text-gray-700 dark:text-gray-400">
+                          Pending calls- {pendingCalls.length}
+                        </p>
+                        <p className="font-normal text-gray-700 dark:text-gray-400">
+                          Completed calls- {completedCalls.length}
+                        </p>
+                      </div>
                     </div>
+                  ) : (
+                    <p>No calls found</p>
                   )}
                 </div>
 

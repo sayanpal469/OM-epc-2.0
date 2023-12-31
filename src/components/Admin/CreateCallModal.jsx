@@ -219,12 +219,12 @@ const CreateCallModal = ({ closeModal }) => {
               </FormizStep>
 
               {form.steps?.length && (
-                <div className="flex flex-col sm:flex-row items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-center justify-between ">
                   <div>
                     {form.currentStep?.name === "step1" && (
                       <button
                         onClick={closeModal}
-                        className="w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 bg-gray-300 rounded-md mx-2"
+                        className="w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 bg-gray-300 rounded-md mr-2"
                       >
                         Cancel
                       </button>
@@ -234,7 +234,7 @@ const CreateCallModal = ({ closeModal }) => {
                       form.currentStep?.name !== "step1" && (
                         <button
                           onClick={form.goToPreviousStep}
-                          className="w-full sm:w-auto mt-4 sm:mt-0 mx-2 px-4 py-2 bg-gray-300 rounded-md"
+                          className="w-full sm:w-auto mt-4 sm:mt-0 mr-2-2 px-4 py-2 bg-gray-300 rounded-md"
                         >
                           Previous
                         </button>
