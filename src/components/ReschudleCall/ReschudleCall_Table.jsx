@@ -23,7 +23,7 @@ const ReschudleCall_Table = ({ closeModal, selectedCallTab, selectedCall,refetch
       ) : selectedCallTab === "Submit_Report" ? (
         <CreateReportModal closeModal={closeModal} />
       ) : selectedCallTab === "Update_Status" ? (
-        <UpdateStatusModal closeModal={closeModal} />
+        <UpdateStatusModal  selectedCall={selectedCall} closeModal={closeModal} />
       ) : (
         <div className="h-full mt-40 flex justify-center items-center">
           No Calls to Show

@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { FaFilePdf } from "react-icons/fa";
 
-const CallDetailsModal = ({
+const CallDetailsModal_Admin = ({
   reportName,
   closeModal,
   selected_call_for_view,
@@ -43,13 +43,17 @@ const CallDetailsModal = ({
               {selected_call_for_view?.call_id || ""}
             </p>
             <p className="mb-4">
-              <span className="font-semibold mr-5">Assigned Date By Admin:</span>{" "}
+              <span className="font-semibold mr-5">Assigned Date By You:</span>{" "}
               {selected_call_for_view?.assigned_date || ""}
+            </p>
+            <p className="mb-4">
+              <span className="font-semibold mr-5">Assigned To:</span>{" "}
+              {selected_call_for_view?.eng_name || ""}
             </p>
             <p className="mb-4">
               {" "}
               <span className="font-semibold mr-5">
-                Submit Date By You:
+                Submit Date By Engineer:
               </span>{" "}
               {selected_call_for_view?.submit_date || ""}
             </p>
@@ -57,7 +61,7 @@ const CallDetailsModal = ({
               <span className="font-semibold mr-5">
                 Description Attached By You:
               </span>
-              {selected_call_for_view?.eng_desc || ""}
+              {selected_call_for_view?.admin_desc || ""}
             </p>
             {selected_call_for_view?.submit_date !== "-" ? (
               <div className="flex items-center">
@@ -84,14 +88,10 @@ const CallDetailsModal = ({
   );
 };
 
-CallDetailsModal.propTypes = {
-  CallID: PropTypes.string.isRequired,
-  companyName: PropTypes.string.isRequired,
-  assignedDate: PropTypes.string.isRequired,
-  submitDate: PropTypes.string.isRequired,
+CallDetailsModal_Admin.propTypes = {
   reportName: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
   selected_call_for_view: PropTypes.object.isRequired,
 };
 
-export default CallDetailsModal;
+export default CallDetailsModal_Admin;

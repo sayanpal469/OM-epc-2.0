@@ -5,7 +5,7 @@ import Reschudle_Call from "./ReschudleCall/ReschudleCall";
 
 import PropTypes from "prop-types";
 
-const AllCalls = ({ tablesData, refetch, selectedCallTab,eng_emp }) => {
+const AllCalls = ({ tablesData, refetch, selectedCallTab, eng_emp }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isReschudleModalOpen, setIsReschudleModalOpen] = useState(false);
   const [selectedCall, setSelectedCall] = useState({});
@@ -78,10 +78,7 @@ const AllCalls = ({ tablesData, refetch, selectedCallTab,eng_emp }) => {
       </table>
       {isViewModalOpen ? (
         <CallDetailsModal
-          companyName={selectedCall.company_name}
-          CallID={selectedCall.call_id}
-          assignedDate={selectedCall.assigned_date}
-          submitDate={selectedCall.submit_date}
+          selected_call_for_view={selectedCall}
           reportName="Random.pdf"
           closeModal={close_Call_Details_Modal}
         />

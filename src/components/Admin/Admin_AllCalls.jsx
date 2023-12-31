@@ -1,12 +1,11 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import CallDetailsModal from "../CallDetailsModal";
 import { JsonToExcel } from "react-json-to-excel";
 
 import Edit_Call from "./EditCall/EditCall";
 
 import useFetchCallsByStatus from "../../hooks/useFetchCallsByStatus";
-
+import CallDetailsModal_Admin from "./CallDetailsModal_Admin";
 const Admin_calls = ({ saved_search }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -134,7 +133,7 @@ const Admin_calls = ({ saved_search }) => {
             </tbody>
           </table>
           {isViewModalOpen ? (
-            <CallDetailsModal
+            <CallDetailsModal_Admin
               selected_call_for_view={selected_call_for_view}
               reportName="Random.pdf"
               closeModal={close_Call_Details_Modal}

@@ -58,14 +58,16 @@ const Reschudle_Call = ({
                 >
                   Reschudle Call
                 </button>
-                <button
-                  onClick={() => handleCallTab("Submit_Report")}
-                  className={`border py-2 w-full rounded ${buttonClasses(
-                    "Submit_Report"
-                  )}`}
-                >
-                  Submit Report
-                </button>
+                {selectedCall.submit_date === "-" && (
+                  <button
+                    onClick={() => handleCallTab("Submit_Report")}
+                    className={`border py-2 w-full rounded ${buttonClasses(
+                      "Submit_Report"
+                    )}`}
+                  >
+                    Submit Report
+                  </button>
+                )}
                 <button
                   onClick={() => handleCallTab("Update_Status")}
                   className={`border py-2 w-full rounded ${buttonClasses(
