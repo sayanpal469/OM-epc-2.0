@@ -22,7 +22,7 @@ const AddExpense = ({ engineer_id }) => {
   const day = currentDate.getDate().toString().padStart(2, "0");
   const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because months are zero-based
   const year = currentDate.getFullYear().toString();
-  const formattedDate = `${day}/${month}/${year}`;
+  const formattedDate = `${day}-${month}-${year}`;
 
   // Format the time as hh:mm AM/PM
   const hours = currentDate.getHours() % 12 || 12;

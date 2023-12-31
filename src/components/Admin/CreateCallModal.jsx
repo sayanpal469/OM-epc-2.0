@@ -49,16 +49,14 @@ const CreateCallModal = ({ closeModal }) => {
   // Convert to 12-hour format
   hours = hours % 12 || 12;
   // Determine AM or PM
-  const amOrPm = hours >= 12 ? "PM" : "AM";
+  const amOrPm = hours >= 12 ? "AM" : "PM";
 
   // Format the time
   const formattedTime = `${String(hours).padStart(2, "0")}:${String(
     minutes
   ).padStart(2, "0")} ${amOrPm}`;
-  const today = new Date();
+  
 
-  const a = new Date();
-  console.log({ a });
 
   const currentDate = new Date();
   const day = currentDate.getDate().toString().padStart(2, "0");
@@ -82,7 +80,7 @@ const CreateCallModal = ({ closeModal }) => {
     eng_desc: "-",
   });
 
-  console.log({ formData });
+
 
   const [StepOneError, setStepOneError] = useState("");
   const [ErrorDiv, setErrorDiv] = useState(false);
