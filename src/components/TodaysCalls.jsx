@@ -3,7 +3,7 @@ import CallDetailsModal from "./CallDetailsModal"; // Import your modal componen
 import { useState } from "react";
 import Reschudle_Call from "./ReschudleCall/ReschudleCall";
 
-const TodaysCalls = ({ tablesData }) => {
+const TodaysCalls = ({ tablesData, refetch, selectedCallTab,eng_emp }) => {
 
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isReschudleModalOpen, setIsReschudleModalOpen] = useState(false);
@@ -41,10 +41,10 @@ const TodaysCalls = ({ tablesData }) => {
       <table>
         <thead>
           <tr>
-            <th scope="col">Call ID</th>
+          <th scope="col">Call ID</th>
             <th scope="col">Company Name</th>
-            <th scope="col">Location</th>
             <th scope="col"> Assigned Date</th>
+            <th scope="col">Visit Date</th>
             <th scope="col">Status</th>
             <th scope="col">Submit Date</th>
             <th scope="col">Actions</th>
@@ -55,8 +55,8 @@ const TodaysCalls = ({ tablesData }) => {
             <tr key={index}>
               <td data-label="Call ID">{callDetails.call_id}</td>
               <td data-label="Company Name">{callDetails.company_name}</td>
-              <td data-label="Location">{callDetails.company_location}</td>
               <td data-label="Assigned Date">{callDetails.assigned_date}</td>
+              <td data-label="Visit Date">{callDetails.visit_date}</td>
               <td data-label="Status">{callDetails.status}</td>
               <td data-label="Submit Date">{callDetails.submit_date}</td>
               <td data-label="Actions">
@@ -91,8 +91,11 @@ const TodaysCalls = ({ tablesData }) => {
         />
       ) : isReschudleModalOpen ? (
         <Reschudle_Call
-          selectedCall={selectedCall}
-          closeModal={close_Reschudle_Details_Modal}
+        selectedCall={selectedCall}
+        closeModal={close_Reschudle_Details_Modal}
+        refetch={refetch}
+        selectedCallTab_Parent={selectedCallTab}
+        eng_emp={eng_emp}
         />
       ) : null}
     </div>
@@ -101,6 +104,9 @@ const TodaysCalls = ({ tablesData }) => {
 
 TodaysCalls.propTypes = {
   tablesData: PropTypes.any.isRequired,
+  refetch: PropTypes.func.isRequired,
+  selectedCallTab: PropTypes.string.isRequired,
+  eng_emp: PropTypes.string.isRequired,
 };
 
 export default TodaysCalls;

@@ -50,7 +50,7 @@ const AllCalls = ({ tablesData, refetch, selectedCallTab, eng_emp }) => {
               <td data-label="Call ID">{callDetails.call_id}</td>
               <td data-label="Company Name">{callDetails.company_name}</td>
               <td data-label="Assigned Date">{callDetails.assigned_date}</td>
-              <td data-label="Location">{callDetails.visit_date}</td>
+              <td data-label="Visit Date">{callDetails.visit_date}</td>
               <td data-label="Status">{callDetails.status}</td>
               <td data-label="Submit Date">{callDetails.submit_date}</td>
               <td data-label="Actions">
