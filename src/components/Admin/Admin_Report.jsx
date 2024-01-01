@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Loading from "../Loading";
-import ReportTables from "../ReportTables";
+import AdminReportTable from "./Admin_ReportTable";
 const Admin_Report = () => {
   const [selectedCallTab, setSelectedCallTab] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -8,6 +8,7 @@ const Admin_Report = () => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [searchText, setSearchText] = useState("");
+  
   const handleSave = () => {
     console.log("Selected Search Option:", searchOption);
     if (searchOption === "between_dates") {
@@ -32,6 +33,8 @@ const Admin_Report = () => {
     setFromDate("");
     setToDate("");
   };
+
+  
 
   useEffect(() => {
     const delay = setTimeout(() => {
@@ -149,7 +152,7 @@ const Admin_Report = () => {
           </div>
 
           {isLoading && <Loading />}
-          <ReportTables selectedCallTab={selectedCallTab} />
+          <AdminReportTable selectedCallTab={selectedCallTab} />
         </section>
       </div>
     </div>
