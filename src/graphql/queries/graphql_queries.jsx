@@ -243,3 +243,8 @@ query Query($engEmp: String!) {
 }
 `;
 
+export const GET_WHATSAPP_CODE = gql`
+query GetQrCode {
+  getQRCode
+}
+`;
