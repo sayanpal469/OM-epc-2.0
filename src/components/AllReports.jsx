@@ -1,7 +1,8 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
 import ReportViewModal from "./ReportViewModal";
 
-const AllReports = () => {
+const AllReports = ({tableData}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -25,12 +26,13 @@ const AllReports = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-          <td data-label="Call ID">call_08/12/2023_01</td>
-            <td data-label="Company Name">Visa - 3412</td>
-            <td data-label="Assigned Date">04/01/2016</td>
-            <td data-label="status">Yes</td>
-            <td data-label="Submit Date">04/01/2016</td>
+        {tableData?.map((data,index)=>(
+          <tr key={index}>
+          <td data-label="Call ID">{data.call_id || 'call id nei'}</td>
+            <td data-label="Company Name">{data.companyName || 'google'}</td>
+            <td data-label="Assigned Date">{data.date}</td>
+            <td data-label="status">{data.status || 'status nei'}</td>
+            <td data-label="Submit Date">{data.submit_date || 'submit date nei'}</td>
             <td data-label="Actions">
               <button
                 onClick={openModal}
@@ -40,36 +42,9 @@ const AllReports = () => {
               </button>
             </td>
           </tr>
-          <tr>
-          <td data-label="Call ID">call_08/12/2023_01</td>
-            <td data-label="Company Name">Visa - 3412</td>
-            <td data-label="Assigned Date">04/01/2016</td>
-            <td data-label="status">No</td>
-            <td data-label="Submit Date">NIL</td>
-            <td data-label="Actions">
-              <button
-                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded cursor-not-allowed opacity-50"
-                disabled
-              >
-                Not Available
-              </button>
-            </td>
-          </tr>
-          <tr>
-          <td data-label="Call ID">call_08/12/2023_01</td>
-            <td data-label="Company Name">Visa - 3412</td>
-            <td data-label="Assigned Date">04/01/2016</td>
-            <td data-label="status">Yes</td>
-            <td data-label="Submit Date">04/01/2016</td>
-            <td data-label="Actions">
-              <button
-                onClick={openModal}
-                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-              >
-                View
-              </button>
-            </td>
-          </tr>
+        ))}
+          
+
         </tbody>
       </table>
       {isModalOpen && (
@@ -84,5 +59,7 @@ const AllReports = () => {
     </div>
   );
 };
-
+AllReports.propTypes = {
+  tableData:PropTypes.array.isRequired
+};
 export default AllReports;

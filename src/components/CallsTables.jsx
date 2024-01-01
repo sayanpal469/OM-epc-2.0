@@ -4,7 +4,7 @@ import NewCalls from "./NewCalls";
 import PendingCalls from "./PendingCalls";
 import TodaysCalls from "./TodaysCalls";
 
-const CallsTables = ({ selectedCallTab, tablesData, refetch,eng_emp }) => {
+const CallsTables = ({ selectedCallTab, tablesData, refetch, eng_emp }) => {
   return (
     <div className="px-4">
       {selectedCallTab === "" || selectedCallTab === "All_Calls" ? (
@@ -15,22 +15,22 @@ const CallsTables = ({ selectedCallTab, tablesData, refetch,eng_emp }) => {
           eng_emp={eng_emp}
         />
       ) : selectedCallTab === "Today_Calls" ? (
-        <TodaysCalls 
-        refetch={refetch}
+        <TodaysCalls
+          refetch={refetch}
           tablesData={tablesData}
           selectedCallTab={selectedCallTab}
           eng_emp={eng_emp}
-           />
+        />
       ) : selectedCallTab === "Pending_Calls" ? (
-        <PendingCalls 
-        refetch={refetch}
-         tablesData={tablesData}
-        selectedCallTab={selectedCallTab}
-        eng_emp={eng_emp}
+        <PendingCalls
+          refetch={refetch}
+          tablesData={tablesData}
+          selectedCallTab={selectedCallTab}
+          eng_emp={eng_emp}
         />
       ) : selectedCallTab === "New_Calls" ? (
-        <NewCalls 
-        refetch={refetch}
+        <NewCalls
+          refetch={refetch}
           tablesData={tablesData}
           selectedCallTab={selectedCallTab}
           eng_emp={eng_emp}
@@ -48,7 +48,7 @@ CallsTables.propTypes = {
   selectedCallTab: PropTypes.any,
   tablesData: PropTypes.any.isRequired,
   refetch: PropTypes.func.isRequired,
-  eng_emp:PropTypes.string.isRequired
+  eng_emp: PropTypes.string.isRequired,
 };
 
 export default CallsTables;

@@ -52,7 +52,7 @@ function App() {
         },
         {
           path: "/reports",
-          element: <PrivateRoute element={<Reports role={role} />} />,
+          element: <PrivateRoute element={<Reports role={role} engId={engId} />} />,
         },
         {
           path: "/create-engineers",

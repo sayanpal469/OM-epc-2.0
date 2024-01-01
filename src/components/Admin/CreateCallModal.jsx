@@ -132,7 +132,7 @@ const CreateCallModal = ({ closeModal, refetch }) => {
         // console.log("Submitting form", values);
         await fakeDelay();
 
-        const data = await toast.promise(
+        await toast.promise(
           createCallMutation({
             variables: {
               call: formData,

@@ -16,7 +16,7 @@ import { ADD_REPORT_MUTATION } from "../../graphql/mutations/graphql.mutations";
 import { useMutation } from "@apollo/client";
 
 const fakeDelay = (delay = 500) => new Promise((r) => setTimeout(r, delay));
-const CreateReportModal = ({ closeModal, eng_emp }) => {
+const CreateReportModal = ({ closeModal, eng_emp , selectedCall }) => {
   const [addReportMutation] = useMutation(ADD_REPORT_MUTATION, {
     context: {
       headers: {
@@ -34,7 +34,7 @@ const CreateReportModal = ({ closeModal, eng_emp }) => {
       document.body.style.overflow = "auto";
     };
   }, []);
-
+  
   // Time Configuration
   // Get the current date and time
   const currentTime = new Date();
@@ -59,11 +59,12 @@ const CreateReportModal = ({ closeModal, eng_emp }) => {
   const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because months are zero-based
   const year = currentDate.getFullYear().toString();
   const formattedDate = `${day}-${month}-${year}`;
-
+  
+  console.log({selectedCall})
   const [formData, setFormData] = useState({
     date: formattedDate,
-    company_name: "",
-    call_id: "",
+    company_name: selectedCall.company_name,
+    call_id: selectedCall.call_id,
     eng_emp: eng_emp,
     complain_id: "",
     client_name: "",
@@ -272,7 +273,7 @@ const CreateReportModal = ({ closeModal, eng_emp }) => {
   const isLoading = form.isSubmitting;
 
   return (
-    <div className="h-screen fixed inset-0 z-10 overflow-y-hidden bg-gray-100">
+    <div className="h-screen fixed inset-0 z-10  bg-gray-100">
       <div className="w-full h-full px-10 py-4 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">
         <Formiz connect={form}>
           <form noValidate onSubmit={handleSubmitStep}>
@@ -515,6 +516,7 @@ const CreateReportModal = ({ closeModal, eng_emp }) => {
 CreateReportModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   eng_emp: PropTypes.string.isRequired,
+  selectedCall: PropTypes.object.isRequired,
 };
 
 export default CreateReportModal;
