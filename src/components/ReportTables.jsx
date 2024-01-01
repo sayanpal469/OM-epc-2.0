@@ -11,7 +11,7 @@ const ReportTables = ({ selectedCallTab , tableData,eng_name }) => {
       {selectedCallTab === "" || selectedCallTab === "All_Reports" ? (
         <AllReports   tableData = {tableData} eng_name={eng_name}/>
       ) : selectedCallTab === "Today's_Reports" ? (
-        <TodaysReports />
+        <TodaysReports tableData = {tableData} eng_name={eng_name} />
       ) : selectedCallTab === "Submitted_Reports" ? (
         <SubmittedReports />
       ) : selectedCallTab === "Create_Report" ? (

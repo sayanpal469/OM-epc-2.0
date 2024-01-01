@@ -16,16 +16,10 @@ import {
   ADD_REPORT_MUTATION,
   UPDATE_CALL_AFTER_SUBMIT_REPORT_BY_ENG,
 } from "../../graphql/mutations/graphql.mutations";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_ENGINEER } from "../../graphql/queries/graphql_queries";
 
-import {
-  BlobProvider,
-  Page,
-  Document,
-  StyleSheet,
-  pdf,
-} from "@react-pdf/renderer";
+import { Page, Document, StyleSheet, pdf } from "@react-pdf/renderer";
 import Header from "../ReportPdf/PdfHeader";
 import Part1 from "../ReportPdf/PdfPart1";
 import Part2 from "../ReportPdf/PdfPart2";
@@ -152,7 +146,7 @@ const CreateReportModal = ({
     }
   }, [data]);
 
-  const eng_name = `${engineer_data.Fname} ${engineer_data.Lname}`;
+  const eng_name = `${engineer_data?.Fname} ${engineer_data?.Lname}`;
 
   console.log({ engineer_data });
   console.log({ eng_name });
@@ -459,53 +453,33 @@ const CreateReportModal = ({
 
   const form = useForm({
     onSubmit: async () => {
-      const Result = {
-        ...formData,
-        battery_test_report: BatteryData,
-        eng_sign: engSign,
-      };
-      console.log("Submitting form", Result);
-      await fakeDelay();
-
-      console.log({ Result });
       try {
-        let blobPDF = await pdf(myDoc()).toBlob();
+        const Result = {
+          ...formData,
+          battery_test_report: BatteryData,
+          eng_sign: engSign,
+        };
+        console.log("Submitting form", Result);
+        await fakeDelay();
 
+        console.log({ Result });
+        let blobPDF = await pdf(myDoc()).toBlob();
         console.log({ blobPDF });
 
         // Upload the PDF Blob to Firebase Storage
-        const downloadURL = await uploadPdfToStorage(
+        const pdfDownloadURL = await uploadPdfToStorage(
           blobPDF,
           selectedCall.call_id
         );
+        console.log("PDF Upload URL:", pdfDownloadURL);
 
-        // console.log("dasdsad", downloadURL);
-        console.log("123", formData.site_images);
-
-        uploadImages({ files: formData.site_images })
-          .then((downloadURLs) => {
-            // Handle the download URLs if needed
-            console.log("Download URLs:", downloadURLs);
-          })
-          .catch((error) => {
-            // Handle errors
-            console.error("Error uploading images:", error);
-          });
-
-        await Update_Call({
-          variables: {
-            callId: selectedCall.call_id,
-            engEmp: eng_emp,
-            updateCall: {
-              report: downloadURL,
-              status: "COMPLETED",
-              submit_date: formattedDate,
-            },
-          },
-          fetchPolicy: "network-only",
+        // Upload images to Firebase Storage
+        const imagesDownloadURLs = await uploadImages({
+          files: formData.site_images,
         });
+        console.log("Images Upload URLs:", imagesDownloadURLs);
 
-        // Execute the mutation with the form data and context token
+        // Execute the mutation with the form data and uploaded URLs
         await addReportMutation({
           variables: {
             report: {
@@ -520,16 +494,33 @@ const CreateReportModal = ({
               client_name: selectedCall.company_name,
               contact: selectedCall.customer_contact,
               address: selectedCall.company_address,
+              site_images: imagesDownloadURLs,
             },
           },
         });
-        // Handle the response data if needed
+        await Update_Call({
+          variables: {
+            callId: selectedCall.call_id,
+            engEmp: eng_emp,
+            updateCall: {
+              report: pdfDownloadURL,
+              status: "COMPLETED",
+              submit_date: formattedDate,
+            },
+          },
+          fetchPolicy: "network-only",
+        });
+
+        // Execute the mutation with the form data and context token
 
         // Close the modal after submitting the form
         closeModal();
+        setTimeout(()=>{
+          window.location.reload()
+        },1000)
       } catch (error) {
-        // Handle errors if the mutation fails
-        console.error("Mutation Error:", error);
+        // Handle errors if any of the operations fail
+        console.error("Form Submission Error:", error);
       }
     },
   });
