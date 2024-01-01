@@ -4,7 +4,7 @@ import { ADD_EXPENSE_MUTATION } from "../graphql/mutations/graphql.mutations";
 import { GET_CALLS_BY_ENGINEER } from "../graphql/queries/graphql_queries";
 import PropTypes from "prop-types";
 import toast, { Toaster } from "react-hot-toast";
-const AddExpense = ({ engineer_id, this_month_expense_amount }) => {
+const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
   const [todays_call, setTodays_call] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const [engName, setEngName] = useState("");
@@ -18,6 +18,7 @@ const AddExpense = ({ engineer_id, this_month_expense_amount }) => {
     },
   });
   // Get the current date and time
+
   const currentDate = new Date();
   const day = currentDate.getDate().toString().padStart(2, "0");
   const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because months are zero-based
@@ -78,6 +79,8 @@ const AddExpense = ({ engineer_id, this_month_expense_amount }) => {
       const filteredArray = data?.callsByEng?.call_list.filter((callDetail) => {
         return callDetail.assigned_date === today;
       });
+      console.log({ filteredArray });
+
       setTodays_call(filteredArray);
       setEngName(data.callsByEng.eng_name);
       setEngEmpId(data.callsByEng.eng_id);
@@ -129,8 +132,13 @@ const AddExpense = ({ engineer_id, this_month_expense_amount }) => {
         }
       );
 
-      // Handle the response data if needed
-      console.log("Mutation Response:", data);
+      if (data) {
+        refetch({
+          variables: {
+            engEmp: eng_emp_id,
+          },
+        });
+      }
 
       // Close the modal after submitting the form
       closeModal();
@@ -403,6 +411,7 @@ const AddExpense = ({ engineer_id, this_month_expense_amount }) => {
 AddExpense.propTypes = {
   engineer_id: PropTypes.string.isRequired,
   this_month_expense_amount: PropTypes.string.isRequired,
+  refetch: PropTypes.func.isRequired,
 };
 
 export default AddExpense;

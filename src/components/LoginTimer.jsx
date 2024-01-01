@@ -61,7 +61,7 @@ const LoginTimer = ({ engineer_info }) => {
       // Get today's date in the format "30-12-2023"
       const todayDate = new Date().toLocaleDateString("en-GB");
 
-      console.log(todayDate);
+      // console.log(todayDate);
       // Check if at least one element in attendenceArr has a date that matches today's date
       const hasTodayAttendence = attendenceArr.some((attendence) => {
         // Assuming attendence.date is in the format "30-12-2023"
@@ -105,7 +105,7 @@ const LoginTimer = ({ engineer_info }) => {
 
   return (
     <div className="mr-4">
-      {!clockIn && (
+      {!clockIn ? (
         <button
           className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           onClick={() => {
@@ -114,6 +114,17 @@ const LoginTimer = ({ engineer_info }) => {
           }}
         >
           Web Log In
+        </button>
+      ) : (
+        <button
+          disabled={true}
+          className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          // onClick={() => {
+          //   setClockIn(!clockIn);
+          //   handle_attendence();
+          // }}
+        >
+          Attendence Submitted
         </button>
       )}
     </div>
