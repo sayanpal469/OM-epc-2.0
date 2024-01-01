@@ -31,7 +31,7 @@ const TodaysCalls = ({ tablesData, refetch, selectedCallTab,eng_emp }) => {
   // console.log({today});
 
   const filteredArray = tablesData.filter((callDetail) => {
-    return callDetail.assigned_date === today;
+    return callDetail.visit_date === '01-01-2024';
   });
 
   console.log(filteredArray);
