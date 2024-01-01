@@ -1,4 +1,3 @@
-
 import PropTypes from "prop-types";
 import { useState } from "react";
 import Edit_Call from "./EditCall/EditCall";
@@ -7,11 +6,10 @@ const Admin_TodaysCalls = ({ saved_search, calls, refetch }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selected_call_for_view, setSelected_call_for_view] = useState({});
- 
+
   const filteredCalls = () => {
     if (!saved_search || !saved_search.option || !saved_search.value) {
-      // No saved search, return all calls
-      return calls;
+      return calls.filter((call) => call.assigned_date === "01-01-2024");
     }
 
     // Filter based on savedSearch
@@ -24,9 +22,6 @@ const Admin_TodaysCalls = ({ saved_search, calls, refetch }) => {
         call.eng_name.toLowerCase().includes(saved_search.value.toLowerCase())
       );
     }
-
-    // Default: return all calls
-    return calls;
   };
   const open_Call_Details_Modal = () => {
     setIsViewModalOpen(true);
@@ -102,7 +97,7 @@ const Admin_TodaysCalls = ({ saved_search, calls, refetch }) => {
             />
           ) : isEditModalOpen ? (
             <Edit_Call
-            refetch={refetch}
+              refetch={refetch}
               selected_call_for_view={selected_call_for_view}
               closeModal={close_Edit_Modal}
             />
