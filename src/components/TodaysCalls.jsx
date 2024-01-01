@@ -28,10 +28,10 @@ const TodaysCalls = ({ tablesData, refetch, selectedCallTab,eng_emp }) => {
 
   console.log({ tablesData });
   const today = new Date().toLocaleDateString('en-GB').replace(/\//g, '-'); // Get the current date in the format "DD-MM-YYYY"
-  // console.log({today});
+  console.log({today});
 
   const filteredArray = tablesData.filter((callDetail) => {
-    return callDetail.assigned_date === today;
+    return callDetail.visit_date === today;
   });
 
   console.log(filteredArray);
