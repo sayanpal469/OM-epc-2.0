@@ -191,21 +191,6 @@ const ReportViewModal = ({ selectedReport, closeModal, eng_name }) => {
       </Page>
     </Document>
   );
-  const upload = () => {
-    if (image == null) return;
-
-    // Create a reference to the storage path where you want to upload the image
-    const storageRef = ref(pdfDB, `/images/${image.name}`);
-
-    // Upload the image to Firebase Storage
-    uploadBytes(storageRef, image)
-      .then((snapshot) => {
-        console.log("Image uploaded successfully!", snapshot);
-      })
-      .catch((error) => {
-        console.error("Error uploading image:", error);
-      });
-  };
 
   useEffect(() => {
     // Apply overflow-hidden to body when the modal is open
@@ -216,71 +201,22 @@ const ReportViewModal = ({ selectedReport, closeModal, eng_name }) => {
       document.body.style.overflow = "auto";
     };
   }, []);
-  const [pdfUrl, setPdfUrl] = useState(null);
-  const uploadPdfToStorage = async (blob) => {
-    try {
-      // Create a reference to the storage path where you want to upload the PDF
-      const storageRef = ref(pdfDB, "/reports/report111");
+  // const sendWhatsAppMessage = () => {
+  //   // Replace 'YourEncodedMessage' and 'YourEncodedURL' with the message and URL you want to share
+  //   const message = encodeURIComponent("Check out this link:");
+  //   const url = encodeURIComponent(pdfUrl);
 
-      // Upload the PDF Blob to Firebase Storage
-      const snapshot = await uploadBytes(storageRef, blob);
+  //   console.log(url);
+  //   // Construct the WhatsApp share link
+  //   const whatsappLink = `https://wa.me/${7872358979}?text=${message}%20${url}`;
 
-      console.log("Uploaded a blob or file!", snapshot);
+  //   // Open WhatsApp with the pre-filled message
+  //   window.open(whatsappLink, "_blank");
+  // };
 
-      // Get the download URL of the uploaded PDF
-      const downloadURL = await getDownloadURL(storageRef);
-      setPdfUrl(downloadURL);
-      console.log("Download URL:", downloadURL);
-    } catch (error) {
-      console.error("Error uploading PDF to Firebase Storage:", error);
-    }
-  };
 
-  console.log("pdfUrl", pdfUrl);
-  const sendWhatsAppMessage = () => {
-    // Replace 'YourEncodedMessage' and 'YourEncodedURL' with the message and URL you want to share
-    const message = encodeURIComponent("Check out this link:");
-    const url = encodeURIComponent(pdfUrl);
 
-    console.log(url);
-    // Construct the WhatsApp share link
-    const whatsappLink = `https://wa.me/${7872358979}?text=${message}%20${url}`;
-
-    // Open WhatsApp with the pre-filled message
-    window.open(whatsappLink, "_blank");
-  };
-
-  const handleSave = async () => {
-    console.log({ selectedReport });
-    try {
-      // Execute the mutation with the form data and context token
-      const { data } = await Update_Call({
-        variables: {
-            callId: selectedReport.call_id,
-            engEmp: selectedReport.eng_emp,
-            updateCall: {
-              report: pdfUrl,
-              status: "COMPLETED",
-              submit_date: selectedReport.date,
-            },
-        },
-        fetchPolicy: "network-only",
-      });
-      // Close the modal after submitting the form
-    } catch (error) {
-      // Handle errors if the mutation fails
-      console.error("Mutation Error:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (pdfUrl.length > 5) {
-      setTimeout(() => {
-        handleSave();
-      }, 2000);
-      console.log("asdasdsad");
-    }
-  }, [pdfUrl]);
+ 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
@@ -317,31 +253,14 @@ const ReportViewModal = ({ selectedReport, closeModal, eng_name }) => {
             </p>
 
             <div className="flex my-2">
-              <BlobProvider document={myDocs}>
-                {({ url, blob }) => {
-                  console.log({ url });
-                  console.log({ blob });
-                  return (
-                    <button
-                      onClick={() => {
-                        uploadPdfToStorage(blob);
-                      }}
-                    >
-                      <span className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 sm:px-6 border border-blue-500 hover:border-transparent rounded mb-2 sm:mb-0 w-full sm:w-auto mr-2">
-                        Send To Admin
-                      </span>
-                    </button>
-                  );
-                }}
-              </BlobProvider>
               <PDFDownloadLink document={myDocs} fileName="Report.pdf">
                 <div>
                   <span className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 sm:px-6 border border-blue-500 hover:border-transparent rounded mb-2 sm:mb-0 w-full sm:w-auto">
-                    Download
+                    Download PDF
                   </span>
                 </div>
               </PDFDownloadLink>
-              <button onClick={sendWhatsAppMessage}>Share on WhatsApp</button>
+              {/* <button onClick={sendWhatsAppMessage}>Share on WhatsApp</button> */}
             </div>
           </div>
           {/* Footer */}

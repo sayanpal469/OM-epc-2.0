@@ -97,38 +97,15 @@ const EnginnerReport_StepEight = ({
               </tr>
             </thead>
             <tbody>
-              <tbody>
-                {BatteryData.map((data, index) => {
-                  return (
-                    <tr key={index}>
-                      <td data-label={BatteryDataInput[index]}>
-                        {data.battery_catch_code}
-                      </td>
-                      <td data-label={BatteryDataInput[index]}>
-                        {data.with_mains}
-                      </td>
-                      <td data-label={BatteryDataInput[index]}>
-                        {data.without_mains}
-                      </td>
-                      <td data-label={BatteryDataInput[index]}>
-                        {data.after_5_min}
-                      </td>
-                      <td data-label={BatteryDataInput[index]}>
-                        {data.after_10_min}
-                      </td>
-                      <td data-label={BatteryDataInput[index]}>
-                        {data.after_20_min}
-                      </td>
-                      <td data-label={BatteryDataInput[index]}>
-                        {data.after_40_min}
-                      </td>
-                      <td data-label={BatteryDataInput[index]}>
-                        {data.after_1_hour}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
+              {BatteryData.map((data, index) => (
+                <tr key={index}>
+                  {Object.keys(BatteryDataInput).map((key, columnIndex) => (
+                    <td key={columnIndex} data-label={key}>
+                      {data[key]}
+                    </td>
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

@@ -200,8 +200,9 @@ const ExpenseTable = ({ engineer_info }) => {
                 <td data-label="Actions">
                   {expenseTable.isApprove === "PENDING" ? (
                     <button
-                      // onClick={() => open_Reschudle_Details_Modal(index)}
-                      className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                      disabled={true}
+                     
+                      className="bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded"
                     >
                       View
                     </button>

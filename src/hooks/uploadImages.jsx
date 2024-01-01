@@ -6,7 +6,8 @@ const uploadImages = async ({ files }) => {
   console.log({ files });
   if (!files || files.length === 0) {
     console.warn("No files to upload");
-    return;
+    const downloadURLs = [];
+    return downloadURLs;
   }
 
   // Array to store download URLs
@@ -15,7 +16,7 @@ const uploadImages = async ({ files }) => {
   // Iterate over the array of files and upload each one
   const promises = files.map((file, index) => {
     // Create a unique filename for each file
-    const imageName = `image_${index + 1}.${file.name.split('.').pop()}`;
+    const imageName = `image_${index + 1}.${file.name.split(".").pop()}`;
 
     // Create a reference to the storage path where you want to upload the file
     const storageRef = ref(pdfDB, imageName); // replace with your actual storage path

@@ -93,7 +93,7 @@ const CallDetailsModal = ({
               </span>
               {selected_call_for_view?.admin_desc || ""}
             </p>
-            {selected_call_for_view.report.length > 2005 ? (
+            {selected_call_for_view.report.length > 5 ? (
               <a
                 href={selected_call_for_view.report}
                 target="_blank"
@@ -101,22 +101,11 @@ const CallDetailsModal = ({
                 className="flex items-center"
               >
                 <span className="mr-2 cursor-pointer text-blue-500">
-                  {reportName}
+                  view PDF
                 </span>
                 <FaFilePdf className="text-red-500" />
               </a>
-            ) : (
-              <a
-                href={selected_call_for_view.report}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="flex items-center"
-              >
-                <span className="mr-2 cursor-pointer text-blue-500">
-                  Send Report to Admin
-                </span>
-              </a>
-            )}
+            ) : null}
           </div>
           {/* Footer */}
           <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
