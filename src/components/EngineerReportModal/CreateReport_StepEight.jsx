@@ -84,7 +84,7 @@ const EnginnerReport_StepEight = ({
       </div>
       {showTable ? (
         <div
-          style={{ border: "1px solid red", width: "100%", overflow: "scroll" }}
+          style={{ width: "100%", overflow: "scroll" }}
         >
           <table>
             <thead className="text-sm">
