@@ -1,4 +1,5 @@
 
+
 const Qr_code = () => {
   return (
     <div>
