@@ -20,6 +20,8 @@ import Part3 from "./ReportPdf/PdfPart3";
 import Footer from "./ReportPdf/PdfFooter";
 import { saveAs } from "file-saver";
 import pdfDB from "./pdf_config/pdfConfig";
+import { useMutation } from "@apollo/client";
+import { UPDATE_CALL_AFTER_SUBMIT_REPORT_BY_ENG } from "../graphql/mutations/graphql.mutations";
 
 const styles = StyleSheet.create({
   page: {
@@ -91,10 +93,18 @@ const styles = StyleSheet.create({
   tbody2: { flex: 2, borderRightWidth: 1 },
 });
 
-const ReportViewModal = ({ selectedReport, closeModal,eng_name }) => {
+const ReportViewModal = ({ selectedReport, closeModal, eng_name }) => {
   const metadata = {
     contentType: "application/pdf",
   };
+
+  const [Update_Call] = useMutation(UPDATE_CALL_AFTER_SUBMIT_REPORT_BY_ENG, {
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`,
+      },
+    },
+  });
 
   const [image, setImage] = useState("");
   const myDocs = (
@@ -102,8 +112,9 @@ const ReportViewModal = ({ selectedReport, closeModal,eng_name }) => {
       <Page size="A4" style={styles.page}>
         <Header />
         <Part1
-          complain_id={selectedReport.complain_id}
+          complain_id={selectedReport.call_id}
           customer_name={selectedReport.company_name}
+          customer_contact={selectedReport.contact}
           client_name={selectedReport.client_name}
           atm_id={selectedReport.atm_id}
           contact={selectedReport.customer_contact}
@@ -154,8 +165,12 @@ const ReportViewModal = ({ selectedReport, closeModal,eng_name }) => {
           AcOutputSinglePhase_LN={
             selectedReport.ac_output_single_phase.ac_output_single_phase_LN
           }
-          AcOutputSinglePhase_NE={""}
-          AcOutputSinglePhase_LE={""}
+          AcOutputSinglePhase_NE={
+            selectedReport.ac_output_single_phase.ac_output_single_phase_NE
+          }
+          AcOutputSinglePhase_LE={
+            selectedReport.ac_output_single_phase.ac_output_single_phase_LE
+          }
           UpsInvertDCV={selectedReport.DC.V}
           DCV_WithMains={selectedReport.DC.V_withMains}
           DCV_WithoutMains={selectedReport.DC.V_withoutMains}
@@ -235,6 +250,38 @@ const ReportViewModal = ({ selectedReport, closeModal,eng_name }) => {
     window.open(whatsappLink, "_blank");
   };
 
+  const handleSave = async () => {
+    console.log({ selectedReport });
+    try {
+      // Execute the mutation with the form data and context token
+      const { data } = await Update_Call({
+        variables: {
+            callId: selectedReport.call_id,
+            engEmp: selectedReport.eng_emp,
+            updateCall: {
+              report: pdfUrl,
+              status: "COMPLETED",
+              submit_date: selectedReport.date,
+            },
+        },
+        fetchPolicy: "network-only",
+      });
+      // Close the modal after submitting the form
+    } catch (error) {
+      // Handle errors if the mutation fails
+      console.error("Mutation Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (pdfUrl.length > 5) {
+      setTimeout(() => {
+        handleSave();
+      }, 2000);
+      console.log("asdasdsad");
+    }
+  }, [pdfUrl]);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
       <div className="relative w-full h-full max-w-screen-md mx-auto my-6 bg-opacity-50 backdrop-filter backdrop-blur-md">
@@ -261,11 +308,12 @@ const ReportViewModal = ({ selectedReport, closeModal,eng_name }) => {
               {selectedReport.date}
             </p>
             <p className="mb-4">
-              <span className="font-semibold mr-5">Location :</span> Esplanade
+              <span className="font-semibold mr-5">Location :</span>{" "}
+              {selectedReport.address}
             </p>
             <p className="mb-4">
               <span className="font-semibold mr-5">Objective :</span>{" "}
-              Replacement of UPS Battery
+              {selectedReport.nature_of_complaint}
             </p>
 
             <div className="flex my-2">
@@ -280,7 +328,7 @@ const ReportViewModal = ({ selectedReport, closeModal,eng_name }) => {
                       }}
                     >
                       <span className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 sm:px-6 border border-blue-500 hover:border-transparent rounded mb-2 sm:mb-0 w-full sm:w-auto mr-2">
-                        Print
+                        Send To Admin
                       </span>
                     </button>
                   );

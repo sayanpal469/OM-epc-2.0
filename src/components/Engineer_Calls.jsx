@@ -120,7 +120,7 @@ const Engineer_Calls = ({ engineer_data }) => {
       setIsLoading(true);
     }
     if (data?.callsByEng?.call_list?.length > 0) {
-      console.log('123@@@@@21321',data);
+      console.log("123@@@@@21321", data);
       setTablesData(data?.callsByEng?.call_list);
     }
   }, [data]);
@@ -261,7 +261,8 @@ const Engineer_Calls = ({ engineer_data }) => {
             tablesData={tablesData}
             refetch={getCallsByEng}
             selectedCallTab={selectedCallTab}
-            eng_emp = {engineer_data?.engineerByObject?.eng_emp}
+            engineer_data={engineer_data?.engineerByObject}
+            eng_emp={engineer_data?.engineerByObject?.eng_emp}
           />
         </section>
       </div>

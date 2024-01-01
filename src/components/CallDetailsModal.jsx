@@ -1,13 +1,39 @@
+import { useLazyQuery, useQuery } from "@apollo/client";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { FaFilePdf } from "react-icons/fa";
+import { GET_REPORT_BY_ENG } from "../graphql/queries/graphql_queries";
 
 const CallDetailsModal = ({
   reportName,
   closeModal,
   selected_call_for_view,
+  eng_emp,
 }) => {
+  const { data } = useQuery(GET_REPORT_BY_ENG, {
+    variables: {
+      engEmp: eng_emp,
+    },
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`,
+      },
+    },
+    fetchPolicy: "network-only",
+  });
+
+  useEffect(() => {
+    if (data) {
+      const currentDate = new Date();
+      const day = currentDate.getDate().toString().padStart(2, "0");
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because months are zero-based
+      const year = currentDate.getFullYear().toString();
+      const formattedDate = `${day}-${month}-${year}`;
+    }
+  }, [data]);
+
   console.log({ selected_call_for_view });
+
   useEffect(() => {
     // Apply overflow-hidden to body when the modal is open
     document.body.style.overflow = "hidden";
@@ -43,7 +69,9 @@ const CallDetailsModal = ({
               {selected_call_for_view?.call_id || ""}
             </p>
             <p className="mb-4">
-              <span className="font-semibold mr-5">Assigned Date By Admin:</span>{" "}
+              <span className="font-semibold mr-5">
+                Assigned Date By Admin:
+              </span>{" "}
               {selected_call_for_view?.assigned_date || ""}
             </p>
             <p className="mb-4">
@@ -59,14 +87,36 @@ const CallDetailsModal = ({
               </span>
               {selected_call_for_view?.eng_desc || ""}
             </p>
-            {selected_call_for_view?.submit_date !== "-" ? (
-              <div className="flex items-center">
+            <p className="mb-4">
+              <span className="font-semibold mr-5">
+                Description Attached By Admin:
+              </span>
+              {selected_call_for_view?.admin_desc || ""}
+            </p>
+            {selected_call_for_view.report.length > 2005 ? (
+              <a
+                href={selected_call_for_view.report}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="flex items-center"
+              >
                 <span className="mr-2 cursor-pointer text-blue-500">
                   {reportName}
                 </span>
                 <FaFilePdf className="text-red-500" />
-              </div>
-            ) : null}
+              </a>
+            ) : (
+              <a
+                href={selected_call_for_view.report}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="flex items-center"
+              >
+                <span className="mr-2 cursor-pointer text-blue-500">
+                  Send Report to Admin
+                </span>
+              </a>
+            )}
           </div>
           {/* Footer */}
           <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
@@ -92,6 +142,7 @@ CallDetailsModal.propTypes = {
   reportName: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
   selected_call_for_view: PropTypes.object.isRequired,
+  eng_emp: PropTypes.string.isRequired,
 };
 
 export default CallDetailsModal;

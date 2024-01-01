@@ -103,14 +103,14 @@ console.log({engineer_data})
         <section className="w-full h-full">
           <div className="lg:flex lg:justify-between lg:items-center flex-col p-5 space-y-5">
             <div className="flex lg:flex-row sm:space-y-0 lg:w-[50%] w-[100%] space-y-5  flex-col justify-center items-end space-x-4">
-              <button
+              {/* <button
                 onClick={() => handleCallTab("Submitted_Reports")}
                 className={`border py-2 w-full rounded ${buttonClasses(
                   "Submitted_Reports"
                 )}`}
               >
                 Submitted Reports
-              </button>
+              </button> */}
               <button
                 onClick={() => handleCallTab("Today's_Reports")}
                 className={`border py-2 w-full rounded ${buttonClasses(

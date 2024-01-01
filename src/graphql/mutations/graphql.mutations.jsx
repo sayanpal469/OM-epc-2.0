@@ -205,3 +205,37 @@ export const RESCHEDULE_CALL_BY_ENG__MUTATION = gql`
     }
   }
 `;
+
+export const UPDATE_CALL_AFTER_SUBMIT_REPORT_BY_ENG = gql`
+  mutation UpdateCallByEng(
+    $callId: String!
+    $engEmp: String!
+    $updateCall: UpdateCallInput!
+  ) {
+    updateCallByEng(
+      call_id: $callId
+      eng_emp: $engEmp
+      updateCall: $updateCall
+    ) {
+      _id
+      company_name
+      company_details
+      company_location
+      company_address
+      eng_name
+      eng_emp
+      assigned_date
+      assigned_time
+      eng_desc
+      admin_desc
+      call_id
+      customer_contact
+      submit_date
+      visit_date
+      completed
+      expense_amount
+      report
+      status
+    }
+  }
+`;

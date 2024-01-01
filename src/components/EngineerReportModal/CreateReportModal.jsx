@@ -12,13 +12,114 @@ import EnginnerReport_StepSeven from "./CreateReport_StepSeven";
 import EnginnerReport_StepEight from "./CreateReport_StepEight";
 import EnginnerReport_StepFive from "./CreateReport_StepFive";
 import EnginnerReport_StepNine from "./CreateReport_StepNine";
-import { ADD_REPORT_MUTATION } from "../../graphql/mutations/graphql.mutations";
+import {
+  ADD_REPORT_MUTATION,
+  UPDATE_CALL_AFTER_SUBMIT_REPORT_BY_ENG,
+} from "../../graphql/mutations/graphql.mutations";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { GET_ENGINEER } from "../../graphql/queries/graphql_queries";
 
+import {
+  BlobProvider,
+  Page,
+  Document,
+  StyleSheet,
+  pdf,
+} from "@react-pdf/renderer";
+import Header from "../ReportPdf/PdfHeader";
+import Part1 from "../ReportPdf/PdfPart1";
+import Part2 from "../ReportPdf/PdfPart2";
+import Part3 from "../ReportPdf/PdfPart3";
+import Footer from "../ReportPdf/PdfFooter";
+import { uploadPdfToStorage } from "../../hooks/uploadPdfToStorage";
+import { uploadImages } from "../../hooks/uploadImages";
+
+const styles = StyleSheet.create({
+  page: {
+    fontSize: 11,
+    paddingTop: 20,
+    paddingLeft: 40,
+    paddingRight: 40,
+    lineHeight: 1.5,
+    flexDirection: "column",
+  },
+
+  spaceBetween: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    color: "#3E3E3E",
+  },
+
+  titleContainer: { flexDirection: "row", marginTop: 24 },
+
+  logo: { width: 90 },
+
+  reportTitle: { fontSize: 16, textAlign: "center" },
+
+  addressTitle: { fontSize: 11, fontStyle: "bold" },
+
+  invoice: { fontWeight: "bold", fontSize: 20 },
+
+  invoiceNumber: { fontSize: 11, fontWeight: "bold" },
+
+  address: { fontWeight: 400, fontSize: 10 },
+
+  theader: {
+    marginTop: 20,
+    fontSize: 10,
+    fontStyle: "bold",
+    paddingTop: 4,
+    paddingLeft: 7,
+    flex: 1,
+    height: 20,
+    backgroundColor: "#DEDEDE",
+    borderColor: "whitesmoke",
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+  },
+
+  theader2: { flex: 2, borderRightWidth: 0, borderBottomWidth: 1 },
+
+  tbody: {
+    fontSize: 9,
+    paddingTop: 4,
+    paddingLeft: 7,
+    flex: 1,
+    borderColor: "whitesmoke",
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+  },
+
+  total: {
+    fontSize: 9,
+    paddingTop: 4,
+    paddingLeft: 7,
+    flex: 1.5,
+    borderColor: "whitesmoke",
+    borderBottomWidth: 1,
+  },
+
+  tbody2: { flex: 2, borderRightWidth: 1 },
+});
+
 const fakeDelay = (delay = 500) => new Promise((r) => setTimeout(r, delay));
-const CreateReportModal = ({ closeModal, eng_emp, selectedCall }) => {
+const CreateReportModal = ({
+  closeModal,
+  eng_emp,
+  selectedCall,
+  engineer_data,
+}) => {
   const [engSign, setEngSign] = useState("");
+  const [Update_Call] = useMutation(UPDATE_CALL_AFTER_SUBMIT_REPORT_BY_ENG, {
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`,
+      },
+    },
+  });
+
   const [addReportMutation] = useMutation(ADD_REPORT_MUTATION, {
     context: {
       headers: {
@@ -51,17 +152,20 @@ const CreateReportModal = ({ closeModal, eng_emp, selectedCall }) => {
     }
   }, [data]);
 
-  console.log({ selectedCall });
+  const eng_name = `${engineer_data.Fname} ${engineer_data.Lname}`;
 
-  useEffect(() => {
-    // Apply overflow-hidden to body when the modal is open
-    document.body.style.overflow = "hidden";
+  console.log({ engineer_data });
+  console.log({ eng_name });
 
-    // Cleanup function to remove the style when the component unmounts or modal is closed
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
+  // useEffect(() => {
+  //   // Apply overflow-hidden to body when the modal is open
+  //   document.body.style.overflow = "hidden";
+
+  //   // Cleanup function to remove the style when the component unmounts or modal is closed
+  //   return () => {
+  //     document.body.style.overflow = "auto";
+  //   };
+  // }, []);
 
   // Time Configuration
   // Get the current date and time
@@ -266,6 +370,92 @@ const CreateReportModal = ({ closeModal, eng_emp, selectedCall }) => {
       form.submitStep();
     }
   };
+  const myDoc = () => {
+    return (
+      <Document file={""}>
+        <Page size="A4" style={styles.page}>
+          <Header />
+          <Part1
+            complain_id={selectedCall.call_id || ""}
+            customer_name={selectedCall.company_name || ""}
+            customer_contact={selectedCall.customer_contact || ""}
+            client_name={selectedCall.company_name || ""}
+            atm_id={formData.atm_id || ""}
+            contact={selectedCall.customer_contact || ""}
+            address={selectedCall.company_address || ""}
+            date={formattedDate || ""}
+            product_make={formData.product_make || ""}
+            product_slNo={formData.product_slNo || ""}
+            buy_back_details={formData.buy_back_details || ""}
+            nature_of_complaint={formData.nature_of_complaint || ""}
+            site_type={formData.site_type || ""}
+            work_type={formData.work_type || ""}
+            device_type={formData.device_type || ""}
+          />
+          <Part2
+            AcInputThreePhase_RY={
+              formData.ac_input_three_phase.ac_input_three_phase_RY || ""
+            }
+            AcInputThreePhase_YB={
+              formData.ac_input_three_phase.ac_input_three_phase_YB || ""
+            }
+            AcInputThreePhase_RB={
+              formData.ac_input_three_phase.ac_input_three_phase_RB || ""
+            }
+            AcInputThreePhase_NR={
+              formData.ac_input_three_phase.ac_input_three_phase_NR || ""
+            }
+            AcOutputThreePhase_RY={
+              formData.ac_output_three_phase.ac_output_three_phase_RY || ""
+            }
+            AcOutputThreePhase_YB={
+              formData.ac_output_three_phase.ac_output_three_phase_YB || ""
+            }
+            AcOutputThreePhase_RB={
+              formData.ac_output_three_phase.ac_output_three_phase_RB || ""
+            }
+            AcOutputThreePhase_NR={
+              formData.ac_output_three_phase.ac_output_three_phase_NR || ""
+            }
+            AcInputSinglePhase_LN={
+              formData.ac_input_single_phase.ac_input_single_phase_LN || ""
+            }
+            AcInputSinglePhase_NE={
+              formData.ac_input_single_phase.ac_input_single_phase_NE || ""
+            }
+            AcInputSinglePhase_LE={
+              formData.ac_input_single_phase.ac_input_single_phase_LE || ""
+            }
+            AcOutputSinglePhase_LN={
+              formData.ac_output_single_phase.ac_output_single_phase_LN || ""
+            }
+            AcOutputSinglePhase_NE={
+              formData.ac_output_single_phase.ac_output_single_phase_NE || ""
+            }
+            AcOutputSinglePhase_LE={
+              formData.ac_output_single_phase.ac_output_single_phase_LE || ""
+            }
+            UpsInvertDCV={formData.DC.V || ""}
+            DCV_WithMains={formData.DC.V_withMains || ""}
+            DCV_WithoutMains={formData.DC.V_withoutMains || ""}
+            power_cut={formData.power_cut}
+            battery_make={formData.battery_make || ""}
+            battery_type={formData.battery_type || ""}
+            battery_AH={formData.battery_AH || ""}
+            quantity={formData.quantity || ""}
+          />
+          <Part3 BatteryData={BatteryData} />
+          <Footer
+            date={formData.date || ""}
+            customer_sign={formData.customer_sign || ""}
+            eng_sign={engSign}
+            eng_name={eng_name}
+            time={formData.time || ""}
+          />
+        </Page>
+      </Document>
+    );
+  };
 
   const form = useForm({
     onSubmit: async () => {
@@ -279,6 +469,42 @@ const CreateReportModal = ({ closeModal, eng_emp, selectedCall }) => {
 
       console.log({ Result });
       try {
+        let blobPDF = await pdf(myDoc()).toBlob();
+
+        console.log({ blobPDF });
+
+        // Upload the PDF Blob to Firebase Storage
+        const downloadURL = await uploadPdfToStorage(
+          blobPDF,
+          selectedCall.call_id
+        );
+
+        // console.log("dasdsad", downloadURL);
+        console.log("123", formData.site_images);
+
+        uploadImages({ files: formData.site_images })
+          .then((downloadURLs) => {
+            // Handle the download URLs if needed
+            console.log("Download URLs:", downloadURLs);
+          })
+          .catch((error) => {
+            // Handle errors
+            console.error("Error uploading images:", error);
+          });
+
+        await Update_Call({
+          variables: {
+            callId: selectedCall.call_id,
+            engEmp: eng_emp,
+            updateCall: {
+              report: downloadURL,
+              status: "COMPLETED",
+              submit_date: formattedDate,
+            },
+          },
+          fetchPolicy: "network-only",
+        });
+
         // Execute the mutation with the form data and context token
         await addReportMutation({
           variables: {
@@ -555,6 +781,7 @@ CreateReportModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   eng_emp: PropTypes.string.isRequired,
   selectedCall: PropTypes.object.isRequired,
+  engineer_data: PropTypes.object.isRequired,
 };
 
 export default CreateReportModal;

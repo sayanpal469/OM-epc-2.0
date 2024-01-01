@@ -25,44 +25,9 @@ const EnginnerReport_StepEight = ({
     if (files.length === 0) {
       return;
     }
-
-    // Filter out non-image files (jpeg, jpg, png)
-    const imageFilesArray = Array.from(files).filter(
-      (file) =>
-        file.type === "image/jpeg" ||
-        file.type === "image/jpg" ||
-        file.type === "image/png"
-    );
-
-    // Convert each image file to base64
-    const base64Promises = imageFilesArray.map(async (file) => {
-      const base64 = await convertFileToBase64(file);
-      return base64;
-    });
-
-    // Wait for all base64 conversions to complete
-    const base64Images = await Promise.all(base64Promises);
-
-    // Update state with base64 images
-    setImageFiles((prevImages) => [...prevImages, ...base64Images]);
+    setImageFiles((prevImages) => [...prevImages, ...files]);
   };
 
-  const convertFileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        const base64Data = reader.result.split(",")[1]; // Extract base64 data (after the comma)
-        resolve(`data:${file.type};base64,${base64Data}`);
-      };
-
-      reader.onerror = (error) => {
-        reject(error);
-      };
-
-      reader.readAsDataURL(file);
-    });
-  };
   const handleChange = (event, fieldName) => {
     const { value } = event.target;
     SetBatteryDataInput({
@@ -81,15 +46,17 @@ const EnginnerReport_StepEight = ({
           Battery Test Report
         </p>
         <div className="flex flex-col sm:flex-row items-start sm:items-center ">
-          {!showTable && <button
-            type="button"
-            onClick={() => {
-              addBatteryData(BatteryDataInput);
-            }}
-            className="w-full sm:w-auto mt-1 sm:mt-0 px-4 py-1 bg-gray-300 rounded-md mb-2 sm:mb-0 sm:mr-2"
-          >
-            Add
-          </button>}
+          {!showTable && (
+            <button
+              type="button"
+              onClick={() => {
+                addBatteryData(BatteryDataInput);
+              }}
+              className="w-full sm:w-auto mt-1 sm:mt-0 px-4 py-1 bg-gray-300 rounded-md mb-2 sm:mb-0 sm:mr-2"
+            >
+              Add
+            </button>
+          )}
           <button
             type="button"
             onClick={toggleTable}
@@ -105,42 +72,63 @@ const EnginnerReport_StepEight = ({
             {showTable ? "Show Input " : "Show Table"}
           </button>
           <div className="my-2">
-          <input
-  type="file"
-  accept=".jpeg, .jpg, .png"
-  multiple
-  onChange={handleFileChange}
-  className=" block w-full bg-transparent text-gray-700 border border-blue-500 rounded px-2 py-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-/>
-
+            <input
+              type="file"
+              accept=".jpeg, .jpg, .png"
+              multiple
+              onChange={handleFileChange}
+              className=" block w-full bg-transparent text-gray-700 border border-blue-500 rounded px-2 py-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            />
           </div>
         </div>
       </div>
       {showTable ? (
-        <div>
+        <div
+          style={{ border: "1px solid red", width: "100%", overflow: "scroll" }}
+        >
           <table>
             <thead className="text-sm">
               <tr>
                 {Object.keys(BatteryDataInput).map((key, index) => (
-                  <th key={index}>{key}</th>
+                  <th scope="col" key={index}>
+                    {key}
+                  </th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {BatteryData.map((data, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{data.battery_catch_code}</td>
-                    <td>{data.with_mains}</td>
-                    <td>{data.without_mains}</td>
-                    <td>{data.after_5_min}</td>
-                    <td>{data.after_10_min}</td>
-                    <td>{data.after_20_min}</td>
-                    <td>{data.after_40_min}</td>
-                    <td>{data.after_1_hour}</td>
-                  </tr>
-                );
-              })}
+              <tbody>
+                {BatteryData.map((data, index) => {
+                  return (
+                    <tr key={index}>
+                      <td data-label={BatteryDataInput[index]}>
+                        {data.battery_catch_code}
+                      </td>
+                      <td data-label={BatteryDataInput[index]}>
+                        {data.with_mains}
+                      </td>
+                      <td data-label={BatteryDataInput[index]}>
+                        {data.without_mains}
+                      </td>
+                      <td data-label={BatteryDataInput[index]}>
+                        {data.after_5_min}
+                      </td>
+                      <td data-label={BatteryDataInput[index]}>
+                        {data.after_10_min}
+                      </td>
+                      <td data-label={BatteryDataInput[index]}>
+                        {data.after_20_min}
+                      </td>
+                      <td data-label={BatteryDataInput[index]}>
+                        {data.after_40_min}
+                      </td>
+                      <td data-label={BatteryDataInput[index]}>
+                        {data.after_1_hour}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
             </tbody>
           </table>
         </div>

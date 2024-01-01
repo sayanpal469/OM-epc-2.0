@@ -8,6 +8,7 @@ const Reschudle_Call = ({
   refetch,
   selectedCallTab_Parent,
   eng_emp,
+  engineer_data,
 }) => {
   const [selectedCallTab, setSelectedCallTab] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -86,6 +87,7 @@ const Reschudle_Call = ({
               selectedCall={selectedCall}
               refetch={refetch}
               eng_emp={eng_emp}
+              engineer_data={engineer_data}
             />
           </section>
         </div>
@@ -99,5 +101,6 @@ Reschudle_Call.propTypes = {
   refetch: PropTypes.func.isRequired,
   selectedCallTab_Parent: PropTypes.string.isRequired,
   eng_emp: PropTypes.string.isRequired,
+  engineer_data: PropTypes.object.isRequired,
 };
 export default Reschudle_Call;
