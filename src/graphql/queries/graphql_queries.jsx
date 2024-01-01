@@ -69,6 +69,7 @@ query CallsByEng($engEmp: String!, $status: CallStatus!) {
       company_details
       company_location
       company_address
+      customer_contact
       assigned_date
       assigned_time
       submit_date
@@ -188,6 +189,7 @@ query Query($engEmp: String!) {
     contact
     address
     site_type
+    work_type
     device_type
     product_make
     product_slNo

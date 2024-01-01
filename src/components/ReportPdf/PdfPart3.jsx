@@ -59,14 +59,14 @@ const Part3 = ({
             {BatteryData.map((battery, index) => (
               <View style={styles.tableRow} key={index}>
                 <Text style={styles.tableCol}>{index + 1}</Text>
-                <Text style={styles.tableCol}>{battery.BatteryBatchCode}</Text>
-                <Text style={styles.tableCol}>{battery.WithMains}</Text>
-                <Text style={styles.tableCol}>{battery.WithoutMains}</Text>
-                <Text style={styles.tableCol}>{battery.After5mins}</Text>
-                <Text style={styles.tableCol}>{battery.After10mins}</Text>
-                <Text style={styles.tableCol}>{battery.After20mins}</Text>
-                <Text style={styles.tableCol}>{battery.After40mins}</Text>
-                <Text style={styles.tableCol}>{battery.After1hrs}</Text>
+                <Text style={styles.tableCol}>{battery.battery_catch_code}</Text>
+                <Text style={styles.tableCol}>{battery.with_mains}</Text>
+                <Text style={styles.tableCol}>{battery.without_mains}</Text>
+                <Text style={styles.tableCol}>{battery.after_5_min}</Text>
+                <Text style={styles.tableCol}>{battery.after_10_min}</Text>
+                <Text style={styles.tableCol}>{battery.after_20_min}</Text>
+                <Text style={styles.tableCol}>{battery.after_40_min}</Text>
+                <Text style={styles.tableCol}>{battery.after_1_hour}</Text>
               </View>
             ))}
           </View>

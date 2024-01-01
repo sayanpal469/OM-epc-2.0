@@ -18,6 +18,7 @@ const Engineer_Report = ({engineer_data}) => {
   console.log(isLoading);
   
    const eng_emp = engineer_data?.engineerByObject?.eng_emp
+   const eng_name = `${engineer_data?.engineerByObject?.Fname} ${engineer_data?.engineerByObject?.Lname}`
   const { data } = useQuery(GET_REPORT_BY_ENG, {
     variables:{
       engEmp: eng_emp
@@ -30,7 +31,6 @@ const Engineer_Report = ({engineer_data}) => {
     fetchPolicy: "network-only",
   });
   
-  console.log(data);
 
 useEffect(() => {
   if(data){
@@ -38,6 +38,8 @@ useEffect(() => {
   }
 
 }, [data])
+
+console.log({engineer_data})
 
 
   const handleSave = () => {
@@ -202,6 +204,7 @@ useEffect(() => {
           <ReportTables 
           selectedCallTab={selectedCallTab}
           tableData = {tableData}
+          eng_name={eng_name}
            />
 
           {isReportModalOpen ? (

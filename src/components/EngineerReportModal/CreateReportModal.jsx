@@ -13,10 +13,12 @@ import EnginnerReport_StepEight from "./CreateReport_StepEight";
 import EnginnerReport_StepFive from "./CreateReport_StepFive";
 import EnginnerReport_StepNine from "./CreateReport_StepNine";
 import { ADD_REPORT_MUTATION } from "../../graphql/mutations/graphql.mutations";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { GET_ENGINEER } from "../../graphql/queries/graphql_queries";
 
 const fakeDelay = (delay = 500) => new Promise((r) => setTimeout(r, delay));
-const CreateReportModal = ({ closeModal, eng_emp , selectedCall }) => {
+const CreateReportModal = ({ closeModal, eng_emp, selectedCall }) => {
+  const [engSign, setEngSign] = useState("");
   const [addReportMutation] = useMutation(ADD_REPORT_MUTATION, {
     context: {
       headers: {
@@ -24,6 +26,32 @@ const CreateReportModal = ({ closeModal, eng_emp , selectedCall }) => {
       },
     },
   });
+
+  const [getEng, { data }] = useLazyQuery(GET_ENGINEER, {
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`,
+      },
+    },
+  });
+
+  useEffect(() => {
+    if (selectedCall) {
+      getEng({
+        variables: {
+          engEmp: eng_emp,
+        },
+      });
+    }
+  }, [selectedCall]);
+
+  useEffect(() => {
+    if (data) {
+      setEngSign(data.engineer.eng_sign);
+    }
+  }, [data]);
+
+  console.log({ selectedCall });
 
   useEffect(() => {
     // Apply overflow-hidden to body when the modal is open
@@ -34,7 +62,7 @@ const CreateReportModal = ({ closeModal, eng_emp , selectedCall }) => {
       document.body.style.overflow = "auto";
     };
   }, []);
-  
+
   // Time Configuration
   // Get the current date and time
   const currentTime = new Date();
@@ -59,17 +87,16 @@ const CreateReportModal = ({ closeModal, eng_emp , selectedCall }) => {
   const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because months are zero-based
   const year = currentDate.getFullYear().toString();
   const formattedDate = `${day}-${month}-${year}`;
-  
-  console.log({selectedCall})
+
   const [formData, setFormData] = useState({
     date: formattedDate,
     company_name: selectedCall.company_name,
     call_id: selectedCall.call_id,
     eng_emp: eng_emp,
-    complain_id: "",
-    client_name: "",
-    contact: "",
-    address: "",
+    complain_id: selectedCall.call_id,
+    client_name: selectedCall.company_name,
+    contact: selectedCall.customer_contact,
+    address: selectedCall.company_address,
     atm_id: "",
     site_type: "",
     work_type: "",
@@ -111,7 +138,6 @@ const CreateReportModal = ({ closeModal, eng_emp , selectedCall }) => {
     battery_AH: "",
     quantity: "",
     customer_sign: "",
-    eng_sign: "",
     time: formattedTime,
     site_images: [],
   });
@@ -246,9 +272,12 @@ const CreateReportModal = ({ closeModal, eng_emp , selectedCall }) => {
       const Result = {
         ...formData,
         battery_test_report: BatteryData,
+        eng_sign: engSign,
       };
       console.log("Submitting form", Result);
       await fakeDelay();
+
+      console.log({ Result });
       try {
         // Execute the mutation with the form data and context token
         await addReportMutation({
@@ -256,6 +285,15 @@ const CreateReportModal = ({ closeModal, eng_emp , selectedCall }) => {
             report: {
               ...formData,
               battery_test_report: BatteryData,
+              eng_sign: engSign,
+              date: formattedDate,
+              company_name: selectedCall.company_name,
+              call_id: selectedCall.call_id,
+              eng_emp: eng_emp,
+              complain_id: selectedCall.call_id,
+              client_name: selectedCall.company_name,
+              contact: selectedCall.customer_contact,
+              address: selectedCall.company_address,
             },
           },
         });

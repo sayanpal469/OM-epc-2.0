@@ -37,7 +37,7 @@ const Engineer_Calls = ({ engineer_data }) => {
                 selectedCallTab === ""
                   ? "ALL"
                   : selectedCallTab === "Today_Calls"
-                  ? "TODAY"
+                  ? "ALL"
                   : selectedCallTab === "Pending_Calls"
                   ? "PENDING"
                   : selectedCallTab === "All_Calls"
@@ -120,6 +120,7 @@ const Engineer_Calls = ({ engineer_data }) => {
       setIsLoading(true);
     }
     if (data?.callsByEng?.call_list?.length > 0) {
+      console.log('123@@@@@21321',data);
       setTablesData(data?.callsByEng?.call_list);
     }
   }, [data]);

@@ -5,11 +5,11 @@ import TodaysReports from "./TodaysReports";
 import CreateReportModal from "./EngineerReportModal/CreateReportModal";
 
 
-const ReportTables = ({ selectedCallTab , tableData }) => {
+const ReportTables = ({ selectedCallTab , tableData,eng_name }) => {
   return (
     <div className="px-6">
       {selectedCallTab === "" || selectedCallTab === "All_Reports" ? (
-        <AllReports   tableData = {tableData}/>
+        <AllReports   tableData = {tableData} eng_name={eng_name}/>
       ) : selectedCallTab === "Today's_Reports" ? (
         <TodaysReports />
       ) : selectedCallTab === "Submitted_Reports" ? (
@@ -27,7 +27,8 @@ const ReportTables = ({ selectedCallTab , tableData }) => {
 
 ReportTables.propTypes = {
   selectedCallTab: PropTypes.any,
-  tableData:PropTypes.array.isRequired
+  tableData:PropTypes.array.isRequired,
+  eng_name:PropTypes.string.isRequired
 };
 
 export default ReportTables;

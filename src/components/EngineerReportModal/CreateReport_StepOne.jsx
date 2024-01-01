@@ -22,7 +22,7 @@ const EnginnerReport_StepOne = ({
           placeholder="Enter Customer Name"
           value={ClientName}
           onChange={handleChange}
-          required
+          disabled
         />
          </div>
          <div className="mb-4">
