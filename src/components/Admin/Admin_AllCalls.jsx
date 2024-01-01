@@ -4,7 +4,7 @@ import { JsonToExcel } from "react-json-to-excel";
 import Edit_Call from "./EditCall/EditCall";
 
 import CallDetailsModal_Admin from "./CallDetailsModal_Admin";
-const Admin_calls = ({ saved_search, calls }) => {
+const Admin_calls = ({ saved_search, calls, refetch }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selected_call_for_view, setSelected_call_for_view] = useState({});
@@ -138,6 +138,7 @@ const Admin_calls = ({ saved_search, calls }) => {
             />
           ) : isEditModalOpen ? (
             <Edit_Call
+              refetch={refetch}
               selected_call_for_view={selected_call_for_view}
               closeModal={close_Edit_Modal}
             />
@@ -155,5 +156,6 @@ const Admin_calls = ({ saved_search, calls }) => {
 Admin_calls.propTypes = {
   saved_search: PropTypes.object,
   calls: PropTypes.array,
+  refetch: PropTypes.func,
 };
 export default Admin_calls;

@@ -132,7 +132,6 @@ export const GET_ENGINEER_BY_OBJECT_ID = gql`
       eng_emp
       address
       email
-      password
       designation
     }
   }
