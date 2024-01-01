@@ -14,7 +14,7 @@ const ExpenseVeiwModal = ({
   closeModal,
   Kilometer,
 }) => {
-  const [changeExpenseStatus, { data, loading, }] = useMutation(
+  const [changeExpenseStatus, { data, loading, refetch }] = useMutation(
     APPROVE_EXPENSE_MUTATION,
     {
       context: {
@@ -48,7 +48,7 @@ const ExpenseVeiwModal = ({
       },
     }),
       await closeModal();
-      window.location.reload();
+      window.location.reload()
   };
 
   console.log(data);

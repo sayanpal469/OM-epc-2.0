@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import EmployeeCard from "./EmployeeCard";
 import { GET_ALL_ENGINEERS } from "../../graphql/queries/graphql_queries";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import Loading from "../../features/loading/Loading";
 
 const View_Engineers = () => {
   const [engineers, setEngineers] = useState([]);
-  const { data, loading, refetch } = useQuery(GET_ALL_ENGINEERS, {
+  const [getAllEng, { data, loading, error, refetch }] = useLazyQuery(GET_ALL_ENGINEERS, {
     context: {
       headers: {
         authorization: `${localStorage.getItem("token")}`,
@@ -16,13 +16,19 @@ const View_Engineers = () => {
   });
 
   useEffect(() => {
+    getAllEng()
+  
+    
+  }, [])
+  
+  useEffect(() => {
     if (data) {
       setEngineers(data.engineers);
     }
   }, [data]);
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center h-auto py-5">
       <div>{/* Empty space for navbar here */}</div>
       <div className="">
         {loading ? (

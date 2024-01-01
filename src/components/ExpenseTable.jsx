@@ -3,6 +3,7 @@ import AddExpense from "./AddExpense";
 import PropTypes from "prop-types";
 import { useLazyQuery } from "@apollo/client";
 import { GET_EXPENSE_BY_ENG } from "../graphql/queries/graphql_queries";
+import Engineer_ExpenseVeiwModal from "./Engineer_ExpenseVeiwModal";
 const ExpenseTable = ({ engineer_info }) => {
   const [searchOption, setSearchOption] = useState("");
   const [expenseTable, setExpenseTable] = useState([]);
@@ -11,6 +12,7 @@ const ExpenseTable = ({ engineer_info }) => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [searchText, setSearchText] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const [getExpenseByEng, { data: expenseData }] = useLazyQuery(
     GET_EXPENSE_BY_ENG,
@@ -97,6 +99,12 @@ const ExpenseTable = ({ engineer_info }) => {
 
   console.log({ expenseTable });
 
+  const openModal = () =>{
+    setIsModalOpen(true)
+  }
+  const closeModal = () =>{
+    setIsModalOpen(false)
+  }
   return (
     <div className="mx-5">
       {engineer_info && (
@@ -201,15 +209,17 @@ const ExpenseTable = ({ engineer_info }) => {
                     <button
                       onClick={() => {
                         // open_Call_Details_Modal(index);
+                        openModal()
                       }}
                       className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded"
                     >
                       View
                     </button>
-                  ) : expenseTable.isApprove === "Reject" ? (
+                  ) : expenseTable.isApprove === "REJECT" ? (
                     <button
                       onClick={() => {
                         // open_Call_Details_Modal(index);
+                        openModal()
                       }}
                       className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
                     >
@@ -221,6 +231,10 @@ const ExpenseTable = ({ engineer_info }) => {
             ))}
           </tbody>
         </table>
+         {isModalOpen && (
+          <Engineer_ExpenseVeiwModal 
+          closeModal = {closeModal}/>
+         )}
       </div>
       {/* Modal */}
     </div>

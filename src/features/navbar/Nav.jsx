@@ -7,7 +7,7 @@ import { CgNotes } from "react-icons/cg";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { FiUserPlus } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa6";
-import { CiBarcode } from "react-icons/ci";
+// import { CiBarcode } from "react-icons/ci";
 import PropTypes from "prop-types";
 import { GET_ENGINEER_BY_OBJECT_ID } from "../../graphql/queries/graphql_queries";
 import { useQuery } from "@apollo/client";
@@ -26,11 +26,11 @@ const AdminMenus = [
     icon: <FaUsers />,
     link: "/view-engineers",
   },
-  {
-    title: "Qr Code",
-    icon: <CiBarcode />,
-    link: "/qr-code",
-  },
+  // {
+  //   title: "Qr Code",
+  //   icon: <CiBarcode />,
+  //   link: "/qr-code",
+  // },
 ];
 const Menus = [
   { title: "Dashboard", icon: <MdSpaceDashboard />, link: "/" },

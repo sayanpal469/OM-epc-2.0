@@ -7,7 +7,7 @@ import { DELETE_ENGINEER_MUTATION } from "../../graphql/mutations/graphql.mutati
 import toast from "react-hot-toast";
 import Loading from "../../features/loading/Loading";
 
-const EmployeeCard = ({ engineer }) => {
+const EmployeeCard = ({ engineer ,refetch }) => {
   const [open, setOpen] = useState(false);
   const { Fname, Lname, eng_emp, email } = engineer;
 
@@ -34,7 +34,7 @@ const EmployeeCard = ({ engineer }) => {
         loading: "Creating Call...",
         success: () => {
         
-          window.location.reload();
+         refetch()
           return <b>Engineer Deleted</b>;
         },
         error: (err) => <b>{err.message}</b>,
@@ -104,6 +104,7 @@ EmployeeCard.propTypes = {
     email: PropTypes.string.isRequired,
     eng_emp: PropTypes.string.isRequired,
     designation: PropTypes.string.isRequired,
+    refetch: PropTypes.func.isRequired
   }).isRequired,
 };
 

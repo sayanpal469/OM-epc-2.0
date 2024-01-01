@@ -234,7 +234,7 @@ const CreateCallModal = ({ closeModal, refetch }) => {
                       )}
                     <button
                       type="submit"
-                      className={`w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 rounded-md ${
+                      className={`w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 rounded-md ml-2 ${
                         isLoading ? "bg-gray-400" : "bg-blue-500 text-white"
                       }`}
                       disabled={

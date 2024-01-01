@@ -13,7 +13,7 @@ import { jwtDecode } from "jwt-decode";
 import Create_Engineers from "./pages/Admin/Create_Engineers";
 import View_Engineers from "./pages/Admin/View_Engineers";
 import ReportModalPdf from "./components/ReportPdf/ReportModalPdf";
-import Qr_code from "./pages/Admin/Qr_code";
+// import Qr_code from "./pages/Admin/Qr_code";
 
 
 const graphqlEndpoint = "http://localhost:4000"; // Replace with your GraphQL server endpoint
@@ -62,12 +62,12 @@ function App() {
             <PrivateRoute element={<Create_Engineers adminId={adminId} />} />
           ),
         },
-        {
-          path: "/qr-code",
-          element: (
-            <PrivateRoute element={<Qr_code adminId={adminId} />} />
-          ),
-        },
+        // {
+        //   path: "/qr-code",
+        //   element: (
+        //     <PrivateRoute element={<Qr_code adminId={adminId} />} />
+        //   ),
+        // },
         {
           path: "/view-engineers",
           element: <PrivateRoute element={<View_Engineers />} />,

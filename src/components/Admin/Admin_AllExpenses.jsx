@@ -95,12 +95,12 @@ const Admin_AllExpenses = ({ savedSearch }) => {
                   <td data-label="Status">{expense.status}</td>
                   {/* <td data-label="Expense Status">{expense.expense_status}</td> */}
                   {expense.status === "APPROVE" && (
-                    <td data-label="Status" className="text-blue-500 text-lg">
+                    <td data-label="Status" className="text-blue-500 text-sm">
                       Approved
                     </td>
                   )}
                   {expense.status === "REJECT" && (
-                    <td data-label="Status" className="text-red-500 text-lg">
+                    <td data-label="Status" className="text-red-500 text-sm">
                       Rejected
                     </td>
                   )}

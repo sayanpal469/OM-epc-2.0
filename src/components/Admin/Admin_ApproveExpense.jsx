@@ -53,7 +53,7 @@ const Admin_ApproveExpenses = ({ savedSearch }) => {
                 </td>
                 <td data-label="Status">{expense.status}</td>
                 {/* <td data-label="Expense Status">{expense.expense_status}</td> */}
-                <td data-label="Status" className="text-blue-500 text-lg">
+                <td data-label="Status" className="text-blue-500 text-sm">
                   Approved
                 </td>
               </tr>

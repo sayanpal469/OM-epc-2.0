@@ -24,7 +24,7 @@ const CreateEngineers = ({ adminId }) => {
     eng_sign: "",
   });
 
-  const [createEngineerMutation, { data, error }] = useMutation(
+  const [createEngineerMutation, { data, error, refetch }] = useMutation(
     CREATE_ENGINEER_MUTATION,
     {
       variables: {
@@ -164,8 +164,8 @@ const CreateEngineers = ({ adminId }) => {
           success: ()=>{
              <b>🎉 Engineer created successfully!</b>
              setTimeout(() => {
-              window.location.reload()
-             }, 3000);
+              // window.location.reload()
+             }, 2000);
           }
           ,
           error: <b>Failed to create engineer. Please try again.</b>,
