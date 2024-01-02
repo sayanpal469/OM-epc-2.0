@@ -77,10 +77,8 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
       // console.log({today});
 
       const filteredArray = data?.callsByEng?.call_list.filter((callDetail) => {
-        return callDetail.assigned_date === today;
+        return callDetail.visit_date === today;
       });
-      console.log({ filteredArray });
-
       setTodays_call(filteredArray);
       setEngName(data.callsByEng.eng_name);
       setEngEmpId(data.callsByEng.eng_id);

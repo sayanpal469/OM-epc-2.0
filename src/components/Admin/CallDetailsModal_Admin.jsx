@@ -65,9 +65,14 @@ const CallDetailsModal_Admin = ({
             </p>
             {selected_call_for_view?.submit_date !== "-" ? (
               <div className="flex items-center">
-                <span className="mr-2 cursor-pointer text-blue-500">
-                  {reportName}
-                </span>
+                <a
+                  href={selected_call_for_view.report}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mr-2 cursor-pointer text-blue-500"
+                >
+                  View Report
+                </a>
                 <FaFilePdf className="text-red-500" />
               </div>
             ) : null}

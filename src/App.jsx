@@ -16,7 +16,7 @@ import ReportModalPdf from "./components/ReportPdf/ReportModalPdf";
 // import Qr_code from "./pages/Admin/Qr_code";
 
 
-const graphqlEndpoint = "http://localhost:4000"; // Replace with your GraphQL server endpoint
+const graphqlEndpoint = "https://om-epc-server-2.onrender.com/"; // Replace with your GraphQL server endpoint
 
 const apolloClient = new ApolloClient({
   uri: graphqlEndpoint,

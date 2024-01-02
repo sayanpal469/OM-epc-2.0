@@ -59,6 +59,7 @@ const Edit_Call = ({ closeModal, selected_call_for_view, refetch }) => {
         error: (err) => <b>{err.message}</b>,
       }
     );
+    window.location.reload();
   };
 
   const handleChange = (e) => {
@@ -106,7 +107,7 @@ const Edit_Call = ({ closeModal, selected_call_for_view, refetch }) => {
       // After the toast is shown and promise is resolved, close the modal
       console.log(data);
       closeModal();
-      refetch({status: "ALL"})
+      refetch({ status: "ALL" });
       // setTimeout(() => {
       //   // window.location.reload();
       // }, 3000);

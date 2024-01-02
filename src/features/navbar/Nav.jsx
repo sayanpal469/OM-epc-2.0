@@ -86,7 +86,7 @@ const Nav = ({ role, engId }) => {
             <div className="flex flex-col items-center pt-5">
               <img
                 onClick={() => setOpen(!open)}
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                src="https://i.ibb.co/yWzz2F3/11-modified.png"
                 className={`h-10 w-10 rounded-full ring-2 ring-white cursor-pointer duration-500  ${
                   open && "rotate-[360deg] mb-3"
                 }`}
@@ -103,7 +103,9 @@ const Nav = ({ role, engId }) => {
                   !open && "scale-0"
                 }`}
               >
-                {role === "Admin" ? "Palas jana" : `${data?.engineerByObject?.Fname} ${data?.engineerByObject?.Lname}`}
+                {role === "Admin"
+                  ? "Palas jana"
+                  : `${data?.engineerByObject?.Fname} ${data?.engineerByObject?.Lname}`}
               </h3>
             </div>
             <ul className="pt-6">

@@ -16,18 +16,19 @@ const Admin_TodayReport = ({ data }) => {
   };
 
   // Function to format date as dd-mm-yyyy
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
+  const yyyy = today.getFullYear();
+
+  const todayFormatted = `${dd}-${mm}-${yyyy}`;
 
   // Filter calls based on today's date
   const filteredCalls = data?.calls?.filter(
-    (call) => formatDate(call.submit_date) === formatDate(new Date())
+    (call) => call.submit_date === todayFormatted
   );
+
+  console.log({ data });
 
   return (
     <div>

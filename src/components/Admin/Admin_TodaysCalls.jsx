@@ -9,7 +9,13 @@ const Admin_TodaysCalls = ({ saved_search, calls, refetch }) => {
 
   const filteredCalls = () => {
     if (!saved_search || !saved_search.option || !saved_search.value) {
-      return calls.filter((call) => call.assigned_date === "01-01-2024");
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, "0");
+      const mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
+      const yyyy = today.getFullYear();
+
+      const todayFormatted = `${dd}-${mm}-${yyyy}`;
+      return calls.filter((call) => call.visit_date === todayFormatted);
     }
 
     // Filter based on savedSearch
@@ -17,7 +23,7 @@ const Admin_TodaysCalls = ({ saved_search, calls, refetch }) => {
       // Filter by call submit date
       const [year, month, day] = saved_search.value.split("-");
       const newDate = `${day}-${month}-${year}`;
-      return calls.filter((call) => call.date === newDate);
+      return calls.filter((call) => call.visit_date === newDate);
     } else if (saved_search.option === "name") {
       // Filter by engineer name
       return calls.filter((call) =>

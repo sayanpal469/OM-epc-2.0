@@ -12,6 +12,8 @@ const AdminReportViewModal = ({ closeModal, selected_report }) => {
     };
   }, []);
 
+  console.log({ selected_report });
+
   const sendMessage = () => {
     // Replace 'YourEncodedMessage' and 'YourEncodedURL' with the message and URL you want to share
     const reportUrl = encodeURIComponent(
@@ -20,9 +22,9 @@ const AdminReportViewModal = ({ closeModal, selected_report }) => {
     const imageUrls = selected_report.site_images.map((imageUrl, index) => {
       return encodeURIComponent(`Image ${index + 1}: ${imageUrl}`);
     });
-
+    const number = selected_report?.customer_contact || "";
     // Construct the WhatsApp share link
-    const whatsappLink = `https://wa.me/${7872358979}?text=${reportUrl}%0A${imageUrls.join(
+    const whatsappLink = `https://wa.me/${number}?text=${reportUrl}%0A${imageUrls.join(
       "%0A"
     )}`;
 
