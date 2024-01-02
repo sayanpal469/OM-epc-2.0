@@ -58,15 +58,6 @@ const Engineer_ExpenseVeiwModal = ({ closeModal, selectedExpense }) => {
                 Expense Status: {selectedExpense?.status || "-"}
               </span>{" "}
             </p>
-            <p className="mb-4">
-              {" "}
-              <span className="font-semibold mr-5">
-                {" "}
-                {selectedExpense?.status === "APRROVE"
-                  ? "Money Added"
-                  : "Money Rejected"}
-              </span>{" "}
-            </p>
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between py-4 sm:py-6 px-4 sm:px-28 border-t border-solid border-blueGray-200 rounded-b">
             <button

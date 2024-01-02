@@ -21,7 +21,10 @@ const Admin_calls = ({ saved_search, calls, refetch }) => {
     // Filter based on savedSearch
     if (saved_search.option === "date") {
       // Filter by call submit date
-      return calls.filter((call) => call.date === saved_search.value);
+      console.log({ saved_search });
+      const [year, month, day] = saved_search.value.split("-");
+      const newDate = `${day}-${month}-${year}`;
+      return calls.filter((call) => call.assigned_date === newDate);
     } else if (saved_search.option === "name") {
       // Filter by engineer name
       return calls.filter((call) =>
@@ -71,7 +74,7 @@ const Admin_calls = ({ saved_search, calls, refetch }) => {
     admin_desc: call.admin_desc,
   }));
 
-  // console.log({ calls });
+  console.log({ calls });
 
   return (
     <div>

@@ -40,6 +40,7 @@ export const GET_CALLS_BY_STATUS = gql`
       visit_date
       eng_desc
       completed
+      site_images
     }
   }
 `;
@@ -59,29 +60,29 @@ export const GET_ALL_ENGINEERS = gql`
 `;
 
 export const GET_CALLS_BY_ENGINEER = gql`
-query CallsByEng($engEmp: String!, $status: CallStatus!) {
-  callsByEng(eng_emp: $engEmp, status: $status) {
-    eng_emp
-    eng_name
-    call_list {
-      call_id
-      company_name
-      company_details
-      company_location
-      company_address
-      customer_contact
-      assigned_date
-      assigned_time
-      submit_date
-      visit_date
-      customer_contact
-      eng_desc
-      admin_desc
-      report
-      status
+  query CallsByEng($engEmp: String!, $status: CallStatus!) {
+    callsByEng(eng_emp: $engEmp, status: $status) {
+      eng_emp
+      eng_name
+      call_list {
+        call_id
+        company_name
+        company_details
+        company_location
+        company_address
+        customer_contact
+        assigned_date
+        assigned_time
+        submit_date
+        visit_date
+        customer_contact
+        eng_desc
+        admin_desc
+        report
+        status
+      }
     }
   }
-}
 `;
 
 export const GET_EXPENSE_BY_STATUS = gql`
@@ -176,77 +177,77 @@ export const GET_EXPENSE_BY_ENG = gql`
 `;
 
 export const GET_REPORT_BY_ENG = gql`
-query Query($engEmp: String!) {
-  reportByEngineer(eng_emp: $engEmp) {
-    _id
-    company_name
-    call_id
-    eng_emp
-    complain_id
-    date
-    client_name
-    atm_id
-    contact
-    address
-    site_type
-    work_type
-    device_type
-    product_make
-    product_slNo
-    buy_back_details
-    nature_of_complaint
-    ac_input_three_phase {
-      ac_input_three_phase_NR
-      ac_input_three_phase_RB
-      ac_input_three_phase_RY
-      ac_input_three_phase_YB
+  query Query($engEmp: String!) {
+    reportByEngineer(eng_emp: $engEmp) {
+      _id
+      company_name
+      call_id
+      eng_emp
+      complain_id
+      date
+      client_name
+      atm_id
+      contact
+      address
+      site_type
+      work_type
+      device_type
+      product_make
+      product_slNo
+      buy_back_details
+      nature_of_complaint
+      ac_input_three_phase {
+        ac_input_three_phase_NR
+        ac_input_three_phase_RB
+        ac_input_three_phase_RY
+        ac_input_three_phase_YB
+      }
+      ac_output_three_phase {
+        ac_output_three_phase_NR
+        ac_output_three_phase_RB
+        ac_output_three_phase_RY
+        ac_output_three_phase_YB
+      }
+      ac_input_single_phase {
+        ac_input_single_phase_LE
+        ac_input_single_phase_LN
+        ac_input_single_phase_NE
+      }
+      ac_output_single_phase {
+        ac_output_single_phase_LE
+        ac_output_single_phase_LN
+        ac_output_single_phase_NE
+      }
+      DC {
+        V
+        V_withMains
+        V_withoutMains
+      }
+      power_cut
+      battery_make
+      battery_type
+      battery_AH
+      quantity
+      battery_test_report {
+        battery_catch_code
+        with_mains
+        without_mains
+        after_5_min
+        after_10_min
+        after_20_min
+        after_40_min
+        after_1_hour
+      }
+      eng_sign
+      customer_sign
+      time
+      site_images
     }
-    ac_output_three_phase {
-      ac_output_three_phase_NR
-      ac_output_three_phase_RB
-      ac_output_three_phase_RY
-      ac_output_three_phase_YB
-    }
-    ac_input_single_phase {
-      ac_input_single_phase_LE
-      ac_input_single_phase_LN
-      ac_input_single_phase_NE
-    }
-    ac_output_single_phase {
-      ac_output_single_phase_LE
-      ac_output_single_phase_LN
-      ac_output_single_phase_NE
-    }
-    DC {
-      V
-      V_withMains
-      V_withoutMains
-    }
-    power_cut
-    battery_make
-    battery_type
-    battery_AH
-    quantity
-    battery_test_report {
-      battery_catch_code
-      with_mains
-      without_mains
-      after_5_min
-      after_10_min
-      after_20_min
-      after_40_min
-      after_1_hour
-    }
-    eng_sign
-    customer_sign
-    time
-    site_images
   }
-}
 `;
 
 export const GET_WHATSAPP_CODE = gql`
-query GetQrCode {
-  getQRCode
-}
+  query GetQrCode {
+    getQRCode
+  }
 `;

@@ -67,8 +67,6 @@ const ExpenseTable = ({ engineer_info }) => {
       );
     });
 
-    console.log({ filteredExpenses });
-    console.log({ expenseTable });
     // Calculate the sum of all expense_amount values
     const totalExpenseAmount = filteredExpenses.reduce((sum, expense) => {
       return sum + parseInt(expense.expense_amount, 10);
@@ -117,7 +115,7 @@ const ExpenseTable = ({ engineer_info }) => {
           refetch={refetch}
         />
       )}
-      <div className="w-full flex flex-col items-center my-5 lg:flex-row lg:justify-evenly">
+      {/* <div className="w-full flex flex-col items-center my-5 lg:flex-row lg:justify-evenly">
         <div className="lg:flex lg:items-center lg:justify-between lg:w-[30%] w-full  space-y-4 lg:space-y-0">
           <div className="w-full lg:mb-0 mb-5">
             <select
@@ -168,7 +166,7 @@ const ExpenseTable = ({ engineer_info }) => {
             />
           )}
         </div>
-      </div>
+      </div> */}
       {searchText !== "" || toDate !== "" || fromDate !== "" ? (
         <div className="w-full my-5 flex justify-center items-center">
           <button

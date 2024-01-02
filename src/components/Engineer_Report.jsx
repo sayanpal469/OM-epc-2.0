@@ -6,22 +6,23 @@ import CreateReportModal from "../components/EngineerReportModal/CreateReportMod
 import { useQuery } from "@apollo/client";
 import { GET_REPORT_BY_ENG } from "../graphql/queries/graphql_queries";
 
-const Engineer_Report = ({engineer_data}) => {
+const Engineer_Report = ({ engineer_data }) => {
   const [selectedCallTab, setSelectedCallTab] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [searchOption, setSearchOption] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [searchCall_id, setSearchCall_id] = useState("");
   const [searchText, setSearchText] = useState("");
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   console.log(isLoading);
-  
-   const eng_emp = engineer_data?.engineerByObject?.eng_emp
-   const eng_name = `${engineer_data?.engineerByObject?.Fname} ${engineer_data?.engineerByObject?.Lname}`
+
+  const eng_emp = engineer_data?.engineerByObject?.eng_emp;
+  const eng_name = `${engineer_data?.engineerByObject?.Fname} ${engineer_data?.engineerByObject?.Lname}`;
   const { data } = useQuery(GET_REPORT_BY_ENG, {
-    variables:{
-      engEmp: eng_emp
+    variables: {
+      engEmp: eng_emp,
     },
     context: {
       headers: {
@@ -30,30 +31,28 @@ const Engineer_Report = ({engineer_data}) => {
     },
     fetchPolicy: "network-only",
   });
-  
 
-useEffect(() => {
-  if(data){
-    setTableData(data.reportByEngineer)
-  }
-
-}, [data])
-
-console.log({engineer_data})
-
+  useEffect(() => {
+    if (data) {
+      setTableData(data.reportByEngineer);
+    }
+  }, [data]);
 
   const handleSave = () => {
     console.log("Selected Search Option:", searchOption);
-    if (searchOption === "between_dates") {
-      console.log("From Date:", fromDate);
-      console.log("To Date:", toDate);
-    } else if (searchOption === "name") {
-      console.log("Search Text:", searchText);
-    } else if (searchOption === "date") {
-      console.log("Selected Date:", fromDate);
-    }
-  };
 
+    // Assuming `data` is the object you provided
+    const filteredData = tableData?.filter((call) => {
+      console.log(call.company_name);
+
+      // If searchOption is not recognized, include the data by default
+      // return true;
+    });
+
+    // Log the filtered data
+    // console.log("Filtered Data:", filteredData);
+    // setTableData(filteredData);
+  };
 
   const handleCallTab = (callTab) => {
     setIsLoading(true);
@@ -135,7 +134,7 @@ console.log({engineer_data})
               </button> */}
             </div>
 
-            <div className="w-full flex flex-col items-center my-5 lg:flex-row lg:justify-evenly">
+            {/* <div className="w-full flex flex-col items-center my-5 lg:flex-row lg:justify-evenly">
               <div className="lg:flex lg:items-center lg:justify-between lg:w-[30%] w-full  space-y-4 lg:space-y-0">
                 <div className="w-full lg:mb-0 mb-5">
                   <select
@@ -143,39 +142,28 @@ console.log({engineer_data})
                     value={searchOption}
                     className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-md shadow leading-tight focus:outline-none focus:shadow-outline-blue focus:border-blue-500"
                   >
-                    <option value="defaule">Select Search Option</option>
-                    <option value="name">Search by Name/Company</option>
+                    <option value="default">Select Search Option</option>
+                    <option value="name">Search by Company</option>
+                    <option value="call_id">Search By Call Id</option>
                     <option value="date">Search by Date</option>
-                    <option value="between_dates">Search Between Dates</option>
                   </select>
                 </div>
               </div>
               <div className="   lg:w-[60%] w-full ">
-                {searchOption === "between_dates" && (
-                  <div className="w-full flex lg:flex-row flex-col lg:space-y-0 space-y-2 items-center lg:space-x-4">
-                    <input
-                      type="date"
-                      value={fromDate}
-                      onChange={(e) => setFromDate(e.target.value)}
-                      className="w-full px-3 py-2 rounded-md border-blue-500 border-2"
-                      placeholder="From Date"
-                    />
-                    <h4>To</h4>
-                    <input
-                      type="date"
-                      value={toDate}
-                      onChange={(e) => setToDate(e.target.value)}
-                      className="w-full px-3 py-2 rounded-md  border-blue-500 border-2"
-                      placeholder="To Date"
-                    />
-                  </div>
-                )}
                 {searchOption === "name" && (
                   <input
                     type="text"
                     className="w-full px-3 py-2 border-2 rounded-md border-blue-500"
                     onChange={(e) => setSearchText(e.target.value)}
-                    placeholder="Enter Name or Company"
+                    placeholder="Enter  Company"
+                  />
+                )}
+                {searchOption === "call_id" && (
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 border-2 rounded-md border-blue-500"
+                    onChange={(e) => setSearchCall_id(e.target.value)}
+                    placeholder="Enter call id"
                   />
                 )}
                 {searchOption === "date" && (
@@ -187,11 +175,14 @@ console.log({engineer_data})
                   />
                 )}
               </div>
-            </div>
-            {searchText !== "" || toDate !== "" || fromDate !== "" ? (
+            </div> */}
+            {searchText !== "" ||
+            toDate !== "" ||
+            fromDate !== "" ||
+            searchCall_id != "" ? (
               <div className="w-full  flex justify-center items-center">
                 <button
-                  onClick={handleSave}
+                  onClick={() => handleSave()}
                   className="border-2 rounded-md border-blue-500 px-2 py-2"
                 >
                   Save
@@ -201,11 +192,11 @@ console.log({engineer_data})
           </div>
 
           {/* {isLoading && <Loading />} */}
-          <ReportTables 
-          selectedCallTab={selectedCallTab}
-          tableData = {tableData}
-          eng_name={eng_name}
-           />
+          <ReportTables
+            selectedCallTab={selectedCallTab}
+            tableData={tableData}
+            eng_name={eng_name}
+          />
 
           {isReportModalOpen ? (
             <CreateReportModal closeModal={close_Create_Report_Modal} />

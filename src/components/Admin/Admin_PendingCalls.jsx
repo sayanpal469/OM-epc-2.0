@@ -17,7 +17,9 @@ const Admin_PendingCalls = ({ saved_search, calls, refetch }) => {
     // Filter based on savedSearch
     if (saved_search.option === "date") {
       // Filter by call submit date
-      return calls.filter((call) => call.date === saved_search.value);
+      const [year, month, day] = saved_search.value.split("-");
+      const newDate = `${day}-${month}-${year}`;
+      return calls.filter((call) => call.date === newDate);
     } else if (saved_search.option === "name") {
       // Filter by engineer name
       return calls.filter((call) =>

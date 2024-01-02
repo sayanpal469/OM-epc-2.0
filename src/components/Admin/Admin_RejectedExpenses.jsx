@@ -11,8 +11,9 @@ const Admin_RejectedExpenses = ({ savedSearch }) => {
 
     // Filter based on savedSearch
     if (savedSearch.option === "date") {
-      // Filter by expense submit date
-      return expenses.filter((expense) => expense.date === savedSearch.value);
+      const [year, month, day] = savedSearch.value.split("-");
+      const newDate = `${day}-${month}-${year}`;
+      return expenses.filter((expense) => expense.date === newDate);
     } else if (savedSearch.option === "name") {
       // Filter by engineer name
       return expenses.filter((expense) =>
