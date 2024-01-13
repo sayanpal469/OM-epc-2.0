@@ -19,7 +19,6 @@ const Admin_AllExpenses = ({ savedSearch }) => {
     setIsViewModalOpen(false);
   };
 
-
   const filteredExpenses = () => {
     if (!savedSearch || !savedSearch.option || !savedSearch.value) {
       // No saved search, return all expenses
@@ -29,9 +28,12 @@ const Admin_AllExpenses = ({ savedSearch }) => {
     // Filter based on savedSearch
     if (savedSearch.option === "date") {
       // Filter by expense submit date
-      return expenses.filter((expense) => expense.date === savedSearch.value);
+      const [year, month, day] = savedSearch.value.split("-");
+      const newDate = `${day}-${month}-${year}`;
+      return expenses.filter((expense) => expense.date === newDate);
     } else if (savedSearch.option === "name") {
       // Filter by engineer name
+      console.log(savedSearch.value);
       return expenses.filter((expense) =>
         expense.eng_name.toLowerCase().includes(savedSearch.value.toLowerCase())
       );
@@ -40,6 +42,8 @@ const Admin_AllExpenses = ({ savedSearch }) => {
     // Default: return all expenses
     return expenses;
   };
+
+  console.log({ expenses });
 
   const jsonData = expenses.map((expense) => ({
     date: expense.date,

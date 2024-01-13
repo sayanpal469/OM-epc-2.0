@@ -117,6 +117,14 @@ const RescheduleCallModal = ({
             <span className="font-semibold mr-5">Location:</span> {Location}
           </p>
           <p className="mb-4">
+            <span className="font-semibold mr-5">Company Address:</span>{" "}
+            {selectedCall.company_address}
+          </p>
+          <p className="mb-4">
+            <span className="font-semibold mr-5">Company Contact:</span>{" "}
+            {selectedCall.customer_contact}
+          </p>
+          <p className="mb-4">
             <span className="font-semibold mr-5">Description by Admin:</span>{" "}
             {DescriptionByAdmin}
           </p>

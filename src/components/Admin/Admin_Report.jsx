@@ -1,4 +1,6 @@
+import { useQuery } from "@apollo/client";
 import { useState, useEffect } from "react";
+import { GET_CALLS_BY_STATUS } from "../../graphql/queries/graphql_queries";
 import Loading from "../Loading";
 import AdminReportTable from "./Admin_ReportTable";
 const Admin_Report = () => {
@@ -8,7 +10,19 @@ const Admin_Report = () => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [searchText, setSearchText] = useState("");
-  
+
+  const { data, refetch } = useQuery(GET_CALLS_BY_STATUS, {
+    variables: {
+      status: "ALL",
+    },
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`,
+      },
+    },
+    // pollInterval: 2000,
+  });
+
   const handleSave = () => {
     console.log("Selected Search Option:", searchOption);
     if (searchOption === "between_dates") {
@@ -34,8 +48,6 @@ const Admin_Report = () => {
     setToDate("");
   };
 
-  
-
   useEffect(() => {
     const delay = setTimeout(() => {
       setIsLoading(false);
@@ -55,21 +67,19 @@ const Admin_Report = () => {
 
   return (
     <div className="flex">
-      <div className="">
-        {/* Empty space for navbar here */}
-      </div>
+      <div className="">{/* Empty space for navbar here */}</div>
       <div className="flex-1">
         <section className="w-full h-full">
           <div className="lg:flex lg:justify-between lg:items-center flex-col p-5 space-y-5">
             <div className="flex lg:flex-row sm:space-y-0 lg:w-[50%] w-[100%] space-y-5  flex-col justify-center items-end space-x-4">
-              <button
+              {/* <button
                 onClick={() => handleCallTab("Submitted_Reports")}
                 className={`border py-2 w-full rounded ${buttonClasses(
                   "Submitted_Reports"
                 )}`}
               >
                 Submitted Reports
-              </button>
+              </button> */}
               <button
                 onClick={() => handleCallTab("Today's_Reports")}
                 className={`border py-2 w-full rounded ${buttonClasses(
@@ -87,7 +97,7 @@ const Admin_Report = () => {
             </div>
 
             <div className="w-full flex flex-col items-center my-5 lg:flex-row lg:justify-evenly">
-              <div className="lg:flex lg:items-center lg:justify-between lg:w-[30%] w-full  space-y-4 lg:space-y-0">
+              {/* <div className="lg:flex lg:items-center lg:justify-between lg:w-[30%] w-full  space-y-4 lg:space-y-0">
                 <div className="w-full lg:mb-0 mb-5">
                   <select
                     onChange={(e) => handleSearchOption(e.target.value)}
@@ -100,7 +110,7 @@ const Admin_Report = () => {
                     <option value="between_dates">Search Between Dates</option>
                   </select>
                 </div>
-              </div>
+              </div> */}
               <div className="   lg:w-[60%] w-full ">
                 {searchOption === "between_dates" && (
                   <div className="w-full flex lg:flex-row flex-col lg:space-y-0 space-y-2 items-center lg:space-x-4">
@@ -152,7 +162,7 @@ const Admin_Report = () => {
           </div>
 
           {isLoading && <Loading />}
-          <AdminReportTable selectedCallTab={selectedCallTab} />
+          <AdminReportTable data={data} selectedCallTab={selectedCallTab} />
         </section>
       </div>
     </div>

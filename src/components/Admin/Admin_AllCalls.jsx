@@ -9,9 +9,6 @@ const Admin_calls = ({ saved_search, calls, refetch }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selected_call_for_view, setSelected_call_for_view] = useState({});
 
-  console.log({ calls });
-  const l = calls.length;
-  console.log({ l });
   const filteredCalls = () => {
     if (!saved_search || !saved_search.option || !saved_search.value) {
       // No saved search, return all calls
@@ -21,7 +18,10 @@ const Admin_calls = ({ saved_search, calls, refetch }) => {
     // Filter based on savedSearch
     if (saved_search.option === "date") {
       // Filter by call submit date
-      return calls.filter((call) => call.date === saved_search.value);
+      console.log({ saved_search });
+      const [year, month, day] = saved_search.value.split("-");
+      const newDate = `${day}-${month}-${year}`;
+      return calls.filter((call) => call.assigned_date === newDate);
     } else if (saved_search.option === "name") {
       // Filter by engineer name
       return calls.filter((call) =>
@@ -52,26 +52,33 @@ const Admin_calls = ({ saved_search, calls, refetch }) => {
     setIsEditModalOpen(true);
   };
 
-  const jsonData = calls.map((call) => ({
-    date: call.assigned_date,
-    time: call.assigned_time,
-    emp_id: call.eng_emp,
-    eng_name: call.eng_name,
-    company_name: call.company_name,
-    company_location: call.company_location,
-    company_details: call.company_details,
-    company_address: call.company_address,
-    call_id: call.call_id,
-    submit_date: call.submit_date,
-    customer_contact: call.customer_contact,
-    report: call.report,
-    visit_date: call.visit_date,
-    status: call.status,
-    eng_desc: call.eng_desc,
-    admin_desc: call.admin_desc,
-  }));
+  const jsonData = calls.map((call) => {
+    // Map the site_images array to create image fields
+    const imageFields = call.site_images.map((image, index) => ({
+      [`image${index + 1}`]: image,
+    }));
+    return {
+      date: call.assigned_date,
+      time: call.assigned_time,
+      emp_id: call.eng_emp,
+      eng_name: call.eng_name,
+      company_name: call.company_name,
+      company_location: call.company_location,
+      company_details: call.company_details,
+      company_address: call.company_address,
+      call_id: call.call_id,
+      submit_date: call.submit_date,
+      customer_contact: call.customer_contact,
+      report: call.report,
+      visit_date: call.visit_date,
+      status: call.status,
+      eng_desc: call.eng_desc,
+      admin_desc: call.admin_desc,
+      ...Object.assign({}, ...imageFields), // Spread image fields
+    };
+  });
 
-  // console.log({ calls });
+  console.log({ jsonData });
 
   return (
     <div>

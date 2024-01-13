@@ -6,15 +6,16 @@ import { GET_EXPENSE_BY_ENG } from "../graphql/queries/graphql_queries";
 import Engineer_ExpenseVeiwModal from "./Engineer_ExpenseVeiwModal";
 const ExpenseTable = ({ engineer_info }) => {
   const [searchOption, setSearchOption] = useState("");
+  const [selectedExpense, setSelectedExpense] = useState();
   const [expenseTable, setExpenseTable] = useState([]);
   const [this_month_expense_amount, setThis_month_expense_amount] =
     useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [getExpenseByEng, { data: expenseData }] = useLazyQuery(
+  const [getExpenseByEng, { data: expenseData, refetch }] = useLazyQuery(
     GET_EXPENSE_BY_ENG,
     {
       context: {
@@ -51,7 +52,7 @@ const ExpenseTable = ({ engineer_info }) => {
     // Function to check if a date falls within the current month
     const isDateInCurrentMonth = (dateString) => {
       const currentDate = new Date();
-      const [day, month, year] = dateString.split("/");
+      const [day, month, year] = dateString.split("-");
       const dateToCheck = new Date(year, month - 1, day); // month is 0-indexed
       return (
         dateToCheck.getMonth() === currentDate.getMonth() &&
@@ -97,23 +98,24 @@ const ExpenseTable = ({ engineer_info }) => {
     setToDate("");
   };
 
-  console.log({ expenseTable });
-
-  const openModal = () =>{
-    setIsModalOpen(true)
-  }
-  const closeModal = () =>{
-    setIsModalOpen(false)
-  }
+  const openModal = (data) => {
+    setSelectedExpense(data);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setSelectedExpense({});
+    setIsModalOpen(false);
+  };
   return (
     <div className="mx-5">
       {engineer_info && (
         <AddExpense
           this_month_expense_amount={this_month_expense_amount}
           engineer_id={engineer_info.engineerByObject.eng_emp}
+          refetch={refetch}
         />
       )}
-      <div className="w-full flex flex-col items-center my-5 lg:flex-row lg:justify-evenly">
+      {/* <div className="w-full flex flex-col items-center my-5 lg:flex-row lg:justify-evenly">
         <div className="lg:flex lg:items-center lg:justify-between lg:w-[30%] w-full  space-y-4 lg:space-y-0">
           <div className="w-full lg:mb-0 mb-5">
             <select
@@ -164,7 +166,7 @@ const ExpenseTable = ({ engineer_info }) => {
             />
           )}
         </div>
-      </div>
+      </div> */}
       {searchText !== "" || toDate !== "" || fromDate !== "" ? (
         <div className="w-full my-5 flex justify-center items-center">
           <button
@@ -201,16 +203,16 @@ const ExpenseTable = ({ engineer_info }) => {
                   {expenseTable.isApprove === "PENDING" ? (
                     <button
                       disabled={true}
-                     
                       className="bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded"
                     >
-                      View
+                      Pending
                     </button>
                   ) : expenseTable.isApprove === "APPROVE" ? (
                     <button
                       onClick={() => {
                         // open_Call_Details_Modal(index);
-                        openModal()
+
+                        openModal(expenseTable);
                       }}
                       className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded"
                     >
@@ -220,7 +222,7 @@ const ExpenseTable = ({ engineer_info }) => {
                     <button
                       onClick={() => {
                         // open_Call_Details_Modal(index);
-                        openModal()
+                        openModal(expenseTable);
                       }}
                       className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
                     >
@@ -232,10 +234,12 @@ const ExpenseTable = ({ engineer_info }) => {
             ))}
           </tbody>
         </table>
-         {isModalOpen && (
-          <Engineer_ExpenseVeiwModal 
-          closeModal = {closeModal}/>
-         )}
+        {isModalOpen && (
+          <Engineer_ExpenseVeiwModal
+            selectedExpense={selectedExpense}
+            closeModal={closeModal}
+          />
+        )}
       </div>
       {/* Modal */}
     </div>

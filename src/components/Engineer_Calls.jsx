@@ -64,7 +64,6 @@ const Engineer_Calls = ({ engineer_data }) => {
       } else if (searchOption === "name") {
         // Filter based on searchText and company name
         console.log(searchText.toLowerCase());
-        console.log(call.company_name);
         return call.company_name
           .toLowerCase()
           .includes(searchText.toLowerCase());
@@ -78,7 +77,6 @@ const Engineer_Calls = ({ engineer_data }) => {
           assignedDate.toDateString() === new Date(fromDate).toDateString()
         );
       }
-
       // If searchOption is not recognized, include the data by default
       // return true;
     });
@@ -179,7 +177,7 @@ const Engineer_Calls = ({ engineer_data }) => {
               </button>
             </div>
 
-            <div className="w-full flex flex-col items-center my-5 lg:flex-row lg:justify-evenly">
+            {/* <div className="w-full flex flex-col items-center my-5 lg:flex-row lg:justify-evenly">
               <div className="lg:flex lg:items-center lg:justify-between lg:w-[30%] w-full  space-y-4 lg:space-y-0">
                 <div className="w-full lg:mb-0 mb-5">
                   <select
@@ -188,33 +186,13 @@ const Engineer_Calls = ({ engineer_data }) => {
                     className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-md shadow leading-tight focus:outline-none focus:shadow-outline-blue focus:border-blue-500"
                   >
                     <option value="default">Select Search Option</option>
-                    <option value="name">Search by Name/Company</option>
+                    <option value="name">Search by Company</option>
                     <option value="call_id">Search By Call Id</option>
                     <option value="date">Search by Date</option>
-                    <option value="between_dates">Search Between Dates</option>
                   </select>
                 </div>
               </div>
               <div className="   lg:w-[60%] w-full ">
-                {searchOption === "between_dates" && (
-                  <div className="w-full flex lg:flex-row flex-col lg:space-y-0 space-y-2 items-center lg:space-x-4">
-                    <input
-                      type="date"
-                      value={fromDate}
-                      onChange={(e) => setFromDate(e.target.value)}
-                      className="w-full px-3 py-2 rounded-md border-blue-500 border-2"
-                      placeholder="From Date"
-                    />
-                    <h4>To</h4>
-                    <input
-                      type="date"
-                      value={toDate}
-                      onChange={(e) => setToDate(e.target.value)}
-                      className="w-full px-3 py-2 rounded-md  border-blue-500 border-2"
-                      placeholder="To Date"
-                    />
-                  </div>
-                )}
                 {searchOption === "name" && (
                   <input
                     type="text"
@@ -240,7 +218,7 @@ const Engineer_Calls = ({ engineer_data }) => {
                   />
                 )}
               </div>
-            </div>
+            </div> */}
             {searchText !== "" ||
             toDate !== "" ||
             fromDate !== "" ||
@@ -251,6 +229,16 @@ const Engineer_Calls = ({ engineer_data }) => {
                   className="border-2 rounded-md border-blue-500 px-2 py-2"
                 >
                   Save
+                </button>
+
+                <button
+                  onClick={() => {
+                    setSearchOption("default");
+                    handleSave();
+                  }}
+                  className="border-2 rounded-md border-blue-500 px-2 py-2"
+                >
+                  Clear
                 </button>
               </div>
             ) : null}

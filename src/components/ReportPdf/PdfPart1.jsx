@@ -114,7 +114,7 @@ const Part1 = ({
       <View style={styles.flexRow2}>
         <View style={styles.checkboxLabel}>
           <Text style={styles.labelText}>UPS & BATTERY:</Text>
-          {device_type === "Ups&Battery" ? (
+          {device_type === "Ups_Battery" ? (
             <Image source={tick} style={styles.checkbox} />
           ) : (
             <View style={styles.checkbox}></View>

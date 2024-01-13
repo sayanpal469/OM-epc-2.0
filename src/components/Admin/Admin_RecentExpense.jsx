@@ -41,10 +41,9 @@ const Admin_RecentExpenses = ({ savedSearch }) => {
 
     // Filter based on savedSearch
     if (savedSearch.option === "date") {
-      // Filter by expense submit date
-      return newExpenses.filter(
-        (expense) => expense.date === savedSearch.value
-      );
+      const [year, month, day] = savedSearch.value.split("-");
+      const newDate = `${day}-${month}-${year}`;
+      return expenses.filter((expense) => expense.date === newDate);
     } else if (savedSearch.option === "name") {
       // Filter by engineer name
       return newExpenses.filter((expense) =>

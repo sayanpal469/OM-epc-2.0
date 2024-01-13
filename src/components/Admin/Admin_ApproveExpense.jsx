@@ -11,8 +11,9 @@ const Admin_ApproveExpenses = ({ savedSearch }) => {
 
     // Filter based on savedSearch
     if (savedSearch.option === "date") {
-      // Filter by expense submit date
-      return expenses.filter((expense) => expense.date === savedSearch.value);
+      const [year, month, day] = savedSearch.value.split("-");
+      const newDate = `${day}-${month}-${year}`;
+      return expenses.filter((expense) => expense.date === newDate);
     } else if (savedSearch.option === "name") {
       // Filter by engineer name
       return expenses.filter((expense) =>
@@ -41,7 +42,7 @@ const Admin_ApproveExpenses = ({ savedSearch }) => {
             </tr>
           </thead>
           <tbody>
-            {filteredExpenses().map((expense,index) => (
+            {filteredExpenses().map((expense, index) => (
               <tr key={index}>
                 <td data-label="Call ID">{expense.call_id}</td>
                 <td data-label="Company Name">{expense.company_name}</td>
