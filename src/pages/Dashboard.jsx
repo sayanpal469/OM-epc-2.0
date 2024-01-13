@@ -29,9 +29,6 @@ const Dashboard = ({ engineer_info }) => {
     },
   });
 
-
-
-
   // console.log(engineer_info.engineerByObject.eng_emp);
 
   useEffect(() => {
@@ -45,8 +42,15 @@ const Dashboard = ({ engineer_info }) => {
       const pendingCalls = callList.filter(
         (call) => call.status === "PENDING"
       ).length;
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, "0");
+      const mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
+      const yyyy = today.getFullYear();
+
+      const todayFormatted = `${dd}-${mm}-${yyyy}`;
+      console.log(todayFormatted)
       const todayCalls = callList.filter(
-        (call) => call.status === "TODAY"
+        (call) => call.visit_date === todayFormatted
       ).length;
       const recentCallsArray = callList
         .filter((call) => {
