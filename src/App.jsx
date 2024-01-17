@@ -15,6 +15,7 @@ import View_Engineers from "./pages/Admin/View_Engineers";
 import ReportModalPdf from "./components/ReportPdf/ReportModalPdf";
 import Engineer_Profile from "./pages/Engineer_Profile";
 import CreateReportFrom from "./pages/CreateReportFrom";
+import Nav2 from "./features/navbar/Nav2";
 // import Qr_code from "./pages/Admin/Qr_code";
 
 
