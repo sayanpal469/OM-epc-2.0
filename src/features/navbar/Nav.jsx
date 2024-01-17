@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { FaPhoneVolume } from "react-icons/fa6";
 import { MdSpaceDashboard } from "react-icons/md";
 import { SiExpensify } from "react-icons/si";
-import { CgNotes } from "react-icons/cg";
+import { CgNotes, CgProfile } from "react-icons/cg";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { FiUserPlus } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa6";
@@ -37,6 +37,7 @@ const Menus = [
   { title: "Calls", icon: <FaPhoneVolume />, link: "/calls" },
   { title: "Reports", icon: <CgNotes />, link: "/reports" },
   { title: "Expense", icon: <SiExpensify />, link: "/expense" },
+  { title: "Profile", icon: <CgProfile />, link: "/profile"}
 ];
 
 const Nav = ({ role, engId }) => {

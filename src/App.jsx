@@ -13,6 +13,8 @@ import { jwtDecode } from "jwt-decode";
 import Create_Engineers from "./pages/Admin/Create_Engineers";
 import View_Engineers from "./pages/Admin/View_Engineers";
 import ReportModalPdf from "./components/ReportPdf/ReportModalPdf";
+import Engineer_Profile from "./pages/Engineer_Profile";
+import CreateReportFrom from "./pages/CreateReportFrom";
 // import Qr_code from "./pages/Admin/Qr_code";
 
 
@@ -75,6 +77,14 @@ function App() {
         {
           path: "/view-engineers-report",
           element: <PrivateRoute element={<ReportModalPdf />} />,
+        },
+        {
+          path: "/profile",
+          element: <PrivateRoute element={<Engineer_Profile/>} />,
+        },
+        {
+          path: "/create-report",
+          element: <PrivateRoute element={<CreateReportFrom/>} />,
         },
 
         // Conditional route based on role
