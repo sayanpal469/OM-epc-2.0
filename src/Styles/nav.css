@@ -1,0 +1,28 @@
+:root {
+    --icon: #b0bfd8;
+    --sel: #39a1f4; /* Adding a default value for --sel */
+  }
+
+
+  .menua {
+    display: flex;
+    justify-content: space-evenly; /* Use space-around for equal margin */
+    width: 100vw;
+    paddingY:"0px";
+    position: fixed; /* Change to fixed */
+    bottom: 0; /* Stick to the bottom */
+    height: 65px;
+    backdrop-filter: blur(10px); /* Add the value for blur */
+    /* padding: 0 29px 10px; */
+    background: #248be6aa;
+    align-items: center;
+    z-index: 1000; /* Set a higher z-index */
+  }
+  .nav-icon {
+    font-size: 28px;
+     /* Adjust the font size as needed */
+  }
+/* 
+@media only screen and (orientation: portrait) {
+	label { color: transparent !important; text-shadow: none !important;}
+} */

@@ -12,7 +12,6 @@ const RescheduleCallModal = ({
   DescriptionByAdmin,
   selectedCall,
   refetch,
-  selectedCallTab_Parent,
   eng_emp,
 }) => {
   const [selectedDate, setSelectedDate] = useState(null);

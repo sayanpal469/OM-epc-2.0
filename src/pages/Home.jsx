@@ -26,8 +26,7 @@ const Home = ({ role, engId }) => {
   // console.log({ data });
   return (
     <div>
-      {/* Content here */}
-      {/* <Navbar/> */}
+    
       {role === "Engineer" && engineer_info ? (
         <Dashboard engineer_info={engineer_info} engId={engId} />
       ) : role === "Admin" ? (

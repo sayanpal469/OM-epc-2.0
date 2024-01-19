@@ -16,7 +16,6 @@ import ReportModalPdf from "./components/ReportPdf/ReportModalPdf";
 import Nav2 from "./features/navbar/Nav2";
 // import Qr_code from "./pages/Admin/Qr_code";
 
-
 const graphqlEndpoint = "https://om-epc-server-2.onrender.com/"; // Replace with your GraphQL server endpoint
 
 const apolloClient = new ApolloClient({
@@ -28,11 +27,17 @@ function App() {
   const [role, setRole] = useState("");
   const [adminId, setAdminId] = useState("");
   const [engId, setEngId] = useState("");
+  const navigationElement =
+    role === "Admin" ? (
+      <Nav role={role} engId={engId} />
+    ) : (
+      <Nav2 role={role} engId={engId} />
+    );
   const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
     {
       path: "/",
-      element: <Nav role={role} engId={engId} />,
+      element: navigationElement,
       children: [
         {
           index: true,
@@ -47,6 +52,7 @@ function App() {
             <PrivateRoute element={<Calls role={role} engId={engId} />} />
           ),
         },
+
         {
           path: "/expense",
           element: (
@@ -55,7 +61,9 @@ function App() {
         },
         {
           path: "/reports",
-          element: <PrivateRoute element={<Reports role={role} engId={engId} />} />,
+          element: (
+            <PrivateRoute element={<Reports role={role} engId={engId} />} />
+          ),
         },
         {
           path: "/create-engineers",

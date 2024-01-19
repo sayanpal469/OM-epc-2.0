@@ -27,9 +27,6 @@ const Expenses = ({ role, engId }) => {
   // console.log(role);
   return (
     <div className="flex">
-      <div className="w-12 h-screen lg:w-20">
-        {/* Empty space for navbar here */}
-      </div>
       <div className="flex-1">
         {role === "Engineer" ? (
           <ExpenseTable engineer_info={engineer_info} />
