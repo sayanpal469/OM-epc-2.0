@@ -3,30 +3,30 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useForm } from "@formiz/core";
 
-import EnginnerReport_StepOne from "./CreateReport_StepOne";
-import EnginnerReport_StepTwo from "./CreateReport_StepTwo";
-import EnginnerReport_StepThree from "./CreateReport_StepThree";
-import EnginnerReport_StepFour from "./CreateReport_StepFour";
-import EnginnerReport_StepSix from "./CreateReport_StepSix";
-import EnginnerReport_StepSeven from "./CreateReport_StepSeven";
-import EnginnerReport_StepEight from "./CreateReport_StepEight";
-import EnginnerReport_StepFive from "./CreateReport_StepFive";
-import EnginnerReport_StepNine from "./CreateReport_StepNine";
+import EnginnerReport_StepOne from "../components/EngineerReportModal/CreateReport_StepOne";
+import EnginnerReport_StepTwo from "../components/EngineerReportModal/CreateReport_StepTwo";
+import EnginnerReport_StepThree from "../components/EngineerReportModal/CreateReport_StepThree";
+import EnginnerReport_StepFour from "../components/EngineerReportModal/CreateReport_StepFour";
+import EnginnerReport_StepSix from "../components/EngineerReportModal/CreateReport_StepSix";
+import EnginnerReport_StepSeven from "../components/EngineerReportModal/CreateReport_StepSeven";
+import EnginnerReport_StepEight from "../components/EngineerReportModal/CreateReport_StepEight";
+import EnginnerReport_StepFive from "../components/EngineerReportModal/CreateReport_StepFive";
+import EnginnerReport_StepNine from "../components/EngineerReportModal/CreateReport_StepNine";
 import {
   ADD_REPORT_MUTATION,
   UPDATE_CALL_AFTER_SUBMIT_REPORT_BY_ENG,
-} from "../../graphql/mutations/graphql.mutations";
+} from "../graphql/mutations/graphql.mutations";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { GET_ENGINEER } from "../../graphql/queries/graphql_queries";
+import { GET_ENGINEER } from "../graphql/queries/graphql_queries";
 
 import { Page, Document, StyleSheet, pdf } from "@react-pdf/renderer";
-import Header from "../ReportPdf/PdfHeader";
-import Part1 from "../ReportPdf/PdfPart1";
-import Part2 from "../ReportPdf/PdfPart2";
-import Part3 from "../ReportPdf/PdfPart3";
-import Footer from "../ReportPdf/PdfFooter";
-import { uploadPdfToStorage } from "../../hooks/uploadPdfToStorage";
-import { uploadImages } from "../../hooks/uploadImages";
+import Header from "../components/ReportPdf/PdfHeader";
+import Part1 from "../components/ReportPdf/PdfPart1";
+import Part2 from "../components/ReportPdf/PdfPart2";
+import Part3 from "../components/ReportPdf/PdfPart3";
+import Footer from "../components/ReportPdf/PdfFooter";
+import { uploadPdfToStorage } from "../hooks/uploadPdfToStorage";
+import { uploadImages } from "../hooks/uploadImages";
 
 const styles = StyleSheet.create({
   page: {
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
 });
 
 const fakeDelay = (delay = 500) => new Promise((r) => setTimeout(r, delay));
-const CreateReport = ({
+const CreateReportFrom = ({
   closeModal,
   eng_emp,
   selectedCall,
@@ -189,13 +189,13 @@ const CreateReport = ({
 
   const [formData, setFormData] = useState({
     date: formattedDate,
-    company_name: selectedCall.company_name,
-    call_id: selectedCall.call_id,
-    eng_emp: eng_emp,
-    complain_id: selectedCall.call_id,
-    client_name: selectedCall.company_name,
-    contact: selectedCall.customer_contact,
-    address: selectedCall.company_address,
+    company_name: selectedCall.company_name || "",
+    call_id: selectedCall.call_id || "",
+    eng_emp: eng_emp || "",
+    complain_id: selectedCall.call_id || "",
+    client_name: selectedCall.company_name || "",
+    contact: selectedCall.customer_contact || "",
+    address: selectedCall.company_address || "",
     atm_id: "",
     site_type: "",
     work_type: "",
@@ -529,7 +529,7 @@ const CreateReport = ({
   const isLoading = form.isSubmitting;
 
   return (
-    <div className="h-screen fixed inset-0 z-10  bg-gray-100">
+    <div className="fixed inset-0 z-10  bg-gray-100">
       <div className="w-full h-full px-10 py-4 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">
        
           <form noValidate onSubmit={handleSubmitStep}>
@@ -768,12 +768,12 @@ const CreateReport = ({
   );
 };
 
-CreateReport.propTypes = {
+CreateReportFrom.propTypes = {
   closeModal: PropTypes.func.isRequired,
   eng_emp: PropTypes.string.isRequired,
   selectedCall: PropTypes.object.isRequired,
   engineer_data: PropTypes.object.isRequired,
 };
 
-export default CreateReport;
+export default CreateReportFrom;
 
