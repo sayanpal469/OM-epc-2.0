@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const EnginnerReport_StepEight = ({
   BatteryDataInput,
@@ -12,6 +13,9 @@ const EnginnerReport_StepEight = ({
 }) => {
   const [showTable, setShowTable] = useState(false);
   const [imageFiles, setImageFiles] = useState([]);
+
+
+
   useEffect(() => {
     if (imageFiles.length > 0) {
       setFormData({ ...formData, ["site_images"]: imageFiles });
@@ -39,6 +43,9 @@ const EnginnerReport_StepEight = ({
   const toggleTable = () => {
     setShowTable((prevState) => !prevState);
   };
+  const isBatteryDataInputEmpty = (data) => {
+    return Object.values(data).every((value) => value === "");
+  };
   return (
     <div className=" w-full">
       <div className="mb-4">
@@ -46,17 +53,6 @@ const EnginnerReport_StepEight = ({
           Battery Test Report
         </p>
         <div className="flex flex-col sm:flex-row items-start sm:items-center ">
-          {!showTable && (
-            <button
-              type="button"
-              onClick={() => {
-                addBatteryData(BatteryDataInput);
-              }}
-              className="w-full sm:w-auto mt-1 sm:mt-0 px-4 py-1 bg-gray-300 rounded-md mb-2 sm:mb-0 sm:mr-2"
-            >
-              Add
-            </button>
-          )}
           <button
             type="button"
             onClick={toggleTable}
@@ -71,43 +67,58 @@ const EnginnerReport_StepEight = ({
             )}
             {showTable ? "Show Input " : "Show Table"}
           </button>
-          <div className="my-2">
+          <div className="mx-2">
             <input
               type="file"
               accept=".jpeg, .jpg, .png"
               multiple
               onChange={handleFileChange}
-              className=" block w-full bg-transparent text-gray-700 border border-blue-500 rounded px-2 py-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-white text-gray-700 border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
         </div>
       </div>
       {showTable ? (
-        <div
-          style={{ width: "100%", overflow: "scroll" }}
-        >
-          <table>
-            <thead className="text-sm">
-              <tr>
-                {Object.keys(BatteryDataInput).map((key, index) => (
-                  <th scope="col" key={index}>
-                    {key}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {BatteryData.map((data, index) => (
-                <tr key={index}>
-                  {Object.keys(BatteryDataInput).map((key, columnIndex) => (
-                    <td key={columnIndex} data-label={key}>
-                      {data[key]}
-                    </td>
+        <div className="overflow-x-auto">
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div>
+              <table className="bg-white border border-gray-300">
+                <thead className="bg-gray-200 text-sm flex justify-between items-center">
+                  <tr>
+                    {Object.keys(BatteryDataInput).map((key, index) => (
+                      <th key={index} className="py-2 border-b">
+                        {key}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div className="overflow-auto">
+              <table className="bg-white border border-gray-300">
+                <tbody className="text-center">
+                  {BatteryData.map((data, index) => (
+                    <tr
+                      key={index}
+                      className={`border border-gray-300 ${
+                        index % 2 === 0 ? "bg-blue-300" : ""
+                      }`}
+                    >
+                      {Object.keys(BatteryDataInput).map((key, columnIndex) => (
+                        <td
+                          key={columnIndex}
+                     
+                          data-label={key}
+                        >
+                          {data[key]}
+                        </td>
+                      ))}
+                    </tr>
                   ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       ) : (
         <div>
@@ -201,6 +212,24 @@ const EnginnerReport_StepEight = ({
           </div>
         </div>
       )}
+      <div className="w-full flex justify-center items-center my-5">
+        {!showTable && (
+          <button
+            type="button"
+            onClick={() => {
+              addBatteryData(BatteryDataInput);
+            }}
+            className={`w-full sm:w-[120px] mt-1 sm:mt-0 px-4 py-1 ${
+              isBatteryDataInputEmpty(BatteryDataInput)
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600"
+            } font-semibold text-white rounded-md `}
+            disabled={isBatteryDataInputEmpty(BatteryDataInput)}
+          >
+            Add
+          </button>
+        )}
+      </div>
     </div>
   );
 };

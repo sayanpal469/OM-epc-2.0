@@ -9,6 +9,7 @@ import { CgNotes } from "react-icons/cg";
 import { FiUserPlus } from "react-icons/fi";
 import "../../Styles/nav.css";
 import { FaArrowAltCircleRight } from "react-icons/fa";
+import { IoMdSettings } from "react-icons/io";
 
 const Nav2 = ({ role }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -100,23 +101,30 @@ const Nav2 = ({ role }) => {
                 gap: "20px",
               }}
             >
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded w-[152px]"
-                // onClick={closeModal}
-              >
-                View Profile
-              </button>
-              <button
-                className="bg-red-500 text-white px-4 py-2 rounded w-[152px]"
-                // onClick={closeModal}
-              >
-                Log out
-              </button>
+              <Link to="/profile">
+                <button
+                  onClick={closeModal}
+                  className="bg-blue-500  text-white px-4 py-2 rounded w-[152px]"
+                  // onClick={closeModal}
+                >
+                  View Profile
+                </button>
+              </Link>
+
+              <Link to="/login">
+                <button
+                  onClick={handleSignOut}
+                  className="bg-red-500 text-white px-4 py-2 rounded w-[152px]"
+                  // onClick={closeModal}
+                >
+                  Log Out
+                </button>
+              </Link>
               <button
                 className="bg-green-500 text-white px-4 py-2 rounded w-[152px]"
                 onClick={closeModal}
               >
-                Close Modal
+                Close
               </button>
             </div>
           </div>
@@ -128,7 +136,7 @@ const Nav2 = ({ role }) => {
           <FaArrowAltCircleRight color="black" />
         </Link> */}
         <div className={`nav-icon`} onClick={openModal}>
-          <FaArrowAltCircleRight color="black" />
+          <IoMdSettings color="black" />
         </div>
         {/* Modal */}
       </nav>

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import ReschudleCallModal from "./ReschudleCallModal";
-// import CreateReportModal from "../EngineerReportModal/CreateReportModal";
+import CreateReportModal from "../EngineerReportModal/CreateReportModal";
 import UpdateStatusModal from "./UpdateStatusModal";
 import { useNavigate } from "react-router-dom";
 
@@ -11,9 +11,15 @@ const ReschudleCall_Table = ({
   refetch,
   selectedCallTab_Parent,
   eng_emp,
-  // engineer_data,
+  engineer_data,
 }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  console.log({
+    selectedCall,
+    eng_emp,
+    closeModal,
+    engineer_data,
+  });
   return (
     <div className="px-4">
       {selectedCallTab === "" || selectedCallTab === "Reschudle_Call" ? (
@@ -37,7 +43,14 @@ const ReschudleCall_Table = ({
         //   closeModal={closeModal}
         //   engineer_data={engineer_data}
         // />
-        navigate("/create-report/")
+        navigate("/create-report/", {
+          state: {
+            selectedCall,
+            eng_emp,
+            closeModal: closeModal(),
+            engineer_data,
+          },
+        })
       ) : selectedCallTab === "Update_Status" ? (
         <UpdateStatusModal
           selectedCall={selectedCall}

@@ -18,7 +18,10 @@ const EnginnerReport_StepNine = ({ handleSignature}) => {
 
   return (
     // <div className="mx-auto max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
-    <div>
+    <div className="mt-5">
+      <p className="block text-gray-700 font-bold mb-2">
+          Customer Signature
+        </p>
       <div className="border-2 border-black rounded-lg p-1 mb-4 w-full overflow-hidden">
         <SignatureCanvas
           penColor="black"

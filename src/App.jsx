@@ -89,11 +89,13 @@ function App() {
         },
         {
           path: "/profile",
-          element: <PrivateRoute element={<Engineer_Profile/>} />,
+          element: (
+            <PrivateRoute element={<Engineer_Profile engId={engId} />} />
+          ),
         },
         {
           path: "/create-report",
-          element: <PrivateRoute element={<CreateReportFrom/>} />,
+          element: <PrivateRoute element={<CreateReportFrom />} />,
         },
 
         // Conditional route based on role

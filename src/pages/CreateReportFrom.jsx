@@ -27,6 +27,7 @@ import Part3 from "../components/ReportPdf/PdfPart3";
 import Footer from "../components/ReportPdf/PdfFooter";
 import { uploadPdfToStorage } from "../hooks/uploadPdfToStorage";
 import { uploadImages } from "../hooks/uploadImages";
+import { useNavigate } from "react-router-dom";
 
 const styles = StyleSheet.create({
   page: {
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     paddingRight: 40,
     lineHeight: 1.5,
     flexDirection: "column",
-    paddingVertical:10
+    paddingVertical: 10,
   },
 
   spaceBetween: {
@@ -100,13 +101,12 @@ const styles = StyleSheet.create({
 });
 
 const fakeDelay = (delay = 500) => new Promise((r) => setTimeout(r, delay));
-const CreateReportFrom = ({
-  closeModal,
-  eng_emp,
-  selectedCall,
-  engineer_data,
-}) => {
+const CreateReportFrom = () => {
   const [engSign, setEngSign] = useState("");
+  const storedData = JSON.parse(localStorage.getItem("report_fields"));
+  const navigate = useNavigate();
+  // Now you can access the individual properties
+  const { selectedCall, engineer_data, eng_emp } = storedData;
   const [Update_Call] = useMutation(UPDATE_CALL_AFTER_SUBMIT_REPORT_BY_ENG, {
     context: {
       headers: {
@@ -131,21 +131,21 @@ const CreateReportFrom = ({
     },
   });
 
-  useEffect(() => {
-    if (selectedCall) {
-      getEng({
-        variables: {
-          engEmp: eng_emp,
-        },
-      });
-    }
-  }, [selectedCall]);
+  // useEffect(() => {
+  //   if (selectedCall) {
+  //     getEng({
+  //       variables: {
+  //         engEmp: eng_emp,
+  //       },
+  //     });
+  //   }
+  // }, [selectedCall]);
 
-  useEffect(() => {
-    if (data) {
-      setEngSign(data.engineer.eng_sign);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     setEngSign(data.engineer.eng_sign);
+  //   }
+  // }, [data]);
 
   const eng_name = `${engineer_data?.Fname} ${engineer_data?.Lname}`;
 
@@ -516,9 +516,9 @@ const CreateReportFrom = ({
 
         // Close the modal after submitting the form
         closeModal();
-        setTimeout(()=>{
-          window.location.reload()
-        },1000)
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       } catch (error) {
         // Handle errors if any of the operations fail
         console.error("Form Submission Error:", error);
@@ -529,240 +529,201 @@ const CreateReportFrom = ({
   const isLoading = form.isSubmitting;
 
   return (
-    <div className="fixed inset-0 z-10  bg-gray-100">
+    <div className="inset-0 z-10 mb-[80px] overflowY-scroll bg-gray-100">
       <div className="w-full h-full px-10 py-4 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">
-       
-          <form noValidate onSubmit={handleSubmitStep}>
-            <div>
-              {/* Step 1 */}
+        <form noValidate onSubmit={handleSubmitStep}>
+          <div>
+            {/* Step 1 */}
 
-          
-                {ErrorDiv && (
-                  <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
-                    {StepOneError}
-                  </div>
-                )}
-                <EnginnerReport_StepOne
-                  handleChange={handleChange}
-                  Date={formData.date}
-                  ClientName={formData.client_name}
-                  SiteId_ATMId={formData.atm_id}
-                  SiteType={formData.site_type}
-                />
-              
+            {ErrorDiv && (
+              <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
+                {StepOneError}
+              </div>
+            )}
+            <EnginnerReport_StepOne
+              handleChange={handleChange}
+              Date={formData.date}
+              ClientName={formData.client_name}
+              SiteId_ATMId={formData.atm_id}
+              SiteType={formData.site_type}
+            />
 
-              {/* Step 2 */}
+            {/* Step 2 */}
 
-              
-                {ErrorDiv && (
-                  <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
-                    {StepOneError}
-                  </div>
-                )}
-                <EnginnerReport_StepTwo
-                  handleChange={handleChange}
-                  WorkType={formData.work_type}
-                  Device={formData.device_type}
-                />
-             
+            {ErrorDiv && (
+              <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
+                {StepOneError}
+              </div>
+            )}
+            <EnginnerReport_StepTwo
+              handleChange={handleChange}
+              WorkType={formData.work_type}
+              Device={formData.device_type}
+            />
 
-              {/* Step 3 */}
+            {/* Step 3 */}
 
-             
-                {ErrorDiv && (
-                  <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
-                    {StepOneError}
-                  </div>
-                )}
-                <EnginnerReport_StepThree
-                  handleChange={handleChange}
-                  ProductMake={formData.product_make}
-                  ProductSlNo={formData.product_slNo}
-                  BuyBackDetails={formData.buy_back_details}
-                  NatureOfComplaint={formData.nature_of_complaint}
-                />
-              
+            {ErrorDiv && (
+              <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
+                {StepOneError}
+              </div>
+            )}
+            <EnginnerReport_StepThree
+              handleChange={handleChange}
+              ProductMake={formData.product_make}
+              ProductSlNo={formData.product_slNo}
+              BuyBackDetails={formData.buy_back_details}
+              NatureOfComplaint={formData.nature_of_complaint}
+            />
 
-              {/* Step 4 */}
+            {/* Step 4 */}
 
-              
-                {ErrorDiv && (
-                  <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
-                    {StepOneError}
-                  </div>
-                )}
-                <EnginnerReport_StepFour
-                  handle_Input_3Phase_AC={handle_Input_3Phase_AC}
-                  handle_Output_3Phase_AC={handle_Output_3Phase_AC}
-                  AcInputThreePhase_RY={
-                    formData.ac_input_three_phase.ac_input_three_phase_RY
+            {ErrorDiv && (
+              <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
+                {StepOneError}
+              </div>
+            )}
+            <EnginnerReport_StepFour
+              handle_Input_3Phase_AC={handle_Input_3Phase_AC}
+              handle_Output_3Phase_AC={handle_Output_3Phase_AC}
+              AcInputThreePhase_RY={
+                formData.ac_input_three_phase.ac_input_three_phase_RY
+              }
+              AcInputThreePhase_YB={
+                formData.ac_input_three_phase.ac_input_three_phase_YB
+              }
+              AcInputThreePhase_RB={
+                formData.ac_input_three_phase.ac_input_three_phase_RB
+              }
+              AcInputThreePhase_NR={
+                formData.ac_input_three_phase.ac_input_three_phase_NR
+              }
+              AcOutputThreePhase_RY={
+                formData.ac_output_three_phase.ac_output_three_phase_RY
+              }
+              AcOutputThreePhase_YB={
+                formData.ac_output_three_phase.ac_output_three_phase_YB
+              }
+              AcOutputThreePhase_RB={
+                formData.ac_output_three_phase.ac_output_three_phase_RB
+              }
+              AcOutputThreePhase_NR={
+                formData.ac_output_three_phase.ac_output_three_phase_NR
+              }
+            />
+
+            {/* Step 5 */}
+
+            {ErrorDiv && (
+              <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
+                {StepOneError}
+              </div>
+            )}
+            <EnginnerReport_StepFive
+              handle_Input_1Phase_AC={handle_Input_1Phase_AC}
+              handle_Output_1Phase_AC={handle_Output_1Phase_AC}
+              AcInputSinglePhase_LN={
+                formData.ac_input_single_phase.ac_input_single_phase_LN
+              }
+              AcInputSinglePhase_NE={
+                formData.ac_input_single_phase.ac_input_single_phase_NE
+              }
+              AcInputSinglePhase_LE={
+                formData.ac_input_single_phase.ac_input_single_phase_LE
+              }
+              AcOutputSinglePhase_LN={
+                formData.ac_output_single_phase.ac_output_single_phase_LN
+              }
+              AcOutputSinglePhase_NE={
+                formData.ac_output_single_phase.ac_output_single_phase_NE
+              }
+              AcOutputSinglePhase_LE={
+                formData.ac_output_single_phase.ac_output_single_phase_LE
+              }
+            />
+
+            {/* Step 6 */}
+
+            {ErrorDiv && (
+              <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
+                {StepOneError}
+              </div>
+            )}
+            <EnginnerReport_StepSix
+              handleDC={handleDC}
+              handleChange={handleChange}
+              UpsInvertDCV={formData.DC.V}
+              DCV_WithMains={formData.DC.V_withMains}
+              DCV_WithoutMains={formData.DC.V_withoutMains}
+              PowerCut={formData.power_cut}
+            />
+
+            {/* Step 7 */}
+
+            {ErrorDiv && (
+              <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
+                {StepOneError}
+              </div>
+            )}
+            <EnginnerReport_StepSeven
+              handleChange={handleChange}
+              BatteryMake={formData.battery_make}
+              BatteryType={formData.battery_type}
+              BatteryAH={formData.battery_AH}
+              Quantity={formData.quantity}
+            />
+
+            {/* Step 8 */}
+
+            {ErrorDiv && (
+              <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
+                {StepOneError}
+              </div>
+            )}
+            <EnginnerReport_StepEight
+              SetBatteryDataInput={setBatteryDataInput}
+              BatteryDataInput={BatteryDataInput}
+              addBatteryData={addBatteryData}
+              BatteryData={BatteryData}
+              setFormData={setFormData}
+              formData={formData}
+            />
+
+            {/* Step 9 */}
+
+            {ErrorDiv && (
+              <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
+                {StepOneError}
+              </div>
+            )}
+            <EnginnerReport_StepNine handleSignature={handleSubmitSignature} />
+
+            <div className="flex flex-col sm:flex-row items-center justify-between my-2 ">
+              <div>
+                <button
+                  type="button"
+                  onClick={() => navigate("/calls")}
+                  className="w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 bg-gray-300 rounded-md mr-2"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  className={`w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 rounded-md ${
+                    isLoading ? "bg-gray-400" : "bg-blue-500 text-white"
+                  }`}
+                  disabled={
+                    (form.isLastStep ? !form.isValid : !form.isStepValid) &&
+                    form.isStepSubmitted
                   }
-                  AcInputThreePhase_YB={
-                    formData.ac_input_three_phase.ac_input_three_phase_YB
-                  }
-                  AcInputThreePhase_RB={
-                    formData.ac_input_three_phase.ac_input_three_phase_RB
-                  }
-                  AcInputThreePhase_NR={
-                    formData.ac_input_three_phase.ac_input_three_phase_NR
-                  }
-                  AcOutputThreePhase_RY={
-                    formData.ac_output_three_phase.ac_output_three_phase_RY
-                  }
-                  AcOutputThreePhase_YB={
-                    formData.ac_output_three_phase.ac_output_three_phase_YB
-                  }
-                  AcOutputThreePhase_RB={
-                    formData.ac_output_three_phase.ac_output_three_phase_RB
-                  }
-                  AcOutputThreePhase_NR={
-                    formData.ac_output_three_phase.ac_output_three_phase_NR
-                  }
-                />
-             
-
-              {/* Step 5 */}
-
-              
-                {ErrorDiv && (
-                  <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
-                    {StepOneError}
-                  </div>
-                )}
-                <EnginnerReport_StepFive
-                  handle_Input_1Phase_AC={handle_Input_1Phase_AC}
-                  handle_Output_1Phase_AC={handle_Output_1Phase_AC}
-                  AcInputSinglePhase_LN={
-                    formData.ac_input_single_phase.ac_input_single_phase_LN
-                  }
-                  AcInputSinglePhase_NE={
-                    formData.ac_input_single_phase.ac_input_single_phase_NE
-                  }
-                  AcInputSinglePhase_LE={
-                    formData.ac_input_single_phase.ac_input_single_phase_LE
-                  }
-                  AcOutputSinglePhase_LN={
-                    formData.ac_output_single_phase.ac_output_single_phase_LN
-                  }
-                  AcOutputSinglePhase_NE={
-                    formData.ac_output_single_phase.ac_output_single_phase_NE
-                  }
-                  AcOutputSinglePhase_LE={
-                    formData.ac_output_single_phase.ac_output_single_phase_LE
-                  }
-                />
-             
-
-              {/* Step 6 */}
-
-              
-                {ErrorDiv && (
-                  <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
-                    {StepOneError}
-                  </div>
-                )}
-                <EnginnerReport_StepSix
-                  handleDC={handleDC}
-                  handleChange={handleChange}
-                  UpsInvertDCV={formData.DC.V}
-                  DCV_WithMains={formData.DC.V_withMains}
-                  DCV_WithoutMains={formData.DC.V_withoutMains}
-                  PowerCut={formData.power_cut}
-                />
-              
-
-              {/* Step 7 */}
-
-              
-                {ErrorDiv && (
-                  <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
-                    {StepOneError}
-                  </div>
-                )}
-                <EnginnerReport_StepSeven
-                  handleChange={handleChange}
-                  BatteryMake={formData.battery_make}
-                  BatteryType={formData.battery_type}
-                  BatteryAH={formData.battery_AH}
-                  Quantity={formData.quantity}
-                />
-           
-
-              {/* Step 8 */}
-
-              
-                {ErrorDiv && (
-                  <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
-                    {StepOneError}
-                  </div>
-                )}
-                <EnginnerReport_StepEight
-                  SetBatteryDataInput={setBatteryDataInput}
-                  BatteryDataInput={BatteryDataInput}
-                  addBatteryData={addBatteryData}
-                  BatteryData={BatteryData}
-                  setFormData={setFormData}
-                  formData={formData}
-                />
-            
-
-              {/* Step 9 */}
-
-             
-                {ErrorDiv && (
-                  <div className=" text-center my-2 p-2 bg-red-100 text-red-400 border border-red-400 rounded-md text-sm sm:text-base md:text-lg lg:text-xl">
-                    {StepOneError}
-                  </div>
-                )}
-                <EnginnerReport_StepNine
-                  handleSignature={handleSubmitSignature}
-                />
-              
-
-              {form.steps?.length && (
-                <div className="flex flex-col sm:flex-row items-center justify-between my-2 ">
-                  <div>
-                    {form.currentStep?.name === "step-1" && (
-                      <button
-                        onClick={closeModal}
-                        className="w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 bg-gray-300 rounded-md r-2 mr-2"
-                      >
-                        Cancel
-                      </button>
-                    )}
-
-                    {!form.isFirstStep &&
-                      form.currentStep?.name !== "step-1" && (
-                        <button
-                          type="button"
-                          onClick={form.goToPreviousStep}
-                          className="w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 bg-gray-300 rounded-md mr-2"
-                        >
-                          Previous
-                        </button>
-                      )}
-                    <button
-                      type="submit"
-                      className={`w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 rounded-md ${
-                        isLoading ? "bg-gray-400" : "bg-blue-500 text-white"
-                      }`}
-                      disabled={
-                        (form.isLastStep ? !form.isValid : !form.isStepValid) &&
-                        form.isStepSubmitted
-                      }
-                    >
-                      {form.isLastStep ? "Submit" : "Next"}
-                    </button>
-                  </div>
-
-                  <div className="text-sm text-gray-500 mt-4 sm:mt-0">
-                    Step {(form.currentStep?.index ?? 0) + 1} /{" "}
-                    {form.steps.length}
-                  </div>
-                </div>
-              )}
+                >
+                  {form.isLastStep ? "Submit" : "Next"}
+                </button>
+              </div>
             </div>
-          </form>
+          </div>
+        </form>
       </div>
     </div>
   );
@@ -776,4 +737,3 @@ CreateReportFrom.propTypes = {
 };
 
 export default CreateReportFrom;
-
