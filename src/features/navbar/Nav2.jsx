@@ -8,7 +8,7 @@ import { SiExpensify } from "react-icons/si";
 import { CgNotes } from "react-icons/cg";
 import { FiUserPlus } from "react-icons/fi";
 import "../../Styles/nav.css";
-import { FaArrowAltCircleRight } from "react-icons/fa";
+// import { FaArrowAltCircleRight } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 
 const Nav2 = ({ role }) => {
