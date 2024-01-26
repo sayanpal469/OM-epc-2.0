@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER_MUTATION } from "../graphql/mutations/graphql.mutations";
+import loginPage from "../assets/login-page.png"
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -38,7 +39,17 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div className=" flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8">
+  <div className="absolute inset-0 flex items-center justify-center opacity-20">
+    <img
+      className="w-full sm:w-1/2 object-cover"
+      src={loginPage}
+      alt="login-image"
+    />
+
+  </div>
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 relative">
+    
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded">
           {error}
@@ -74,7 +85,7 @@ const Login = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -105,7 +116,7 @@ const Login = () => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -121,6 +132,7 @@ const Login = () => {
         </form>
       </div>
     </div>
+   </div>
   );
 };
 

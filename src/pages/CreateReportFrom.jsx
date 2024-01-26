@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useState } from "react";
-import { useForm } from "@formiz/core";
 
 import EnginnerReport_StepOne from "../components/EngineerReportModal/CreateReport_StepOne";
 import EnginnerReport_StepTwo from "../components/EngineerReportModal/CreateReport_StepTwo";
@@ -17,7 +16,7 @@ import {
   UPDATE_CALL_AFTER_SUBMIT_REPORT_BY_ENG,
 } from "../graphql/mutations/graphql.mutations";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { GET_ENGINEER } from "../graphql/queries/graphql_queries";
+// import { GET_ENGINEER } from "../graphql/queries/graphql_queries";
 
 import { Page, Document, StyleSheet, pdf } from "@react-pdf/renderer";
 import Header from "../components/ReportPdf/PdfHeader";
@@ -102,6 +101,7 @@ const styles = StyleSheet.create({
 
 const fakeDelay = (delay = 500) => new Promise((r) => setTimeout(r, delay));
 const CreateReportFrom = () => {
+
   const [engSign, setEngSign] = useState("");
   const storedData = JSON.parse(localStorage.getItem("report_fields"));
   const navigate = useNavigate();
@@ -123,14 +123,15 @@ const CreateReportFrom = () => {
     },
   });
 
-  const [getEng, { data }] = useLazyQuery(GET_ENGINEER, {
-    context: {
-      headers: {
-        authorization: `${localStorage.getItem("token")}`,
-      },
-    },
-  });
+  // const [getEng, { data }] = useLazyQuery(GET_ENGINEER, {
+  //   context: {
+  //     headers: {
+  //       authorization: `${localStorage.getItem("token")}`,
+  //     },
+  //   },
+  // });
 
+  // console.log({data})
   // useEffect(() => {
   //   if (selectedCall) {
   //     getEng({
@@ -149,8 +150,8 @@ const CreateReportFrom = () => {
 
   const eng_name = `${engineer_data?.Fname} ${engineer_data?.Lname}`;
 
-  console.log({ engineer_data });
-  console.log({ eng_name });
+  // console.log({ engineer_data });
+  // console.log({ eng_name });
 
   // useEffect(() => {
   //   // Apply overflow-hidden to body when the modal is open
@@ -333,38 +334,28 @@ const CreateReportFrom = () => {
     }));
   };
 
-  const handleSubmitStep = async (event) => {
-    event.preventDefault();
-    let requiredFields = [];
+  // const handleSubmitStep = async (event) => {
+  //   event.preventDefault();
+  //   let requiredFields = [];
 
-    if (form.currentStep?.name === "step-1") {
-      requiredFields = ["client_name", "atm_id", "site_type"];
-    } else if (form.currentStep?.name === "step-2") {
-      requiredFields = ["work_type", "device_type"];
-    }
+  //   for (const field of requiredFields) {
+  //     if (!formData[field]) {
+  //       setErrorDiv(true);
+  //       setStepOneError(
+  //         `Please Enter the ${field.replace(/([A-Z])/g, " $1").trim()}`
+  //       );
+  //       setTimeout(() => {
+  //         setErrorDiv(false);
+  //         setStepOneError("");
+  //       }, 5000);
 
-    for (const field of requiredFields) {
-      if (!formData[field]) {
-        setErrorDiv(true);
-        setStepOneError(
-          `Please Enter the ${field.replace(/([A-Z])/g, " $1").trim()}`
-        );
-        setTimeout(() => {
-          setErrorDiv(false);
-          setStepOneError("");
-        }, 5000);
+  //       return;
+  //     }
+  //   }
 
-        return;
-      }
-    }
-
-    await fakeDelay();
-    if (form.currentStep?.name !== "step-9") {
-      form.goToNextStep();
-    } else {
-      form.submitStep();
-    }
-  };
+  //   await fakeDelay();
+  
+  // };
   const myDoc = () => {
     return (
       <Document file={""}>
@@ -452,81 +443,94 @@ const CreateReportFrom = () => {
     );
   };
 
-  const form = useForm({
-    onSubmit: async () => {
-      try {
-        const Result = {
-          ...formData,
-          battery_test_report: BatteryData,
-          eng_sign: engSign,
-        };
-        console.log("Submitting form", Result);
-        await fakeDelay();
-
-        console.log({ Result });
-        let blobPDF = await pdf(myDoc()).toBlob();
-        console.log({ blobPDF });
-
-        // Upload the PDF Blob to Firebase Storage
-        const pdfDownloadURL = await uploadPdfToStorage(
-          blobPDF,
-          selectedCall.call_id
-        );
-        console.log("PDF Upload URL:", pdfDownloadURL);
-
-        // Upload images to Firebase Storage
-        const imagesDownloadURLs = await uploadImages({
-          files: formData.site_images,
-        });
-        console.log("Images Upload URLs:", imagesDownloadURLs);
-
-        // Execute the mutation with the form data and uploaded URLs
-        await addReportMutation({
-          variables: {
-            report: {
-              ...formData,
-              battery_test_report: BatteryData,
-              eng_sign: engSign,
-              date: formattedDate,
-              company_name: selectedCall.company_name,
-              call_id: selectedCall.call_id,
-              eng_emp: eng_emp,
-              complain_id: selectedCall.call_id,
-              client_name: selectedCall.company_name,
-              contact: selectedCall.customer_contact,
-              address: selectedCall.company_address,
-              site_images: imagesDownloadURLs,
-            },
+  async function handleSubmit() {
+    try {
+      const Result = {
+        ...formData,
+        battery_test_report: BatteryData,
+        eng_sign: engSign,
+      };
+     
+      await fakeDelay();
+  
+      console.log({ Result });
+      let blobPDF = await pdf(myDoc()).toBlob();
+      console.log({ blobPDF });
+  
+      // Upload the PDF Blob to Firebase Storage
+      const pdfDownloadURL = await uploadPdfToStorage(blobPDF, selectedCall.call_id);
+      console.log("PDF Upload URL:", pdfDownloadURL);
+  
+      // Upload images to Firebase Storage
+      const imagesDownloadURLs = await uploadImages({
+        files: formData.site_images,
+      });
+      console.log("Images Upload URLs:", imagesDownloadURLs);
+  
+      // Execute the mutation with the form data and uploaded URLs
+      await addReportMutation({
+        variables: {
+          report: {
+            ...formData,
+            battery_test_report: BatteryData,
+            eng_sign: engSign,
+            date: formattedDate,
+            company_name: selectedCall.company_name,
+            call_id: selectedCall.call_id,
+            eng_emp: eng_emp,
+            complain_id: selectedCall.call_id,
+            client_name: selectedCall.company_name,
+            contact: selectedCall.customer_contact,
+            address: selectedCall.company_address,
+            site_images: imagesDownloadURLs,
           },
-        });
-        await Update_Call({
-          variables: {
-            callId: selectedCall.call_id,
-            engEmp: eng_emp,
-            updateCall: {
-              report: pdfDownloadURL,
-              status: "COMPLETED",
-              submit_date: formattedDate,
-            },
+        },
+      });
+  
+      await Update_Call({
+        variables: {
+          callId: selectedCall.call_id,
+          engEmp: eng_emp,
+          updateCall: {
+            report: pdfDownloadURL,
+            status: "COMPLETED",
+            submit_date: formattedDate,
           },
-          fetchPolicy: "network-only",
-        });
+        },
+        fetchPolicy: "network-only",
+      });
+  
+      // Execute the mutation with the form data and context token
+  
+      // Close the modal after submitting the form
+     
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 1000);
+    } catch (error) {
+      // Handle errors if any of the operations fail
+      console.error("Form Submission Error:", error);
+    }
+  }
 
-        // Execute the mutation with the form data and context token
-
-        // Close the modal after submitting the form
-        closeModal();
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      } catch (error) {
-        // Handle errors if any of the operations fail
-        console.error("Form Submission Error:", error);
-      }
-    },
-  });
-
-  const isLoading = form.isSubmitting;
+   function handleSubmitStep(event) {
+    try {
+      console.log({formData})
+     handleSubmit();
+    } catch (error) {
+      // Handle errors if any of the operations fail
+      console.error("Form Submission Error:", error);
+  
+      event.preventDefault();
+      setErrorDiv(true);
+      setStepOneError("An error occurred during form submission");
+      setTimeout(() => {
+        setErrorDiv(false);
+        setStepOneError("");
+      }, 5000);
+    }
+  }
+  // const isLoading = form.isSubmitting;
 
   return (
     <div className="inset-0 z-10 mb-[80px] overflowY-scroll bg-gray-100">
@@ -710,15 +714,8 @@ const CreateReportFrom = () => {
 
                 <button
                   type="submit"
-                  className={`w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 rounded-md ${
-                    isLoading ? "bg-gray-400" : "bg-blue-500 text-white"
-                  }`}
-                  disabled={
-                    (form.isLastStep ? !form.isValid : !form.isStepValid) &&
-                    form.isStepSubmitted
-                  }
-                >
-                  {form.isLastStep ? "Submit" : "Next"}
+                  className="w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 bg-blue-500 rounded-md mr-2 text-white"
+                  >Submit
                 </button>
               </div>
             </div>

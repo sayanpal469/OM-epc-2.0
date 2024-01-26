@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import Expenses from "./pages/Expenses";
-import Nav from "./features/navbar/Nav";
 import "./Styles/DashBoard.css";
 import PrivateRoute from "./features/navbar/PrivateRoute";
 import Reports from "./pages/Reports";

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { FaRegEdit } from "react-icons/fa";
 import PropTypes from "prop-types";
 import Engineer_AddSignature from "../components/Engineer_AddSignature";
 import { useQuery } from "@apollo/client";
@@ -8,6 +9,8 @@ import Loading from "../components/Loading";
 const Engineer_Profile = ({ engId }) => {
   const [AddSign, setAddSign] = useState(false);
   const [engineer_info, setEngineer_info] = useState();
+  const [signatureData, setSignatureData] = useState(null);
+
   const { data } = useQuery(GET_ENGINEER_BY_OBJECT_ID, {
     variables: {
       id: engId,
@@ -19,8 +22,11 @@ const Engineer_Profile = ({ engId }) => {
     },
   });
 
+
   useEffect(() => {
     setEngineer_info(data);
+    const storedSignatureData = localStorage.getItem('signatureData');
+    setSignatureData(storedSignatureData);
   }, [data]);
 
   console.log({ engineer_info });
@@ -67,15 +73,33 @@ const Engineer_Profile = ({ engId }) => {
                     <b>Designation:</b>{" "}
                     {engineer_info.engineerByObject.designation}
                   </h1>
-                  <h1 className="py-2">
+                  <h1 className=" flex items-center">
+                    <div> 
                     <b>Signature:</b>{" "}
+                    </div>
+                  <div className="mt-2">
+                    {signatureData ? (
+                       <div className="flex ">
+
+                       <img
+                         src={`${signatureData}`}
+                         alt="Signature"
+                         className="w-full sm:w-96"
+                       />
+                       <button className="py-2 px-4 rounded">
+                         <FaRegEdit />
+                       </button>
+                     </div>
+                  ) : (
                     <button
-                      className="bg-transparent mb-3 hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-4 border border-blue-500 hover:border-transparent rounded"
+                      className="bg-transparent  hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-4 ml-4 border border-blue-500 hover:border-transparent rounded"
                       onClick={open_Sign_modal}
                     >
                       {" "}
                       Add{" "}
                     </button>
+                      )}
+                   </div>
                   </h1>
                 </div>
                 <div className="lg:ml-4 mt-4 lg:mt-0">

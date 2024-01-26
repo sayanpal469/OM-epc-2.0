@@ -44,6 +44,7 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
   const [formData, setFormData] = useState({
     company_name: "",
     call_id: "",
+    other: "",
     company_location: "",
     expense_amount: "",
     total_kilometer: "",
@@ -237,6 +238,31 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
                 style={{
                   MozAppearance: "textfield",
                 }}
+              />
+              <div className="text-center mt-4">
+                <p>OR</p>
+              </div>
+               <label
+                className="block mt-4 mb-2 font-semibold text-blue-800"
+                htmlFor="call_id"
+              >
+                Others
+              </label>
+              <input
+                type="text"
+                id="other"
+                value={formData.other}
+                name="other"
+                className="w-full p-3 border rounded-md focus:outline-none focus:border-indigo-600 appearance-none"
+                style={{
+                  MozAppearance: "textfield",
+                }}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    other: e.target.value,
+                  })
+                }
               />
               <label
                 className="block mt-4 mb-2 font-semibold text-blue-800"
