@@ -7,6 +7,7 @@ import { CgNotes, CgProfile } from "react-icons/cg";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { FiUserPlus } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa6";
+import { IoNotifications } from "react-icons/io5";
 // import { CiBarcode } from "react-icons/ci";
 import PropTypes from "prop-types";
 import { GET_ENGINEER_BY_OBJECT_ID } from "../../graphql/queries/graphql_queries";
@@ -25,6 +26,11 @@ const AdminMenus = [
     title: "View Engineer",
     icon: <FaUsers />,
     link: "/view-engineers",
+  },
+  {
+    title: "Notifications",
+    icon: <IoNotifications/>,
+    link: "/notification",
   },
   // {
   //   title: "Qr Code",

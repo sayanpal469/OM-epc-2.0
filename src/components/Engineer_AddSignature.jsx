@@ -9,14 +9,20 @@ const Engineer_AddSignature = ({ closeModal }) => {
       sigRef.current.clear();
   
     };
-    const AddSignature = () => {
-     closeModal()
-    }
-  
     const handleSignatureEnd = () => {
       const SignData = sigRef.current.toDataURL();
+      return SignData
+    };
     
-      console.log("customer_sign", SignData)
+    const AddSignature = () => {
+      try {
+        const signatureData = handleSignatureEnd();
+        localStorage.setItem('signatureData', signatureData);
+        closeModal()
+       
+      } catch (error) {
+        console.error('Error adding signature data to localStorage:', error);
+      }
     };
   return (
    
@@ -32,6 +38,13 @@ const Engineer_AddSignature = ({ closeModal }) => {
       />
     </div>
     <div className="text-center">
+    <button
+        type="button"
+        onClick={closeModal}
+        className="bg-gray-400 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded mx-2"
+      >
+        Close
+      </button>
       <button
         type="button"
         onClick={clearSignature}
