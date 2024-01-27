@@ -1,8 +1,11 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
+
+const status = ["Warrenty","AMC","Installation","SiteInspection","Chargeable","PM","Service"]
 const StepTwo = ({
   handleChange,
   eng_name,
+  call_status,
   assigned_date,
   assigned_time,
   description,
@@ -113,6 +116,36 @@ const StepTwo = ({
 
       <div className="mb-4">
         <label
+          htmlFor="call_status"
+          className="block text-gray-700 font-bold mb-2"
+        >
+          Call Status
+        </label>
+        <select
+          id="call_status"
+          name="call_status"
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+          value={call_status}
+          onChange={handleChange}
+          required
+        >
+          <option value="" disabled>
+            Select call status
+          </option>
+          {status.map((type, index) => (
+            <option
+              key={index}
+              value={type}
+              className="text-sm"
+            >
+              {type} 
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="mb-4">
+        <label
           htmlFor="assigned_date"
           className="block text-gray-700 font-bold mb-2"
         >
@@ -172,6 +205,7 @@ StepTwo.propTypes = {
   handleChange: PropTypes.func.isRequired,
   eng_name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  call_status: PropTypes.string.isRequired,
   assigned_date: PropTypes.string.isRequired,
   assigned_time: PropTypes.string.isRequired,
   engineers: PropTypes.array.isRequired,
