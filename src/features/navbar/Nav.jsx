@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { FaPhoneVolume } from "react-icons/fa6";
 import { MdSpaceDashboard } from "react-icons/md";
 import { SiExpensify } from "react-icons/si";
-import { CgNotes, CgProfile } from "react-icons/cg";
+import { CgNotes } from "react-icons/cg";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { FiUserPlus } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa6";
@@ -26,6 +26,9 @@ const AdminMenus = [
     title: "View Engineer",
     icon: <FaUsers />,
     link: "/view-engineers",
+<<<<<<< HEAD
+  }
+=======
   },
   {
     title: "Notifications",
@@ -44,7 +47,16 @@ const Menus = [
   { title: "Reports", icon: <CgNotes />, link: "/reports" },
   { title: "Expense", icon: <SiExpensify />, link: "/expense" },
   { title: "Profile", icon: <CgProfile />, link: "/profile"}
+>>>>>>> c8087e5491454d75f70ac110e25889344028069a
 ];
+
+// const Menus = [
+//   { title: "Dashboard", icon: <MdSpaceDashboard />, link: "/" },
+//   { title: "Calls", icon: <FaPhoneVolume />, link: "/calls" },
+//   { title: "Reports", icon: <CgNotes />, link: "/reports" },
+//   { title: "Expense", icon: <SiExpensify />, link: "/expense" },
+//   { title: "Profile", icon: <CgProfile />, link: "/profile"}
+// ];
 
 const Nav = ({ role, engId }) => {
   const [open, setOpen] = useState(false);
@@ -74,7 +86,7 @@ const Nav = ({ role, engId }) => {
     // console.log(location.pathname);
   }, [location.pathname, role]);
 
-  // console.log({ role });
+  console.log({ data });
   return (
     <div>
       {isLogin && (
