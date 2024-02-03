@@ -718,7 +718,7 @@ const CreateReportFrom = () => {
                     form.isStepSubmitted
                   }
                 >
-                  {form.isLastStep ? "Submit" : "Next"}
+                  Submit
                 </button>
               </div>
             </div>
