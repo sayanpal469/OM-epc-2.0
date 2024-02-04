@@ -99,6 +99,22 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
 
   const closeModal = () => {
     setModalOpen(false);
+    setFormData({
+      company_name: "",
+      call_id: "",
+      other: "",
+      company_location: "",
+      expense_amount: "",
+      total_kilometer: "",
+      time: formattedTime,
+      date: formattedDate,
+      admin_desc: "",
+      eng_emp: engineer_id,
+      eng_name: engName,
+      eng_desc: "",
+      isApprove: "PENDING",
+      status: "PENDING",
+    });
   };
 
   useEffect(() => {
@@ -157,6 +173,7 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
       company_name: selectedCompany?.company_name || "",
       call_id: selectedCompanyId,
       company_location: selectedCompany?.company_location || "",
+      other: "",
     });
   };
   // console.log({ formData });
@@ -190,7 +207,7 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
       </div>
 
       {isModalOpen && (
-        <div className="h-screen fixed inset-0 z-10 overflow-y-auto">
+        <div className="h-screen fixed inset-0 z-10 overflow-y-auto pb-10">
           <form onSubmit={handleSubmit}>
             <div className="w-full h-full px-20 py-8 shadow-lg backdrop-blur-md backdrop-filter bg-opacity-50">
               <label
@@ -242,7 +259,7 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
               <div className="text-center mt-4">
                 <p>OR</p>
               </div>
-               <label
+              <label
                 className="block mt-4 mb-2 font-semibold text-blue-800"
                 htmlFor="call_id"
               >
@@ -253,6 +270,7 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
                 id="other"
                 value={formData.other}
                 name="other"
+                disabled={formData.company_name !== ""}
                 className="w-full p-3 border rounded-md focus:outline-none focus:border-indigo-600 appearance-none"
                 style={{
                   MozAppearance: "textfield",
@@ -274,12 +292,18 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
                 type="text"
                 id="company_location"
                 name="company_location"
-                disabled
+                disabled={formData.company_name !== ""}
                 value={formData.company_location}
                 className="w-full p-3 border rounded-md focus:outline-none focus:border-indigo-600 appearance-none"
                 style={{
                   MozAppearance: "textfield",
                 }}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    company_location: e.target.value,
+                  })
+                }
               />
               <label
                 className="block mt-4 mb-2 font-semibold text-blue-800"
@@ -388,10 +412,14 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
                 </button>
                 <button
                   type="submit"
-                  disabled={formData.company_name === ""}
+                  disabled={
+                    formData.company_name === "" && formData.other === ""
+                  }
                   style={{
                     cursor:
-                      formData.company_name === "" ? "not-allowed" : "pointer",
+                      formData.company_name === "" && formData.other === ""
+                        ? "not-allowed"
+                        : "pointer",
                   }}
                   className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:border-indigo-700"
                 >

@@ -41,52 +41,52 @@ const CreateEngineers = ({ adminId }) => {
   const [passwordError, setPasswordError] = useState("");
   const [imageFile, setImageFile] = useState("");
 
-  useEffect(() => {
-    if (imageFile !== "") {
-      setFormData({ ...formData, ["eng_sign"]: imageFile });
-    }
-  }, [imageFile]);
+  // useEffect(() => {
+  //   if (imageFile !== "") {
+  //     setFormData({ ...formData, ["eng_sign"]: imageFile });
+  //   }
+  // }, [imageFile]);
 
-  const handleFileChange = async (event) => {
-    const file = event.target.files[0];
+  // const handleFileChange = async (event) => {
+  //   const file = event.target.files[0];
 
-    // Check if there is any file
-    if (!file) {
-      return;
-    }
+  //   // Check if there is any file
+  //   if (!file) {
+  //     return;
+  //   }
 
-    // Check if the file is an image (jpeg, jpg, png)
-    if (
-      file.type === "image/jpeg" ||
-      file.type === "image/jpg" ||
-      file.type === "image/png"
-    ) {
-      // Convert the image file to base64
-      const base64 = await convertFileToBase64(file);
+  //   // Check if the file is an image (jpeg, jpg, png)
+  //   if (
+  //     file.type === "image/jpeg" ||
+  //     file.type === "image/jpg" ||
+  //     file.type === "image/png"
+  //   ) {
+  //     // Convert the image file to base64
+  //     const base64 = await convertFileToBase64(file);
 
-      // Update state with base64 image
-      setImageFile(base64);
-    } else {
-      // Handle non-image file
-      console.log("Please select a valid image file (jpeg, jpg, png).");
-    }
-  };
-  const convertFileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
+  //     // Update state with base64 image
+  //     setImageFile(base64);
+  //   } else {
+  //     // Handle non-image file
+  //     console.log("Please select a valid image file (jpeg, jpg, png).");
+  //   }
+  // };
+  // const convertFileToBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
 
-      reader.onload = () => {
-        const base64Data = reader.result.split(",")[1]; // Extract base64 data (after the comma)
-        resolve(`data:${file.type};base64,${base64Data}`);
-      };
+  //     reader.onload = () => {
+  //       const base64Data = reader.result.split(",")[1]; // Extract base64 data (after the comma)
+  //       resolve(`data:${file.type};base64,${base64Data}`);
+  //     };
 
-      reader.onerror = (error) => {
-        reject(error);
-      };
+  //     reader.onerror = (error) => {
+  //       reject(error);
+  //     };
 
-      reader.readAsDataURL(file);
-    });
-  };
+  //     reader.readAsDataURL(file);
+  //   });
+  // };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -127,14 +127,6 @@ const CreateEngineers = ({ adminId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Check if all fields are filled
-    const isFormValid = Object.values(formData).every((value) => value !== "");
-
-    if (!isFormValid) {
-      alert("Please fill in all fields");
-      return;
-    }
 
     // Check if password meets criteria
     // if (!validatePassword(formData.password)) {
@@ -375,7 +367,7 @@ const CreateEngineers = ({ adminId }) => {
                     className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-indigo-500"
                   />
                 </div>
-
+{/* 
                 <div>
                   <label
                     htmlFor="Signature"
@@ -389,7 +381,7 @@ const CreateEngineers = ({ adminId }) => {
                     onChange={handleFileChange}
                     className="mt-1 p-2 w-full"
                   />
-                </div>
+                </div> */}
 
                 <div>
                   {passwordError && (

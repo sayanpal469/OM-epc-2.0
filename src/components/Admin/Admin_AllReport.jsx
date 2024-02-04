@@ -39,7 +39,7 @@ const Admin_AllReport = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            {tableData.map((call) => (
+            {tableData?.map((call) => (
               <tr key={call._id}>
                 <td data-label="Call_ID">{call.call_id}</td>
                 <td data-label="Company Name">{call.company_name}</td>

@@ -239,3 +239,11 @@ export const UPDATE_CALL_AFTER_SUBMIT_REPORT_BY_ENG = gql`
     }
   }
 `;
+
+export const updateSignEng = gql`
+  mutation UpdateSign($eng_emp: String!, $eng_sign: String!) {
+    updateSign(eng_emp: $eng_emp, eng_sign: $eng_sign) {
+      eng_sign
+    }
+  }
+`;

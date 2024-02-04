@@ -136,6 +136,7 @@ export const GET_ENGINEER_BY_OBJECT_ID = gql`
       address
       email
       designation
+      eng_sign
     }
   }
 `;
