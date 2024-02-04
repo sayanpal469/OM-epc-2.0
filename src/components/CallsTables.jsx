@@ -1,32 +1,34 @@
+import { useLazyQuery } from "@apollo/client";
 import PropTypes from "prop-types";
-import AllCalls from "./AllCalls";
-import NewCalls from "./NewCalls";
+import { useEffect } from "react";
+import { GET_ENGINEER } from "../graphql/queries/graphql_queries";
 import PendingCalls from "./PendingCalls";
 import TodaysCalls from "./TodaysCalls";
 
-const CallsTables = ({
-  selectedCallTab,
-  tablesData,
-  refetch,
-  eng_emp,
-  engineer_data,
-}) => {
+const CallsTables = ({ selectedCallTab, tablesData, refetch, eng_emp }) => {
+  const [getEng, { data }] = useLazyQuery(GET_ENGINEER, {
+    context: {
+      headers: {
+        authorization: `${localStorage.getItem("token")}`,
+      },
+    },
+  });
+  useEffect(() => {
+    getEng({
+      variables: {
+        engEmp: eng_emp,
+      },
+    });
+  }, []);
   return (
     <div className="px-4">
-      {selectedCallTab === "" || selectedCallTab === "All_Calls" ? (
-        <AllCalls
-          refetch={refetch}
-          tablesData={tablesData}
-          selectedCallTab={selectedCallTab}
-          eng_emp={eng_emp}
-          engineer_data={engineer_data}
-        />
-      ) : selectedCallTab === "Today_Calls" ? (
+      {selectedCallTab === "" || selectedCallTab === "Today_Calls" ? (
         <TodaysCalls
           refetch={refetch}
           tablesData={tablesData}
           selectedCallTab={selectedCallTab}
           eng_emp={eng_emp}
+          engineer_data={data}
         />
       ) : selectedCallTab === "Pending_Calls" ? (
         <PendingCalls
@@ -34,13 +36,7 @@ const CallsTables = ({
           tablesData={tablesData}
           selectedCallTab={selectedCallTab}
           eng_emp={eng_emp}
-        />
-      ) : selectedCallTab === "New_Calls" ? (
-        <NewCalls
-          refetch={refetch}
-          tablesData={tablesData}
-          selectedCallTab={selectedCallTab}
-          eng_emp={eng_emp}
+          engineer_data={data}
         />
       ) : (
         <div className="h-full mt-40 flex justify-center items-center">

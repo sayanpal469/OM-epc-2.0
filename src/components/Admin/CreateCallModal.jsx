@@ -72,6 +72,7 @@ const CreateCallModal = ({ closeModal, refetch }) => {
     company_address: "",
     eng_name: "",
     eng_emp: "",
+    work_type:"",
     assigned_date: formattedDate,
     assigned_time: formattedTime,
     admin_desc: "",
@@ -202,6 +203,7 @@ const CreateCallModal = ({ closeModal, refetch }) => {
                   handleChange={handleChange}
                   eng_name={formData.eng_name}
                   eng_emp={formData.eng_emp}
+                  work_type={formData.call_status}
                   assigned_date={formattedDate}
                   assigned_time={formData.assigned_time}
                   description={formData.admin_desc}

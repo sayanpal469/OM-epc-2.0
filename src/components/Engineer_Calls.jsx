@@ -28,7 +28,7 @@ const Engineer_Calls = ({ engineer_data }) => {
       const eng_emp_id = engineer_data?.engineerByObject?.eng_emp;
 
       if (eng_emp_id) {
-        console.log({ eng_emp_id });
+        // console.log({ eng_emp_id });
         setTimeout(() => {
           getCallsByEng({
             variables: {
@@ -139,24 +139,7 @@ const Engineer_Calls = ({ engineer_data }) => {
         <section className="w-full h-full">
           <div className="lg:flex lg:justify-between lg:items-center flex-col p-5 space-y-5">
             <div className="flex lg:flex-row sm:space-y-0 lg:w-[50%] w-[100%] space-y-5  flex-col justify-center items-end space-x-4">
-              <button
-                onClick={() => handleCallTab("New_Calls")}
-                disabled={selectedCallTab === "New_Calls"}
-                className={`border py-2 w-full rounded  ${buttonClasses(
-                  "New_Calls"
-                )}`}
-              >
-                New Calls
-              </button>
-              <button
-                onClick={() => handleCallTab("Today_Calls")}
-                disabled={selectedCallTab === "Today_Calls"}
-                className={`border py-2 w-full rounded ${buttonClasses(
-                  "Today_Calls"
-                )}`}
-              >
-                Today Calls
-              </button>
+             
               <button
                 onClick={() => handleCallTab("Pending_Calls")}
                 disabled={selectedCallTab === "Pending_Calls"}
@@ -167,13 +150,13 @@ const Engineer_Calls = ({ engineer_data }) => {
                 Pending Calls
               </button>
               <button
-                onClick={() => handleCallTab("All_Calls")}
+                onClick={() => handleCallTab("Today_Calls")}
                 disabled={
-                  selectedCallTab === "All_Calls" || selectedCallTab === ""
+                  selectedCallTab === "Today_Calls" || selectedCallTab === ""
                 }
                 className={`border  py-2 w-full rounded ${button_All_Classes}`}
               >
-                All Calls
+               Today Calls
               </button>
             </div>
 

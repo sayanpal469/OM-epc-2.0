@@ -22,8 +22,7 @@ function AdminCall() {
   const [saved_search, setSaved_search] = useState({ option: "", value: "" });
   const [engineers, setEngineers] = useState([]);
   const [calls, setCalls] = useState([]);
-  const [status, setStatus] = useState("ALL")
-
+  const [status, setStatus] = useState("ALL");
 
   const { data, refetch } = useQuery(GET_CALLS_BY_STATUS, {
     variables: {
@@ -38,7 +37,9 @@ function AdminCall() {
   });
   useEffect(() => {
     if (data) {
-      setCalls(data.calls);
+      const reversedCalls = [...data.calls].reverse();
+      console.log({ reversedCalls });
+      setCalls(reversedCalls);
     }
   }, [data]);
 
@@ -88,7 +89,7 @@ function AdminCall() {
   const handleCallTab = (callTab, status) => {
     setIsLoading(true);
     setSelectedCallTab(callTab);
-    setStatus(status)
+    setStatus(status);
   };
 
   const handleSearchOption = (option) => {

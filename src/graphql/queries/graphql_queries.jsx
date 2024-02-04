@@ -75,6 +75,7 @@ export const GET_CALLS_BY_ENGINEER = gql`
         assigned_time
         submit_date
         visit_date
+        work_type
         customer_contact
         eng_desc
         admin_desc

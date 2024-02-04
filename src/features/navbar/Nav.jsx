@@ -3,10 +3,11 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { FaPhoneVolume } from "react-icons/fa6";
 import { MdSpaceDashboard } from "react-icons/md";
 import { SiExpensify } from "react-icons/si";
-import { CgNotes, CgProfile } from "react-icons/cg";
+import { CgNotes } from "react-icons/cg";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { FiUserPlus } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa6";
+import { IoNotifications } from "react-icons/io5";
 // import { CiBarcode } from "react-icons/ci";
 import PropTypes from "prop-types";
 import { GET_ENGINEER_BY_OBJECT_ID } from "../../graphql/queries/graphql_queries";
@@ -26,6 +27,11 @@ const AdminMenus = [
     icon: <FaUsers />,
     link: "/view-engineers",
   },
+  {
+    title: "Notifications",
+    icon: <IoNotifications/>,
+    link: "/notification",
+  },
   // {
   //   title: "Qr Code",
   //   icon: <CiBarcode />,
@@ -39,6 +45,14 @@ const Menus = [
   { title: "Expense", icon: <SiExpensify />, link: "/expense" },
   { title: "Profile", icon: <CgProfile />, link: "/profile"}
 ];
+
+// const Menus = [
+//   { title: "Dashboard", icon: <MdSpaceDashboard />, link: "/" },
+//   { title: "Calls", icon: <FaPhoneVolume />, link: "/calls" },
+//   { title: "Reports", icon: <CgNotes />, link: "/reports" },
+//   { title: "Expense", icon: <SiExpensify />, link: "/expense" },
+//   { title: "Profile", icon: <CgProfile />, link: "/profile"}
+// ];
 
 const Nav = ({ role, engId }) => {
   const [open, setOpen] = useState(false);
@@ -68,7 +82,7 @@ const Nav = ({ role, engId }) => {
     // console.log(location.pathname);
   }, [location.pathname, role]);
 
-  // console.log({ role });
+  console.log({ data });
   return (
     <div>
       {isLogin && (
@@ -166,7 +180,7 @@ const Nav = ({ role, engId }) => {
                     !open && "hidden"
                   } origin-left duration-200 blue-icons-text`}
                 >
-                  Logout
+                  Logout1
                 </span>
               </Link>
             </ul>

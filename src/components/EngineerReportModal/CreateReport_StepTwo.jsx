@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 const EnginnerReport_StepTwo = ({ handleChange, WorkType, Device }) => {
   return (
     <div>
-      <div className="mb-4 ">
+      {/* <div className="mb-4 ">
         <label
           htmlFor="work_type"
           className="block text-gray-700 font-bold mb-4"
@@ -82,7 +82,7 @@ const EnginnerReport_StepTwo = ({ handleChange, WorkType, Device }) => {
             Service
           </label>
         </div>
-      </div>
+      </div> */}
       <div className="mb-4">
         <label
           htmlFor="device_type"

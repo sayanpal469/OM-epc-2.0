@@ -35,6 +35,7 @@ const ReschudleCall_Table = ({
           refetch={refetch}
           eng_emp={eng_emp}
           selectedCallTab_Parent={selectedCallTab_Parent}
+          engineer_data={engineer_data}
         />
       ) : selectedCallTab === "Submit_Report" ? (
         // <CreateReportModal

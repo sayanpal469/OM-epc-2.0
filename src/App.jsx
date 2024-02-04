@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import Expenses from "./pages/Expenses";
-import Nav from "./features/navbar/Nav";
 import "./Styles/DashBoard.css";
 import PrivateRoute from "./features/navbar/PrivateRoute";
 import Reports from "./pages/Reports";
@@ -16,9 +15,11 @@ import ReportModalPdf from "./components/ReportPdf/ReportModalPdf";
 import Engineer_Profile from "./pages/Engineer_Profile";
 import CreateReportFrom from "./pages/CreateReportFrom";
 import Nav2 from "./features/navbar/Nav2";
+import Nav3 from "./features/navbar/Nav3";
 // import Qr_code from "./pages/Admin/Qr_code";
 
-const graphqlEndpoint = "https://om-epc-server-2.onrender.com/"; // Replace with your GraphQL server endpoint
+// const graphqlEndpoint = "https://om-epc-server-2.onrender.com/";
+const graphqlEndpoint = "http://localhost:4000/";
 
 const apolloClient = new ApolloClient({
   uri: graphqlEndpoint,
@@ -29,12 +30,14 @@ function App() {
   const [role, setRole] = useState("");
   const [adminId, setAdminId] = useState("");
   const [engId, setEngId] = useState("");
+  
   const navigationElement =
     role === "Admin" ? (
-      <Nav role={role} engId={engId} />
+      <Nav3 role={role} engId={engId} />
     ) : (
       <Nav2 role={role} engId={engId} />
     );
+    
   const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
     {
@@ -73,12 +76,6 @@ function App() {
             <PrivateRoute element={<Create_Engineers adminId={adminId} />} />
           ),
         },
-        // {
-        //   path: "/qr-code",
-        //   element: (
-        //     <PrivateRoute element={<Qr_code adminId={adminId} />} />
-        //   ),
-        // },
         {
           path: "/view-engineers",
           element: <PrivateRoute element={<View_Engineers />} />,
@@ -96,9 +93,7 @@ function App() {
         {
           path: "/create-report",
           element: <PrivateRoute element={<CreateReportFrom />} />,
-        },
-
-        // Conditional route based on role
+        }
       ],
     },
   ]);
