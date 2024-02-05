@@ -25,11 +25,11 @@ const Header = () => {
             <View style={styles.contactInfo}>
               <View style={styles.contactAlign}>
               <Image style={styles.small_Logo} source={customer_care}/>
-              <Text style={styles.contactText}>7981413743</Text>
+              <Text style={styles.contactText2}>7981413743</Text>
               </View>
               <View style={styles.contactAlign}>
                 <Image style={styles.small_Logo} source={whatsapp_}/>
-              <Text style={styles.contactText}>9477654043</Text>
+              <Text style={styles.contactText2}>9477654043</Text>
               </View>
               <View style={styles.contactAlign}>
                 <Image style={styles.small_Logo} source={gmail}/>
@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: 'black',
     padding: 2,
+    textAlign:'center',
   },
   contactHeaderText: {
     fontSize: 10,
@@ -110,6 +111,10 @@ const styles = StyleSheet.create({
   contactText: {
     fontSize: 8, // Change the font size as per your requirement
     paddingLeft:4
+  },
+  contactText2: {
+    fontSize: 8, // Change the font size as per your requirement
+    paddingLeft:30
   },
   contactAlign:{
     flexDirection: 'row',

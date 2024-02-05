@@ -16,6 +16,7 @@ const Part1 = ({
   site_type,
   work_type,
   device_type,
+  address,
 }) => {
   return (
     <View style={styles.container}>
@@ -26,11 +27,19 @@ const Part1 = ({
         </View>
       </View>
       <View style={styles.textContainer}>
+      <View style={styles.textBorder}>
         <Text style={styles.text}>Customer Name: {customer_name} </Text>
+        </View>
+        <View style={styles.textBorder}>
         <Text style={styles.text}>Client Name: {client_name}</Text>
+        </View>
+        <View style={styles.textBorder}>
         <Text style={styles.text}>Site Id/ATM Id: {atm_id} </Text>
+        </View>
+        <View style={styles.textBorder}>
         <Text style={styles.text}>P.H No: {customer_contact} </Text>
-
+        </View>
+        <View style={styles.textBorder}>
         <View style={styles.checkboxLabel}>
           <Text style={styles.labelText}>Onsite:</Text>
           {site_type === "Onsite" ? (
@@ -47,9 +56,12 @@ const Part1 = ({
             <View style={styles.checkbox}></View>
           )}
         </View>
+        </View>
       </View>
       <View style={styles.infoContainer}>
-        <Text style={styles.text}>Address: </Text>
+      <View style={styles.textBorder}>
+        <Text style={styles.text}>Address: {address}</Text>
+        </View>
       </View>
 
       <View style={styles.flexRow2}>
@@ -122,7 +134,7 @@ const Part1 = ({
         </View>
         <View style={styles.checkboxLabel}>
           <Text style={styles.labelText}>INVERTER & BATTERY:</Text>
-          {device_type === "Inverter&Battery" ? (
+          {device_type === "Inverter_Battery" ? (
             <Image source={tick} style={styles.checkbox} />
           ) : (
             <View style={styles.checkbox}></View>
@@ -171,12 +183,18 @@ const Part1 = ({
       </View>
 
       <View style={styles.textContainer}>
-        <Text style={styles.text}>PRODUCT MAKE: {product_make}</Text>
+      <View style={styles.productContainer}>
+        <Text style={styles.productMakeText}>PRODUCT MAKE: {product_make}</Text>
         <Text style={styles.text}>PRODUCT SL NO: {product_slNo}</Text>
+        </View>
+        <View style={styles.textBorder}>
         <Text style={styles.text}>BUY BACK DETAILS: {buy_back_details}</Text>
+        </View>
+        <View style={styles.textBorder}>
         <Text style={styles.text}>
           NATURE OF COMPLAINT: {nature_of_complaint}
         </Text>
+        </View>
       </View>
     </View>
   );
@@ -261,6 +279,34 @@ const styles = StyleSheet.create({
     marginRight: 2,
     marginBottom: 4,
   },
+  productContainer:{
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 4,
+    paddingTop: 4,
+    paddingLeft: 2,
+    paddingRight: 2,
+    marginBottom: 2,
+  },
+  productMakeText:{
+    marginRight:4,
+    marginBottom: 2,
+    fontSize: 8,
+  },
+  textBorder:{
+    flexDirection: "row",
+    flexWrap: "wrap",
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 4,
+    paddingTop: 4,
+    paddingLeft: 2,
+    paddingRight: 2,
+    marginBottom: 2,
+    width: 'auto',
+  }
 });
 
 Part1.propTypes = {
@@ -276,6 +322,7 @@ Part1.propTypes = {
   device_type: PropTypes.string.isRequired,
   complain_id: PropTypes.string.isRequired,
   customer_name: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired,
   customer_contact: PropTypes.string,
 };
 export default Part1;

@@ -127,7 +127,7 @@ const StepTwo = ({
           htmlFor="work_type"
           className="block text-gray-700 font-bold mb-2"
         >
-          Call Status
+          Work Type
         </label>
         <select
           id="work_type"
@@ -137,7 +137,7 @@ const StepTwo = ({
           onChange={handleChange}
           required
         >
-          <option value="" disabled>
+          <option value="defaultWorkType" disabled>
             Select call status
           </option>
           {status.map((type, index) => (

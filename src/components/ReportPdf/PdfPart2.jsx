@@ -11,22 +11,29 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: 'black',
-    padding: 4,
+    padding: 2,
     marginBottom: 2,
   },
   column: {
     width: '50%',
+    padding:2,
+    borderWidth: 1,
+    borderColor: 'black',
   },
   subHeader: {
     marginBottom: 5,
   },
   flexGap: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 2,
     marginBottom: 2,
   },
+  border:{
+    padding:2,
+    borderWidth: 1,
+    borderColor: 'black',
+    width:'25%',
+  }
 });
 
 const Part2 = ({
@@ -66,18 +73,21 @@ const Part2 = ({
                 <Text>R-Y: {AcInputThreePhase_RY}</Text>
                 <Text>N-R: {AcInputThreePhase_NR}</Text>
               </View>
+              </View>
+              <View style={styles.column}>
               <View style={styles.subHeader}>
-                <Text>AC/INPUT(ONE PHASE)</Text>
+                <Text>AC/INPUT(SINGLE PHASE)</Text>
               </View>
               <View style={styles.flexGap}>
                 <Text>L-N: {AcInputSinglePhase_LN}</Text>
                 <Text>N-E: {AcInputSinglePhase_NE}</Text>
                 <Text>L-E: {AcInputSinglePhase_LE}</Text>
               </View>
+            
             </View>
             <View style={styles.column}>
               <View style={styles.subHeader}>
-                <Text>AC/INPUT(THREE PHASE)</Text>
+                <Text>AC/OUTPUT(THREE PHASE)</Text>
               </View>
               <View style={styles.flexGap}>
                 <Text>R-B: {AcOutputThreePhase_RB}</Text>
@@ -85,8 +95,10 @@ const Part2 = ({
                 <Text>R-Y: {AcOutputThreePhase_RY}</Text>
                 <Text>N-R: {AcOutputThreePhase_NR}</Text>
               </View>
+              </View>
+              <View style={styles.column}>
               <View style={styles.subHeader}>
-                <Text>AC/INPUT(ONE PHASE)</Text>
+                <Text>AC/OUTPUT(SINGLE PHASE)</Text>
               </View>
               <View style={styles.flexGap}>
                 <Text>L-N: {AcOutputSinglePhase_LN}</Text>
@@ -98,16 +110,32 @@ const Part2 = ({
           <View >
             <View>
               <View style={styles.flexGap}>
+                <View style={styles.border}>
                 <Text>UPS/INVERTER DC.V: {UpsInvertDCV}</Text>
+                </View>
+                <View style={styles.border}>
                 <Text>DC.V(WITH MAILS): {DCV_WithMains}</Text>
+                </View>
+                <View style={styles.border}>
                 <Text>DC.V(WITH OUT MAINS): {DCV_WithoutMains}</Text>
+                </View>
+                <View style={styles.border}>
                 <Text>POWER CUT: {power_cut}</Text>
+                </View>
               </View>
               <View style={styles.flexGap}>
+              <View style={styles.border}>
                 <Text>BATTERY MAKE: {battery_make}</Text>
+                </View>
+                <View style={styles.border}>
                 <Text>BATTERY TYPE: {battery_type}</Text>
+                </View>
+                <View style={styles.border}>
                 <Text>BATTERY A.H: {battery_AH}</Text>
+                </View>
+                <View style={styles.border}>
                 <Text>QUANTITY: {quantity}</Text>
+                </View>
               </View>
             </View>
           </View>

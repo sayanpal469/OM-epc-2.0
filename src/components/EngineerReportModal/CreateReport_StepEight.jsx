@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const EnginnerReport_StepEight = ({
   BatteryDataInput,
@@ -62,10 +62,12 @@ const EnginnerReport_StepEight = ({
           >
             {showTable ? (
               <FaChevronUp className="ml-1" /> // FontAwesome Icon for "Hide Table"
+
             ) : (
               <FaChevronDown className="mr-1" /> // FontAwesome Icon for "Show Table"
             )}
-            {showTable ? "Show Input " : "Show Table"}
+            {showTable ? "Show Input " : `Show Table (${BatteryData.length})`}
+           
           </button>
           <div className="mx-2">
             <input

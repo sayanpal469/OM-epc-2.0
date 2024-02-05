@@ -128,10 +128,8 @@ const CreateReportFrom = () => {
 
     // Now you can access the individual properties
     const { selectedCall, engineer_data, eng_emp } = storedData;
-    setEngSign(engineer_data.engineer?.eng_sign);
+    setEngSign(engineer_data?.engineer?.eng_sign);
   }, []);
-
-
 
   // const [getEng, { data }] = useLazyQuery(GET_ENGINEER, {
   //   context: {
@@ -159,9 +157,10 @@ const CreateReportFrom = () => {
   // }, [data]);
 
   const eng_name = `${engineer_data?.Fname} ${engineer_data?.Lname}`;
+ 
 
-  // console.log({ engineer_data });
-  // console.log({ eng_name });
+  console.log({ engineer_data });
+  console.log({ eng_name });
 
   // useEffect(() => {
   //   // Apply overflow-hidden to body when the modal is open
@@ -517,12 +516,12 @@ const CreateReportFrom = () => {
 
       // Close the modal after submitting the form
 
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 1000);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (error) {
       // Handle errors if any of the operations fail
-      console.error("Form Submission Error:", error);
+      console.log("Form Submission Error:", error);
     }
   }
 
