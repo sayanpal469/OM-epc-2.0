@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 2,
+    padding:1,
     marginBottom: 2,
   },
   column: {
@@ -33,6 +33,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
     width:'25%',
+  },
+  text:{
+    padding:1,
+    fontSize:7,
   }
 });
 
@@ -68,10 +72,10 @@ const Part2 = ({
                 <Text>AC/INPUT(THREE PHASE)</Text>
               </View>
               <View style={styles.flexGap}>
-                <Text>R-B: {AcInputThreePhase_RB}</Text>
-                <Text>Y-B: {AcInputThreePhase_YB}</Text>
-                <Text>R-Y: {AcInputThreePhase_RY}</Text>
-                <Text>N-R: {AcInputThreePhase_NR}</Text>
+                <Text style={styles.text}>R-B:{AcInputThreePhase_RB}</Text>
+                <Text style={styles.text}>Y-B:{AcInputThreePhase_YB}</Text>
+                <Text style={styles.text}>R-Y:{AcInputThreePhase_RY}</Text>
+                <Text style={styles.text}>N-R:{AcInputThreePhase_NR}</Text>
               </View>
               </View>
               <View style={styles.column}>
@@ -79,9 +83,9 @@ const Part2 = ({
                 <Text>AC/INPUT(SINGLE PHASE)</Text>
               </View>
               <View style={styles.flexGap}>
-                <Text>L-N: {AcInputSinglePhase_LN}</Text>
-                <Text>N-E: {AcInputSinglePhase_NE}</Text>
-                <Text>L-E: {AcInputSinglePhase_LE}</Text>
+                <Text style={styles.text}>L-N:{AcInputSinglePhase_LN}</Text>
+                <Text style={styles.text}>N-E:{AcInputSinglePhase_NE}</Text>
+                <Text style={styles.text}>L-E:{AcInputSinglePhase_LE}</Text>
               </View>
             
             </View>
@@ -90,10 +94,10 @@ const Part2 = ({
                 <Text>AC/OUTPUT(THREE PHASE)</Text>
               </View>
               <View style={styles.flexGap}>
-                <Text>R-B: {AcOutputThreePhase_RB}</Text>
-                <Text>Y-B: {AcOutputThreePhase_YB}</Text>
-                <Text>R-Y: {AcOutputThreePhase_RY}</Text>
-                <Text>N-R: {AcOutputThreePhase_NR}</Text>
+                <Text style={styles.text}>R-B:{AcOutputThreePhase_RB}</Text>
+                <Text style={styles.text}>Y-B:{AcOutputThreePhase_YB}</Text>
+                <Text style={styles.text}>R-Y:{AcOutputThreePhase_RY}</Text>
+                <Text style={styles.text}>N-R:{AcOutputThreePhase_NR}</Text>
               </View>
               </View>
               <View style={styles.column}>
@@ -101,9 +105,9 @@ const Part2 = ({
                 <Text>AC/OUTPUT(SINGLE PHASE)</Text>
               </View>
               <View style={styles.flexGap}>
-                <Text>L-N: {AcOutputSinglePhase_LN}</Text>
-                <Text>N-E: {AcOutputSinglePhase_NE}</Text>
-                <Text>L-E: {AcOutputSinglePhase_LE}</Text>
+                <Text style={styles.text}>L-N:{AcOutputSinglePhase_LN}</Text>
+                <Text style={styles.text}>N-E:{AcOutputSinglePhase_NE}</Text>
+                <Text style={styles.text}>L-E:{AcOutputSinglePhase_LE}</Text>
               </View>
             </View>
           </View>

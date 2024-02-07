@@ -88,7 +88,7 @@ const RescheduleCallModal = ({
   };
 
   return (
-    <div style={{border:"1px solid red", height:"520px", overflow:"scroll"}}>
+    <div style={{ height:"520px", overflow:"scroll"}}>
       {/* Modal content */}
       <div className="relative flex flex-col bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
         {/* Header */}
