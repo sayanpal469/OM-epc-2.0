@@ -45,7 +45,7 @@ const Footer = ({ customer_sign, date, time, eng_sign, eng_name }) => {
         <View style={styles.flexContainer}>
           <View style={[styles.section, styles.halfSection]}>
             <View style={styles.mb12}>
-              <Text>Customer`s Signature & Stamp:</Text>
+              <Text>Customer`s Signature:</Text>
               <Image source={customer_sign} />
             </View>
             <View style={styles.flexRow}>

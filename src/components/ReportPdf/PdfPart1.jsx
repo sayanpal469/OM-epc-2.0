@@ -27,19 +27,23 @@ const Part1 = ({
         </View>
       </View>
       <View style={styles.textContainer}>
-      <View style={styles.textBorder}>
+      <View style={styles.flexContainer}>
+      <View style={styles.textBorder1}>
         <Text style={styles.text}>Customer Name: {customer_name} </Text>
         </View>
-        <View style={styles.textBorder}>
+        <View style={styles.textBorder1}>
         <Text style={styles.text}>Client Name: {client_name}</Text>
         </View>
-        <View style={styles.textBorder}>
+        </View>
+        <View style={styles.flexContainer}>
+        <View style={styles.textBorder1}>
         <Text style={styles.text}>Site Id/ATM Id: {atm_id} </Text>
         </View>
-        <View style={styles.textBorder}>
+        <View style={styles.textBorder1}>
         <Text style={styles.text}>P.H No: {customer_contact} </Text>
         </View>
-        <View style={styles.textBorder}>
+        </View>
+        <View style={styles.textBorder2}>
         <View style={styles.checkboxLabel}>
           <Text style={styles.labelText}>Onsite:</Text>
           {site_type === "Onsite" ? (
@@ -183,9 +187,13 @@ const Part1 = ({
       </View>
 
       <View style={styles.textContainer}>
-      <View style={styles.productContainer}>
-        <Text style={styles.productMakeText}>PRODUCT MAKE: {product_make}</Text>
+        <View style={styles.flexContainer}>
+        <View style={styles.textBorder1}>
+        <Text style={styles.text}>PRODUCT MAKE: {product_make}</Text>
+        </View>
+        <View style={styles.textBorder1}>
         <Text style={styles.text}>PRODUCT SL NO: {product_slNo}</Text>
+        </View>
         </View>
         <View style={styles.textBorder}>
         <Text style={styles.text}>BUY BACK DETAILS: {buy_back_details}</Text>
@@ -279,22 +287,6 @@ const styles = StyleSheet.create({
     marginRight: 2,
     marginBottom: 4,
   },
-  productContainer:{
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 4,
-    paddingTop: 4,
-    paddingLeft: 2,
-    paddingRight: 2,
-    marginBottom: 2,
-  },
-  productMakeText:{
-    marginRight:4,
-    marginBottom: 2,
-    fontSize: 8,
-  },
   textBorder:{
     flexDirection: "row",
     flexWrap: "wrap",
@@ -305,8 +297,38 @@ const styles = StyleSheet.create({
     paddingLeft: 2,
     paddingRight: 2,
     marginBottom: 2,
-    width: 'auto',
-  }
+    borderRight:2,
+  },
+  textBorder2:{
+    flexDirection: "row",
+    flexWrap: "wrap",
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 4,
+    paddingTop: 4,
+    paddingLeft: 2,
+    paddingRight: 2,
+    marginBottom: 2,
+    width:"25%",
+  },
+  flexContainer:{
+    display:"flex",
+    flexDirection:"row",
+    
+  },
+  textBorder1:{
+    flexDirection: "row",
+    flexWrap: "wrap",
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 4,
+    paddingTop: 4,
+    paddingLeft: 2,
+    paddingRight: 2,
+    marginBottom: 2,
+    marginRight:2,
+    width:"50%"
+  },
 });
 
 Part1.propTypes = {
