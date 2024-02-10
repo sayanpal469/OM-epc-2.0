@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const Admin_TodayReport = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selected_report, setSelected_report] = useState({});
-  console.log({ data });
+  // console.log({ data });
   const openModal = () => {
     setIsModalOpen(true);
   };

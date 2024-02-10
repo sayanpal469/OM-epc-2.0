@@ -6,7 +6,7 @@ const Admin_AllReport = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [selected_report, setSelected_report] = useState({});
-  console.log({ data });
+  // console.log({ data });
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -19,7 +19,8 @@ const Admin_AllReport = ({ data }) => {
   useEffect(() => {
     if (data) {
       if (data?.calls?.length > 0) {
-        setTableData(data.calls);
+        const reversedCalls = [...data.calls].reverse();
+        setTableData(reversedCalls);
       }
     }
   }, [data, tableData]);

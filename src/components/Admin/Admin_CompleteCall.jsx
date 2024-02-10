@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CallDetailsModal from "../CallDetailsModal";
 import useFetchCallsByStatus from "../../hooks/useFetchCallsByStatus";
 import PropTypes from "prop-types";
@@ -8,7 +8,8 @@ const Admin_CompleteCall = ({ saved_search }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selected_call_for_view, setSelected_call_for_view] = useState({});
   const status = "COMPLETED";
-  const { calls, data } = useFetchCallsByStatus(status);
+  const { data } = useFetchCallsByStatus(status);
+  const [calls, setCalls] = useState([]);
 
   const filteredCalls = () => {
     if (!saved_search || !saved_search.option || !saved_search.value) {
@@ -47,6 +48,15 @@ const Admin_CompleteCall = ({ saved_search }) => {
   const open_Edit_Modal = () => {
     setIsEditModalOpen(true);
   };
+
+  useEffect(() => {
+    if (data) {
+      const reversedCalls = [...data.calls].reverse();
+      setCalls(reversedCalls);
+    }
+  }, [data]);
+
+  // console.log(calls)
 
   return (
     <div>

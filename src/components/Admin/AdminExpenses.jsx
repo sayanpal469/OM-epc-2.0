@@ -10,6 +10,8 @@ function AdminExpenses() {
   const [toDate, setToDate] = useState("");
   const [searchText, setSearchText] = useState("");
   const [savedSearch, setSavedSearch] = useState({ option: "", text: "" });
+  
+  
   const handleSave = () => {
     // Update the saved search state
     setSavedSearch({ option: searchOption, value: searchText });

@@ -3,6 +3,8 @@ import Admin_AllReport from "./Admin_AllReport";
 import Admin_TodayReport from "./Admin_TodayReport";
 
 const AdminReportTable = ({ selectedCallTab, data }) => {
+  // console.log(data)
+  
   return data ? (
     <div className="px-6">
       {selectedCallTab === "" || selectedCallTab === "All_Reports" ? (

@@ -253,3 +253,18 @@ export const GET_WHATSAPP_CODE = gql`
     getQRCode
   }
 `;
+
+export const GET_CALL_BY_CALLID = gql`
+  query GetCallByCallId($call_id: String!) {
+    data: getCallByIdCallId(call_id: $call_id) {
+      call_id
+      customer_contact
+      company_name
+      company_details
+      company_location
+      company_address
+      eng_name
+      eng_emp
+    }
+  }
+`;

@@ -1,8 +1,12 @@
+import { useEffect, useState } from "react";
 import useFetchExpenseByStatus from "../../hooks/useFetchExpenseByStatus";
 import PropTypes from "prop-types";
+
 const Admin_ApproveExpenses = ({ savedSearch }) => {
   const status = "APPROVE";
-  const { expenses, data } = useFetchExpenseByStatus(status);
+  const { data } = useFetchExpenseByStatus(status);
+  const [expenses, setExpenses] = useState([]);
+
   const filteredExpenses = () => {
     if (!savedSearch || !savedSearch.option || !savedSearch.value) {
       // No saved search, return all expenses
@@ -24,6 +28,14 @@ const Admin_ApproveExpenses = ({ savedSearch }) => {
     // Default: return all expenses
     return expenses;
   };
+
+  useEffect(() => {
+    if (data) {
+      const reversedExpenses = [...data.expenseReportsByStatus].reverse();
+      setExpenses(reversedExpenses);
+    }
+  }, [data]);
+
   return (
     <div>
       {data ? (
@@ -50,7 +62,7 @@ const Admin_ApproveExpenses = ({ savedSearch }) => {
                 <td data-label="Engineer Name">{expense.eng_name}</td>
                 <td data-label="Amount">{expense.expense_amount}</td>
                 <td data-label="Submit Date">
-                  {expense.date.split("-").reverse().join("-")}
+                  {expense.date}
                 </td>
                 <td data-label="Status">{expense.status}</td>
                 {/* <td data-label="Expense Status">{expense.expense_status}</td> */}

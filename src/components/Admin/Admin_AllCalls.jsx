@@ -2,8 +2,9 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { JsonToExcel } from "react-json-to-excel";
 import Edit_Call from "./EditCall/EditCall";
-
 import CallDetailsModal_Admin from "./CallDetailsModal_Admin";
+
+
 const Admin_calls = ({ saved_search, calls, refetch }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -78,7 +79,7 @@ const Admin_calls = ({ saved_search, calls, refetch }) => {
     };
   });
 
-  console.log({ jsonData });
+  // console.log({ jsonData });
 
   return (
     <div>

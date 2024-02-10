@@ -26,7 +26,7 @@ function AdminCall() {
 
   const { data, refetch } = useQuery(GET_CALLS_BY_STATUS, {
     variables: {
-      status: "ALL",
+      status: status,
     },
     context: {
       headers: {
@@ -38,7 +38,7 @@ function AdminCall() {
   useEffect(() => {
     if (data) {
       const reversedCalls = [...data.calls].reverse();
-      console.log({ reversedCalls });
+      // console.log({ reversedCalls });
       setCalls(reversedCalls);
     }
   }, [data]);
@@ -78,7 +78,7 @@ function AdminCall() {
     });
   };
 
-  console.log({ saved_search });
+  // console.log({ saved_search });
 
   useEffect(() => {
     if (EngineersData?.engineers?.length > 0) {

@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import ExpenseVeiwModal from "./ExpenseVeiwModal";
 import useFetchExpenseByStatus from "../../hooks/useFetchExpenseByStatus";
 import { JsonToExcel } from "react-json-to-excel";
 
 const Admin_AllExpenses = ({ savedSearch }) => {
-  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const status = "ALL";
-  const { expenses, data } = useFetchExpenseByStatus(status);
+  const { data } = useFetchExpenseByStatus(status);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
+  const [expenses, setExpenses] = useState([]);
 
   const open_Expense_Details_Modal = (expense) => {
     setSelectedExpense(expense);
@@ -43,7 +44,14 @@ const Admin_AllExpenses = ({ savedSearch }) => {
     return expenses;
   };
 
-  console.log({ expenses });
+  console.log(data);
+
+  useEffect(() => {
+    if (data) {
+      const reversedExpenses = [...data.expenseReportsByStatus].reverse();
+      setExpenses(reversedExpenses);
+    }
+  }, [data]);
 
   const jsonData = expenses.map((expense) => ({
     date: expense.date,
@@ -94,7 +102,7 @@ const Admin_AllExpenses = ({ savedSearch }) => {
                   <td data-label="Engineer Name">{expense.eng_name}</td>
                   <td data-label="Amount">{expense.expense_amount}</td>
                   <td data-label="Submit Date">
-                    {expense.date.split("-").reverse().join("-")}
+                    {expense.date}
                   </td>
                   <td data-label="Status">{expense.status}</td>
                   {/* <td data-label="Expense Status">{expense.expense_status}</td> */}

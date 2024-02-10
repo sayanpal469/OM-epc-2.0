@@ -6,6 +6,7 @@ import Admin_CompleteCall from "./Admin_CompleteCall";
 
 
 const Admin_CallsTables = ({ selectedCallTab, saved_search, calls, refetch }) => {
+  // console.log(calls)
   return (
     <div className="px-4">
       {selectedCallTab === "" || selectedCallTab === "All_Calls" ? (

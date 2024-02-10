@@ -4,10 +4,14 @@ import { useState } from "react";
 import { Formiz, FormizStep, useForm } from "@formiz/core";
 import StepTwo from "./StepTwo";
 import StepOne from "./StepOne";
-import { useMutation, useQuery } from "@apollo/client";
-import { GET_ENGINEERS } from "../../graphql/queries/graphql_queries";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import {
+  GET_CALL_BY_CALLID,
+  GET_ENGINEERS,
+} from "../../graphql/queries/graphql_queries";
 import { CREATE_CALL_MUTATION } from "../../graphql/mutations/graphql.mutations";
 import toast, { Toaster } from "react-hot-toast";
+import { FaSearch } from "react-icons/fa";
 
 const fakeDelay = (delay = 500) => new Promise((r) => setTimeout(r, delay));
 
@@ -23,6 +27,8 @@ const CreateCallModal = ({ closeModal, refetch }) => {
   }, []);
 
   const [engineers, setEngineers] = useState([]);
+  const [callId, setCallId] = useState("");
+  const [callData, setCallData] = useState({});
 
   const [createCallMutation] = useMutation(CREATE_CALL_MUTATION, {
     context: {
@@ -39,6 +45,23 @@ const CreateCallModal = ({ closeModal, refetch }) => {
       },
     },
   });
+
+  const [getCallByCallId, { data: existsData }] = useLazyQuery(
+    GET_CALL_BY_CALLID,
+    {
+      variables: {
+        call_id: callId,
+      },
+      context: {
+        headers: {
+          authorization: `${localStorage.getItem("token")}`, // Include the token from local storage
+        },
+      },
+    }
+  );
+
+  console.log(existsData);
+  console.log(callData);
 
   const currentTime = new Date();
 
@@ -72,7 +95,7 @@ const CreateCallModal = ({ closeModal, refetch }) => {
     company_address: "",
     eng_name: "",
     eng_emp: "",
-    work_type:"",
+    work_type: "",
     assigned_date: formattedDate,
     assigned_time: formattedTime,
     admin_desc: "",
@@ -160,6 +183,32 @@ const CreateCallModal = ({ closeModal, refetch }) => {
 
   const isLoading = form.isSubmitting;
 
+  const handelSearch = () => {
+    try {
+      getCallByCallId();
+      // console.log(data);
+    } catch (error) {
+      console.error("Error fetching call data:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (existsData) {
+      setCallData(existsData.data);
+      setFormData({
+        ...formData,
+        call_id: callData.call_id,
+        company_name: callData.company_name,
+        customer_contact: callData.customer_contact,
+        company_details: callData.company_details,
+        company_location: callData.company_location,
+        company_address: callData.company_address,
+        eng_name: callData.eng_name,
+        eng_emp: callData.eng_emp,
+      });
+    }
+  }, [callData, existsData]);
+
   useEffect(() => {
     if (data) {
       setEngineers(data?.engineers);
@@ -182,6 +231,30 @@ const CreateCallModal = ({ closeModal, refetch }) => {
                     {StepOneError}
                   </div>
                 )}
+
+                <div className="mb-10">
+                  <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                    <input
+                      onChange={(e) => setCallId(e.target.value)}
+                      type="search"
+                      className="relative m-0 -mr-0.5 block min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+                      placeholder="Search using Call id"
+                      aria-label="Search"
+                      aria-describedby="button-addon1"
+                    />
+
+                    <button
+                      onClick={handelSearch}
+                      className="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg bg-blue-500"
+                      type="button"
+                      id="button-addon1"
+                      data-te-ripple-init
+                      data-te-ripple-color="light"
+                    >
+                      <FaSearch />
+                    </button>
+                  </div>
+                </div>
                 <StepOne
                   handleChange={handleChange}
                   call_id={formData.call_id}

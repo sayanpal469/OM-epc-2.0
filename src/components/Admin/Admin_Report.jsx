@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { GET_CALLS_BY_STATUS } from "../../graphql/queries/graphql_queries";
 import Loading from "../Loading";
 import AdminReportTable from "./Admin_ReportTable";
+
+
 const Admin_Report = () => {
   const [selectedCallTab, setSelectedCallTab] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -10,6 +12,7 @@ const Admin_Report = () => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [searchText, setSearchText] = useState("");
+  // const [reports, setReports] = useState([])
 
   const { data, refetch } = useQuery(GET_CALLS_BY_STATUS, {
     variables: {
@@ -55,6 +58,8 @@ const Admin_Report = () => {
 
     return () => clearTimeout(delay);
   }, [selectedCallTab]);
+
+  console.log(data)
 
   const buttonClasses = (tabName) =>
     selectedCallTab === tabName
