@@ -44,7 +44,7 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
   const [formData, setFormData] = useState({
     company_name: "",
     call_id: "",
-    other: "",
+    others: "",
     company_location: "",
     expense_amount: "",
     total_kilometer: "",
@@ -102,7 +102,7 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
     setFormData({
       company_name: "",
       call_id: "",
-      other: "",
+      others: "",
       company_location: "",
       expense_amount: "",
       total_kilometer: "",
@@ -173,7 +173,7 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
       company_name: selectedCompany?.company_name || "",
       call_id: selectedCompanyId,
       company_location: selectedCompany?.company_location || "",
-      other: "",
+      others: "",
     });
   };
   // console.log({ formData });
@@ -267,9 +267,9 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
               </label>
               <input
                 type="text"
-                id="other"
-                value={formData.other}
-                name="other"
+                id="others"
+                value={formData.others}
+                name="others"
                 disabled={formData.company_name !== ""}
                 className="w-full p-3 border rounded-md focus:outline-none focus:border-indigo-600 appearance-none"
                 style={{
@@ -278,7 +278,7 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    other: e.target.value,
+                    others: e.target.value,
                   })
                 }
               />
@@ -413,11 +413,11 @@ const AddExpense = ({ engineer_id, this_month_expense_amount, refetch }) => {
                 <button
                   type="submit"
                   disabled={
-                    formData.company_name === "" && formData.other === ""
+                    formData.company_name === "" && formData.others === ""
                   }
                   style={{
                     cursor:
-                      formData.company_name === "" && formData.other === ""
+                      formData.company_name === "" && formData.others === ""
                         ? "not-allowed"
                         : "pointer",
                   }}

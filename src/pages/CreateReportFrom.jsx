@@ -104,9 +104,10 @@ const CreateReportFrom = () => {
   const [engSign, setEngSign] = useState();
   const [loading, setLoading] = useState(false);
   const storedData = JSON.parse(localStorage.getItem("report_fields"));
+  const storedDataEng = JSON.parse(localStorage.getItem("engineer_data"));
   const navigate = useNavigate();
   // Now you can access the individual properties
-  const { selectedCall, engineer_data, eng_emp } = storedData;
+  const { selectedCall, eng_emp } = storedData;
   const [Update_Call] = useMutation(UPDATE_CALL_AFTER_SUBMIT_REPORT_BY_ENG, {
     context: {
       headers: {
@@ -127,10 +128,12 @@ const CreateReportFrom = () => {
     const storedData = JSON.parse(localStorage.getItem("report_fields"));
 
     // Now you can access the individual properties
-    const { selectedCall, engineer_data, eng_emp } = storedData;
-    setEngSign(engineer_data?.engineer?.eng_sign);
+    const { selectedCall, eng_emp } = storedData;
+    const storedDataEng = JSON.parse(localStorage.getItem("engineer_data"));
+    setEngSign(storedDataEng.eng_sign);
   }, []);
 
+  console.log({ storedDataEng });
   // const [getEng, { data }] = useLazyQuery(GET_ENGINEER, {
   //   context: {
   //     headers: {
@@ -156,7 +159,7 @@ const CreateReportFrom = () => {
   //   }
   // }, [data]);
 
-  const eng_name = `${engineer_data?.Fname} ${engineer_data?.Lname}`;
+  const eng_name = `${storedDataEng?.Fname} ${storedDataEng?.Lname}`;
 
   // console.log({ engineer_data });
   // console.log({ eng_name });
@@ -207,7 +210,7 @@ const CreateReportFrom = () => {
     address: selectedCall.company_address || "",
     atm_id: "",
     site_type: "",
-    // work_type: selectedCall.work_type,
+    work_type: selectedCall.work_type,
     device_type: "",
     product_make: "",
     product_slNo: "",
@@ -440,11 +443,11 @@ const CreateReportFrom = () => {
           />
           <Part3 BatteryData={BatteryData} />
           <Footer
-            date={formData.date || ""}
-            customer_sign={formData.customer_sign || ""}
+            date={formData?.date || ""}
+            customer_sign={formData?.customer_sign || ""}
             eng_sign={engSign}
             eng_name={eng_name}
-            time={formData.time || ""}
+            time={formData?.time || ""}
           />
         </Page>
       </Document>
@@ -464,20 +467,20 @@ const CreateReportFrom = () => {
 
       console.log({ Result });
       let blobPDF = await pdf(myDoc()).toBlob();
-      // console.log({ blobPDF });
+      console.log({ blobPDF });
 
       // Upload the PDF Blob to Firebase Storage
       const pdfDownloadURL = await uploadPdfToStorage(
         blobPDF,
         selectedCall.call_id
       );
-      // console.log("PDF Upload URL:", pdfDownloadURL);
+      console.log("PDF Upload URL:", pdfDownloadURL);
 
       // Upload images to Firebase Storage
       const imagesDownloadURLs = await uploadImages({
         files: formData.site_images,
       });
-      // console.log("Images Upload URLs:", imagesDownloadURLs);
+      console.log("Images Upload URLs:", imagesDownloadURLs);
 
       // Execute the mutation with the form data and uploaded URLs
       await addReportMutation({
@@ -518,6 +521,7 @@ const CreateReportFrom = () => {
       // setLoading(true);
       setTimeout(() => {
         // setLoading(false);
+        navigate("/calls");
         window.location.reload();
       }, 1000);
     } catch (error) {

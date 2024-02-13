@@ -3,6 +3,8 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import pdfDB from "../components/pdf_config/pdfConfig";
 
 const uploadPdfToStorage = async (blob, call_id) => {
+  console.log(blob);
+  console.log("abcd");
   try {
     // Create a reference to the storage path where you want to upload the PDF
     const storageRef = ref(pdfDB, `/reports/${call_id}`);

@@ -55,7 +55,7 @@ const Footer = ({ customer_sign, date, time, eng_sign, eng_name }) => {
           </View>
           <View style={[styles.section, styles.halfSection]}>
             <View style={styles.mb12}>
-              <Text>Service Engineer`s Name: {eng_name}</Text>
+              <Text>Service Engineer Name: {eng_name}</Text>
               <Text>Signature:</Text>
               <Image source={eng_sign} />
             </View>

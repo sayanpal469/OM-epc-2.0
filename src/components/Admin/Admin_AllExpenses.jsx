@@ -10,6 +10,7 @@ const Admin_AllExpenses = ({ savedSearch }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [expenses, setExpenses] = useState([]);
+  const [value, setValue] = useState("");
 
   const open_Expense_Details_Modal = (expense) => {
     setSelectedExpense(expense);
@@ -44,7 +45,7 @@ const Admin_AllExpenses = ({ savedSearch }) => {
     return expenses;
   };
 
-  console.log(data);
+  console.log(value);
 
   useEffect(() => {
     if (data) {
@@ -68,17 +69,68 @@ const Admin_AllExpenses = ({ savedSearch }) => {
     eng_desc: expense.eng_desc,
     admin_desc: expense.admin_desc,
   }));
+
+  const currentMonth = new Date().getMonth() + 1;
+
+  // Filter expenses for the current month
+  const currentMonthExpenses = expenses.filter((report) => {
+    const reportMonth = new Date(report.date).getMonth() + 1;
+    return reportMonth === currentMonth;
+  });
+
+  // Calculate the sum of expense_amount for the current month
+  const totalExpenseAmount = currentMonthExpenses.reduce(
+    (sum, report) => sum + parseFloat(report.expense_amount),
+    0
+  );
+  const calculateTotalAmount = (status) => {
+    return currentMonthExpenses
+      .filter((report) => report.status === status)
+      .reduce((sum, report) => sum + parseFloat(report.expense_amount), 0);
+  };
+
+  const approvedAmount = calculateTotalAmount("APPROVE");
+  const pendingAmount = calculateTotalAmount("PENDING");
+
   return (
     <div>
       {data ? (
         <div>
-          <JsonToExcel
-            title="Download as Excel"
-            data={jsonData}
-            fileName="all-expense-report"
-            btnClassName=""
-            btnColor="#7CB9E8"
-          />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <JsonToExcel
+              title="Download as Excel"
+              data={jsonData}
+              fileName="all-expense-report"
+              btnClassName=""
+              btnColor="#7CB9E8"
+            />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "start",
+                justifyContent: "flex-start",
+                flexDirection: "column",
+
+              }}
+            >
+              <p className="text-lg font-bold text-blue-500">
+                Total Expense: ₹ {totalExpenseAmount}
+              </p>
+              <p className="text-lg font-bold text-green-500">
+                Approved Expense: ₹ {approvedAmount}
+              </p>
+              <p className="text-lg font-bold text-yellow-600">
+                Pending Expense: ₹ {pendingAmount}
+              </p>
+            </div>
+          </div>
+
           <table className="mt-2">
             <thead>
               <tr>
@@ -101,9 +153,7 @@ const Admin_AllExpenses = ({ savedSearch }) => {
                   <td data-label="Location">{expense.company_location}</td>
                   <td data-label="Engineer Name">{expense.eng_name}</td>
                   <td data-label="Amount">{expense.expense_amount}</td>
-                  <td data-label="Submit Date">
-                    {expense.date}
-                  </td>
+                  <td data-label="Submit Date">{expense.date}</td>
                   <td data-label="Status">{expense.status}</td>
                   {/* <td data-label="Expense Status">{expense.expense_status}</td> */}
                   {expense.status === "APPROVE" && (

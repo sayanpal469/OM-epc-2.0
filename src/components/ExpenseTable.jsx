@@ -44,7 +44,10 @@ const ExpenseTable = ({ engineer_info }) => {
       expenseData?.expenseReportByEng?.expense_list?.length > 0 &&
       expenseData
     ) {
-      setExpenseTable(expenseData.expenseReportByEng.expense_list);
+      const reversedArray = expenseData.expenseReportByEng.expense_list
+        .slice()
+        .reverse();
+      setExpenseTable(reversedArray);
     }
   }, [expenseData]);
 
