@@ -18,8 +18,8 @@ import Nav2 from "./features/navbar/Nav2";
 import Nav3 from "./features/navbar/Nav3";
 // import Qr_code from "./pages/Admin/Qr_code";
 
-// const graphqlEndpoint = "https://om-epc-server-2.onrender.com/";
-const graphqlEndpoint = "http://localhost:4000/";
+const graphqlEndpoint = "https://om-epc-server-2.onrender.com/";
+// const graphqlEndpoint = "http://localhost:4000/";
 
 const apolloClient = new ApolloClient({
   uri: graphqlEndpoint,
