@@ -71,10 +71,11 @@ const Admin_AllExpenses = ({ savedSearch }) => {
   }));
 
   const currentMonth = new Date().getMonth() + 1;
-
+  console.log({ currentMonth });
   // Filter expenses for the current month
   const currentMonthExpenses = expenses.filter((report) => {
-    const reportMonth = new Date(report.date).getMonth() + 1;
+    const dateParts = report.date.split("-");
+    const reportMonth = parseInt(dateParts[1], 10); // Convert to integer
     return reportMonth === currentMonth;
   });
 
@@ -91,6 +92,8 @@ const Admin_AllExpenses = ({ savedSearch }) => {
 
   const approvedAmount = calculateTotalAmount("APPROVE");
   const pendingAmount = calculateTotalAmount("PENDING");
+
+  console.log({ currentMonthExpenses });
 
   return (
     <div>
@@ -116,7 +119,6 @@ const Admin_AllExpenses = ({ savedSearch }) => {
                 alignItems: "start",
                 justifyContent: "flex-start",
                 flexDirection: "column",
-
               }}
             >
               <p className="text-lg font-bold text-blue-500">
