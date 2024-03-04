@@ -1,6 +1,6 @@
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import pdfDB from "../components/pdf_config/pdfConfig";
-import { v4 as uuidv4 } from 'uuid';
+
 
 const uploadImages = async ({ files }) => {
   // Ensure that there are files to upload
@@ -17,7 +17,7 @@ const uploadImages = async ({ files }) => {
   // Iterate over the array of files and upload each one
   const promises = files.map((file, index) => {
     // Create a unique filename for each file
-    const imageName = `image_${index + uuidv4()}.${file.name.split(".").pop()}`;
+    const imageName = `image_${index + 1}.${file.name.split(".").pop()}`;
 
     // Create a reference to the storage path where you want to upload the file
     const storageRef = ref(pdfDB, imageName); // replace with your actual storage path

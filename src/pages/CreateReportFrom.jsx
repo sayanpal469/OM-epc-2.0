@@ -15,7 +15,7 @@ import {
   ADD_REPORT_MUTATION,
   UPDATE_CALL_AFTER_SUBMIT_REPORT_BY_ENG,
 } from "../graphql/mutations/graphql.mutations";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 // import { GET_ENGINEER } from "../graphql/queries/graphql_queries";
 
 import { Page, Document, StyleSheet, pdf } from "@react-pdf/renderer";
@@ -461,6 +461,8 @@ const CreateReportFrom = () => {
       };
 
       await fakeDelay();
+
+      console.log(Result)
 
       console.log({ Result });
       let blobPDF = await pdf(myDoc()).toBlob();
