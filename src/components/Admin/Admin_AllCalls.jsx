@@ -19,7 +19,7 @@ const Admin_calls = ({ saved_search, calls, refetch }) => {
     // Filter based on savedSearch
     if (saved_search.option === "date") {
       // Filter by call submit date
-      console.log({ saved_search });
+      // console.log({ saved_search });
       const [year, month, day] = saved_search.value.split("-");
       const newDate = `${day}-${month}-${year}`;
       return calls.filter((call) => call.assigned_date === newDate);
@@ -34,7 +34,7 @@ const Admin_calls = ({ saved_search, calls, refetch }) => {
     return calls;
   };
 
-  // console.log({ filteredCalls });
+  console.log( filteredCalls());
 
   // console.log({ saved_search });
   // console.log({ filteredCalls });

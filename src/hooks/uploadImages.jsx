@@ -1,10 +1,12 @@
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import pdfDB from "../components/pdf_config/pdfConfig";
-
+import { v4 as uuidv4 } from "uuid";
 
 const uploadImages = async ({ files }) => {
   // Ensure that there are files to upload
-  console.log({ files });
+  // console.log({ files });
+  const id = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+
   if (!files || files.length === 0) {
     console.warn("No files to upload");
     const downloadURLs = [];

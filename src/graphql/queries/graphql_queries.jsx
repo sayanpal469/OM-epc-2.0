@@ -36,6 +36,7 @@ export const GET_CALLS_BY_STATUS = gql`
       report
       status
       admin_desc
+      work_type
       customer_contact
       visit_date
       eng_desc
