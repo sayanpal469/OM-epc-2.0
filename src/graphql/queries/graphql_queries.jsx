@@ -269,3 +269,14 @@ export const GET_CALL_BY_CALLID = gql`
     }
   }
 `;
+
+export const GET_ADMIN_NOTIFICATION = gql`
+  query GetAdminNotification {
+    getAdminNotification {
+      _id
+      comment
+      provider
+      consumer
+    }
+  }
+`;

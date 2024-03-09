@@ -247,3 +247,11 @@ export const updateSignEng = gql`
     }
   }
 `;
+
+export const DELETE_NOTIFICATION = gql`
+  mutation Mutation($_id: ID!) {
+    deleteNotification(_id: $_id) {
+      message
+    }
+  }
+`;
