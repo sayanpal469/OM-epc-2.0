@@ -34,7 +34,7 @@ const View_Engineers = () => {
         {loading ? (
           <Loading />
         ) : (
-          <div className="flex flex-col">
+          <div className="flex flex-wrap justify-evenly items-center">
             {engineers.length > 0 ? (
               engineers.map((engineer) => (
                 <EmployeeCard

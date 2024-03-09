@@ -54,7 +54,7 @@ const EmployeeCard = ({ engineer ,refetch }) => {
         <Loading />
       ) : (
         <div>
-          <EmployeeDetails open={open} setOpen={setOpen} EMP_id={eng_emp} />
+          <EmployeeDetails  open={open} setOpen={setOpen} EMP_id={eng_emp}/>
 
           <div className="flex justify-center my-2 lg:w-[500px]">
             <div className="lg:flex flex-1 lg:justify-between mx-auto lg:max-w-screen-md md:max-w-md max-w-sm p-5 bg-white shadow-md hover:shadow-xl items-center">
@@ -90,6 +90,7 @@ const EmployeeCard = ({ engineer ,refetch }) => {
               </div>
             </div>
           </div>
+          
         </div>
       )}
     </>
