@@ -115,7 +115,7 @@ const EngineerGraph = ({ calls, attendenceData, expenseData }) => {
       attendence: attendence[0],
     },
     {
-      name: "FEB",
+      name: "Feb",
       call: monthCounts[1],
       expense: expense[1],
       attendence: attendence[1],

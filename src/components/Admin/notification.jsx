@@ -40,10 +40,37 @@ const Notification = () => {
     }
   };
 
+  // const calculateMinutesAgo = (create) => {
+  //   const currentTime = new Date().getTime();
+  // const diffInMilliseconds = currentTime - create;
+  // const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60));
+  // return diffInMinutes;
+  // };
+  const calculateTimeAgo = (create) => {
+    const currentTime = new Date().getTime();
+    const diffInMilliseconds = currentTime - create;
+    const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+
+    if (diffInDays >= 1) {
+        // Construct the date and time string
+        const createDate = new Date(create);
+        const dateString = createDate.toLocaleDateString();
+        const timeString = createDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        return `${dateString} ${timeString}`;
+    } else if (diffInHours >= 1) {
+        return `${diffInHours} hour${diffInHours !== 1 ? 's' : ''} ago`;
+    } else {
+        return `${diffInMinutes} minute${diffInMinutes !== 1 ? 's' : ''} ago`;
+    }
+};
+
   return (
     <div>
       {notifications.map((notification) => (
-        <div key={notification._id} className="px-2 border mt-3">
+          <div key={notification._id} className="px-2 border-t-2  mt-2 pt-1">
           <div className="flex flex-row gap-1 items-center justify-between">
             <div>
               <p className="text-sm font-semibold">{notification.provider}</p>
@@ -57,7 +84,9 @@ const Notification = () => {
               </button>
             </div>
           </div>
-          <p className="text-[10px] mt-1">5 min ago</p>
+          <p className="text-[10px] mt-1">
+          {calculateTimeAgo(notification.createdAt)}
+            </p>
         </div>
       ))}
     </div>

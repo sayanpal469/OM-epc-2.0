@@ -277,6 +277,7 @@ export const GET_ADMIN_NOTIFICATION = gql`
       comment
       provider
       consumer
+      createdAt
     }
   }
 `;
