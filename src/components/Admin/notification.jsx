@@ -46,6 +46,8 @@ const Notification = () => {
   // const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60));
   // return diffInMinutes;
   // };
+
+  
   const calculateTimeAgo = (create) => {
     const currentTime = new Date().getTime();
     const diffInMilliseconds = currentTime - create;
