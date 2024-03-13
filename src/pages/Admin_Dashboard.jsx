@@ -271,11 +271,8 @@ const Admin_Dashboard = () => {
             </div> */}
             <div className="flex flex-col justify-between h-auto lg:h-auto lg:px-10 px-5 mb-10 lg:flex-row">
               <div className="w-full lg:w-[45%] lg:mb-0 mb-5">
-                <div className="lg:text-3xl text-xl font-semibold mb-5">
-                  Attendence Sheet
-                </div>
-                <div className="bg-blue-300 shadow-lg rounded-lg ">
-                  <div className="flex justify-between items-center mb-4">
+                <div className="bg-gray-100 shadow-lg rounded-lg pt-2 bg-opacity-100 backdrop-filter bg-blur-lg">
+                <div className="flex justify-between items-center mb-8">
                     <select
                       className="border p-1 bg-gray-200"
                       value={selectedMonth}
@@ -285,6 +282,9 @@ const Admin_Dashboard = () => {
                     >
                       {renderMonthOptions()}
                     </select>
+                    <p className="text-sm text-center sm:text-2xl font-semibold">
+                  Attendence Sheet
+                </p>
                     <select
                       className="border p-1 bg-gray-200"
                       value={selectedEngineer}
