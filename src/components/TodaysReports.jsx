@@ -26,7 +26,7 @@ const TodaysReports = ({ tableData, eng_name }) => {
     <div>
       <table>
         <thead>
-          <tr>
+          <tr className="bg-orange-400">
             <th scope="callId">Call Id</th>
             <th scope="col">Company Name</th>
             <th scope="col"> Submit Date</th>
@@ -37,7 +37,7 @@ const TodaysReports = ({ tableData, eng_name }) => {
         </thead>
         <tbody>
           {filteredArray?.map((data, index) => (
-            <tr key={index}>
+            <tr className={index % 2 !== 0 ? "bg-gray-200" : ""} key={data._id}>
               <td data-label="Call ID">{data.call_id || "-"}</td>
               <td data-label="Company Name">{data.company_name || "-"}</td>
               <td data-label="Submit Date">{data.date}</td>

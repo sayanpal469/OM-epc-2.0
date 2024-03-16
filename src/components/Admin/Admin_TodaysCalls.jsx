@@ -63,8 +63,11 @@ const Admin_TodaysCalls = ({ saved_search, calls, refetch }) => {
             </thead>
 
             <tbody>
-              {filteredCalls().map((call) => (
-                <tr key={call._id}>
+              {filteredCalls().map((call, index) => (
+                <tr
+                className={index % 2 !== 0 ? "bg-gray-200" : ""}
+                key={call._id}
+              >
                   <td data-label="Call_ID">{call.call_id}</td>
                   <td data-label="Company Name">{call.company_name}</td>
                   <td data-label="Engineer Name">{call.eng_name}</td>

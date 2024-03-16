@@ -4,7 +4,6 @@ import { JsonToExcel } from "react-json-to-excel";
 import Edit_Call from "./EditCall/EditCall";
 import CallDetailsModal_Admin from "./CallDetailsModal_Admin";
 
-
 const Admin_calls = ({ saved_search, calls, refetch }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -34,7 +33,7 @@ const Admin_calls = ({ saved_search, calls, refetch }) => {
     return calls;
   };
 
-  console.log( filteredCalls());
+  console.log(filteredCalls());
 
   // console.log({ saved_search });
   // console.log({ filteredCalls });
@@ -94,7 +93,7 @@ const Admin_calls = ({ saved_search, calls, refetch }) => {
           />
           <table className="mt-2">
             <thead>
-              <tr>
+              <tr className="bg-orange-400">
                 <th scope="col">Call_ID</th>
                 <th scope="col">Company Name</th>
                 <th scope="col">Engineer Name</th>
@@ -104,8 +103,11 @@ const Admin_calls = ({ saved_search, calls, refetch }) => {
               </tr>
             </thead>
             <tbody>
-              {filteredCalls().map((call) => (
-                <tr key={call._id}>
+              {filteredCalls().map((call, index) => (
+                <tr
+                  className={index % 2 !== 0 ? "bg-gray-200" : ""}
+                  key={call._id}
+                >
                   <td data-label="Call_ID">{call.call_id}</td>
                   <td data-label="Company Name">{call.company_name}</td>
                   <td data-label="Engineer Name">{call.eng_name}</td>

@@ -1,14 +1,39 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GET_ATTENDENCE_BY_ENG } from "../graphql/queries/graphql_queries";
+import {
+  GET_ATTENDENCE_BY_ENG,
+} from "../graphql/queries/graphql_queries";
 import CallPieChart from "../components/CallPieChart";
 import useFetchCallsByStatus from "../hooks/useFetchCallsByStatus";
 import TodaysCallComponent from "./TodaysCallComponent";
 import { GET_ALL_ENGINEERS } from "../graphql/queries/graphql_queries";
 import { useLazyQuery, useQuery } from "@apollo/client";
+import { MdIncompleteCircle, MdPendingActions } from "react-icons/md";
+import { MdOutlineDoNotDisturbOnTotalSilence } from "react-icons/md";
 
 const Admin_Dashboard = () => {
+  const [loading, setLoading] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
+  const handlePrevMonth = () => {
+    if (selectedMonth === 0) {
+      setSelectedMonth(11);
+      setSelectedYear(selectedYear - 1);
+    } else {
+      setSelectedMonth(selectedMonth - 1);
+    }
+  };
+
+  const handleNextMonth = () => {
+    if (selectedMonth === 11) {
+      setSelectedMonth(0);
+      setSelectedYear(selectedYear + 1);
+    } else {
+      setSelectedMonth(selectedMonth + 1);
+    }
+  };
+
   // const highlightedDates = ["07/08/2023", "19/08/2023", "22/11/2023"]; // replace with your actual highlighted dates
   const [highlightedDates, setHighlightedDates] = useState([]);
   const navigate = useNavigate();
@@ -22,9 +47,10 @@ const Admin_Dashboard = () => {
     fetchPolicy: "network-only",
   });
   const [selectedEngineer, setSelectedEngineer] = useState(engineers[0]);
+
   const status = "ALL";
   const { calls } = useFetchCallsByStatus(status);
-  // console.log({ calls });
+  console.log({ calls });
   const [getAttendenceByEng, { data: attendenceData }] = useLazyQuery(
     GET_ATTENDENCE_BY_ENG,
     {
@@ -36,13 +62,15 @@ const Admin_Dashboard = () => {
     }
   );
 
+  // console.log(calls);
+
   useEffect(() => {
     if (engineers && selectedEngineer) {
+      setLoading(true); // Set loading to true when engineer is selected
       const timerId = setTimeout(() => {
         const selctedEngData = engineers.filter(
           (eng) => `${eng.Fname}` === selectedEngineer
         );
-        // console.log({ selctedEngData });
         getAttendenceByEng({
           variables: {
             engEmp: selctedEngData[0]?.eng_emp,
@@ -51,7 +79,7 @@ const Admin_Dashboard = () => {
       }, 3000);
       return () => clearTimeout(timerId);
     }
-  }, [engineers, selectedEngineer]);
+  }, [engineers, selectedEngineer, getAttendenceByEng]);
 
   useEffect(() => {
     if (
@@ -59,17 +87,15 @@ const Admin_Dashboard = () => {
       attendenceData
     ) {
       const attendenceArr = attendenceData.getAttendenceByEng.attendence;
-      // console.log(attendenceArr);
-      // Extract and format the date as "DD/MM/YYYY"
       const highlightedDates = attendenceArr.map((attendence) => {
         const [day, month, year] = attendence.date.split("/");
         return `${day}/${month}/${year}`;
       });
-
       setHighlightedDates(highlightedDates);
     } else {
       setHighlightedDates([]);
     }
+    setLoading(false); // Set loading to false after getting attendance data
   }, [attendenceData]);
 
   useEffect(() => {
@@ -94,22 +120,39 @@ const Admin_Dashboard = () => {
     { completed: completedCalls?.length || 0 },
     { pending: pendingCalls.length || 0 },
   ];
-  const handleMonthChange = (month) => {
-    setSelectedMonth(month);
-  };
+
+  // const handleMonthChange = (month) => {
+  //   setSelectedMonth(month);
+  // };
 
   const handleEngineerChange = (e) => {
     // console.log();
     setSelectedEngineer(e.target.value);
+    setLoading(true);
   };
 
-  const renderMonthOptions = () => {
-    return Array.from({ length: 12 }, (_, index) => (
-      <option key={index} value={index}>
-        {new Date(0, index).toLocaleString("default", { month: "long" })}
-      </option>
-    ));
-  };
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  // const renderMonthOptions = () => {
+  //   return Array.from({ length: 12 }, (_, index) => (
+  //     <option key={index} value={index}>
+  //       {new Date(0, index).toLocaleString("default", { month: "long" })}
+  //     </option>
+  //   ));
+  // };
 
   const getDaysInMonth = (year, month) => {
     return new Date(year, month + 1, 0).getDate();
@@ -156,8 +199,8 @@ const Admin_Dashboard = () => {
         return (
           <div
             key={`calendarDay-${index}`}
-            className={`w-10 h-full border-2 rounded-full flex items-center justify-center mr-2 mb-2 ${
-              isHighlighted ? "bg-green-500" : ""
+            className={`pl-8 py-5 border  ${
+              isHighlighted ? "bg-green-500 text-white" : ""
             }`}
           >
             {day}
@@ -170,7 +213,7 @@ const Admin_Dashboard = () => {
     const dayNamesRow = dayNames.map((dayName, index) => (
       <div
         key={`dayName-${index}`}
-        className="w-10 h-5 border-2 rounded-full flex items-center justify-center mr-2 mb-2 bg-gray-200"
+        className="w-10 h-5 text-lg font-semibold rounded-full flex items-center justify-center mr-2 mb-5"
       >
         {dayName}
       </div>
@@ -188,6 +231,13 @@ const Admin_Dashboard = () => {
 
   // console.log({ selectedMonth });
   // console.log({ highlightedDates });
+
+  const getDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    console.log(date.toLocaleDateString("en-US", options));
+    return date.toLocaleDateString("en-US", options);
+  };
 
   return (
     <>
@@ -213,7 +263,7 @@ const Admin_Dashboard = () => {
                   </div>
                 </div>
               </header>
-              <main className="mt-5">
+              <main className="mt-5 w-[90%] mx-auto">
                 <section>
                   <div className="flex justify-between w-full items-center px-10">
                     <h3 className="lg:text-3xl text-xl font-semibold">
@@ -227,64 +277,136 @@ const Admin_Dashboard = () => {
                     </button>
                   </div>
 
-                  <div className="grid lg:grid-cols-2 mx-auto w-auto mt-10 px-10 gap-10">
+                  <div className="grid lg:grid-cols-4 md:grid-cols-2 mx-auto w-auto mt-10 px-10 gap-10 mb-10">
                     <TodaysCallComponent />
 
-                    <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
-                      <div className="bg-orange-500 w-16 h-16 flex items-center justify-center rounded-full"></div>
-                      <div className="analytic-info">
-                        <h4>{`Completed Calls`}</h4>
-                        <h1 className="font-bold">
-                          {completedCalls.length > 0
-                            ? completedCalls.length
-                            : 0}
-                        </h1>
+                    <div className="relative">
+                      <div className="shadow-lg overviewBox p-5 bg-[#CEEFFF]">
+                        <div className="">
+                          <h4 className="text-lg">Complete Calls</h4>
+                          <h1 className="font-bold text-5xl mt-5">
+                            {completedCalls.length > 0
+                              ? completedCalls.length
+                              : 0}
+                          </h1>
+                        </div>
+                      </div>
+                      <div className="rightIcon bg-white h-16 text-[#39C2FC] flex justify-center shadow-slate-200 shadow-2xl items-center text-4xl w-20 p-2 rounded-2xl absolute top-0 right-0">
+                        <MdIncompleteCircle />
                       </div>
                     </div>
-                    <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
-                      <div className="bg-purple-500 w-16 h-16 flex items-center justify-center rounded-full"></div>
-                      <div className="analytic-info">
-                        <h4>Pending Calls</h4>
-                        <h1 className="font-bold">
-                          {pendingCalls.length > 0 ? pendingCalls.length : 0}
-                        </h1>
+
+                    <div className="relative">
+                      <div className="shadow-lg overviewBox p-5 bg-[#D6F6D6]">
+                        <div className="">
+                          <h4 className="text-lg">Pending Calls</h4>
+                          <h1 className="font-bold text-5xl mt-5">
+                            {pendingCalls.length > 0 ? pendingCalls.length : 0}
+                          </h1>
+                        </div>
+                      </div>
+                      <div className="rightIcon bg-white h-16 text-green-500 flex justify-center shadow-slate-200 shadow-2xl items-center text-4xl w-20 p-2 rounded-2xl absolute top-0 right-0">
+                        <MdPendingActions />
                       </div>
                     </div>
-                    <div className="shadow-lg p-5 rounded-lg flex gap-5 items-center">
-                      <div className="bg-green-500 w-16 h-16 flex items-center justify-center rounded-full"></div>
-                      <div className="analytic-info">
-                        <h4>Total Calls</h4>
-                        <h1 className="font-bold">
-                          {calls.length > 0 ? calls.length : 0}
-                        </h1>
+
+                    <div className="relative">
+                      <div className="shadow-lg overviewBox p-5 bg-[#e1defc]">
+                        <div className="">
+                          <h4 className="text-lg">Total Calls</h4>
+                          <h1 className="font-bold text-5xl mt-5">
+                            {calls.length > 0 ? calls.length : 0}
+                          </h1>
+                        </div>
+                      </div>
+                      <div className="rightIcon bg-white h-16 text-blue-500 flex justify-center shadow-slate-200 shadow-2xl items-center text-4xl w-20 p-2 rounded-2xl absolute top-0 right-0">
+                        <MdOutlineDoNotDisturbOnTotalSilence />
                       </div>
                     </div>
                   </div>
                 </section>
               </main>
             </div>
-            {/* <div className="w-full px-10 flex justify-center items-center h-16 border-2">
-              
-              <div className="w-[50%] h-full border-2 flex justify-center items-center lg:text-3xl text-xl font-semibold border-red-500">
-                Report Graph
+
+            <div className="overflow-x-auto mb-20 p-10 bg-white shadow-lg rounded-3xl w-[90%] mx-auto">
+              <h1 className="font-semibold text-3xl">Call Status</h1>
+              <div className="max-h-[400px] overflow-y-auto">
+                <table className="min-w-full mt-5 rounded-3xl">
+                  <thead>
+                    <tr className="bg-pink-200 border-0">
+                      <th className="px-4 py-5 text-[16px]">Call ID</th>
+                      <th className="px-4 py-5 text-[16px]">Created Time</th>
+                      <th className="px-4 py-5 text-[16px]">Submitted Time</th>
+                      <th className="px-4 py-5 text-[16px]">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.from(calls)
+                      .reverse()
+                      .slice(0, 10)
+                      .map((call, index) => (
+                        <tr
+                          className={index % 2 !== 0 ? "bg-gray-200" : ""}
+                          key={call._id}
+                        >
+                          <td className="border px-4 py-3">{call.call_id}</td>
+                          <td className="border px-4 py-3">
+                            {getDate(call.createdAt)}
+                          </td>
+
+                          <td className="border px-4 py-3">
+                            {call.status == "PENDING" ? "-" : call.submit_date}
+                          </td>
+                          <td className="border px-4 py-3 flex">
+                            {call.status == "COMPLETED" && (
+                              <span className="border-y-8 border-l-4 mr-3 border-green-500"></span>
+                            )}{" "}
+                            {call.status == "PENDING" && (
+                              <span className="border-y-8 border-l-4 mr-3 border-orange-500"></span>
+                            )}{" "}
+                            {call.status == "COMPLETED" && (
+                              <span className="">
+                                {
+                                  <span className="text-green-500">
+                                    Completed
+                                  </span>
+                                }
+                              </span>
+                            )}
+                            {call.status == "PENDING" && (
+                              <span className="">
+                                {
+                                  <span className="text-orange-500">
+                                    Pending
+                                  </span>
+                                }
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
               </div>
-            </div> */}
+            </div>
+
             <div className="flex flex-col justify-between h-auto lg:h-auto lg:px-10 px-5 mb-10 lg:flex-row">
               <div className="w-full lg:w-[45%] lg:mb-0 mb-5">
-                <div className="bg-gray-100 shadow-lg rounded-lg pt-2 bg-opacity-100 backdrop-filter bg-blur-lg">
-                <div className="flex justify-between items-center mb-8">
-                    <select
-                      className="border p-1 bg-gray-200"
-                      value={selectedMonth}
-                      onChange={(e) =>
-                        handleMonthChange(parseInt(e.target.value, 10))
-                      }
-                    >
-                      {renderMonthOptions()}
-                    </select>
+                <div className="bg-white p-5 shadow-lg rounded-3xl pt-2 bg-opacity-100 backdrop-filter bg-blur-lg">
+                  <div className="flex justify-between items-center mb-8">
+                    <div className="flex items-center border p-1 bg-gray-200">
+                      <button className="px-2 py-1" onClick={handlePrevMonth}>
+                        &#8592;
+                      </button>
+                      <div className="mx-2">{`${monthNames[selectedMonth]} ${selectedYear}`}</div>
+                      <button className="px-2 py-1" onClick={handleNextMonth}>
+                        &#8594;
+                      </button>
+                    </div>
+
                     <p className="text-sm text-center sm:text-2xl font-semibold">
-                  Attendence Sheet
-                </p>
+                      Attendence Sheet
+                    </p>
                     <select
                       className="border p-1 bg-gray-200"
                       value={selectedEngineer}
@@ -297,9 +419,41 @@ const Admin_Dashboard = () => {
                       ))}
                     </select>
                   </div>
-                  {renderCalendar()}
+                  {loading ? (
+                    <div className="grid min-h-[140px] w-full place-items-center overflow-x-scroll rounded-lg p-6 lg:overflow-visible">
+                      <svg
+                        className="text-gray-300 animate-spin"
+                        viewBox="0 0 64 64"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                      >
+                        <path
+                          d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
+                          stroke="currentColor"
+                          strokeWidth="5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                        <path
+                          d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
+                          stroke="currentColor"
+                          strokeWidth="5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="text-gray-900"
+                        ></path>
+                      </svg>
+                    </div>
+                  ) : (
+                    renderCalendar()
+                  )}
                 </div>
               </div>
+
+              {/* Call Graph  */}
+
               <div className="h-auto w-full justify-center items-center flex  flex-col lg:w-[45%]">
                 <div className="lg:text-3xl text-xl font-semibold mb-5">
                   Overall Call Graph
