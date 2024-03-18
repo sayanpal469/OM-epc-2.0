@@ -24,7 +24,7 @@ const PendingCalls = ({ tablesData, refetch, selectedCallTab, eng_emp }) => {
     <div>
       <table>
         <thead>
-          <tr>
+          <tr className="bg-orange-400">
             <th scope="col">Call ID</th>
             <th scope="col">Company Name</th>
             <th scope="col"> Assigned Date</th>
@@ -36,7 +36,10 @@ const PendingCalls = ({ tablesData, refetch, selectedCallTab, eng_emp }) => {
         </thead>
         <tbody>
           {pendingCallsData?.map((callDetails, index) => (
-            <tr key={index}>
+            <tr
+              className={index % 2 !== 0 ? "bg-gray-200" : ""}
+              key={callDetails._id}
+            >
               <td data-label="Call ID">{callDetails.call_id}</td>
               <td data-label="Company Name">{callDetails.company_name}</td>
               <td data-label="Assigned Date">{callDetails.assigned_date}</td>

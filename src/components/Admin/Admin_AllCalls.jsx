@@ -106,7 +106,7 @@ const Admin_calls = ({ saved_search, calls, refetch }) => {
           />
           <table className="mt-2">
             <thead>
-              <tr>
+              <tr className="bg-orange-400">
                 <th scope="col">Call_ID</th>
                 <th scope="col">Company Name</th>
                 <th scope="col">Engineer Name</th>
@@ -116,8 +116,12 @@ const Admin_calls = ({ saved_search, calls, refetch }) => {
               </tr>
             </thead>
             <tbody>
-              {filteredCalls().slice(page * 20 - 20, page * 20).map((call) => (
-                <tr key={call._id}>
+              {filteredCalls().slice(page * 20 - 20, page * 20).map((call , index) => (
+                <tr
+                  className={index % 2 !== 0 ? "bg-gray-200" : ""}
+                  key={call._id}
+                >
+
                   <td data-label="Call_ID">{call.call_id}</td>
                   <td data-label="Company Name">{call.company_name}</td>
                   <td data-label="Engineer Name">{call.eng_name}</td>

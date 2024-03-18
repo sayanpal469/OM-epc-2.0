@@ -183,7 +183,7 @@ const ExpenseTable = ({ engineer_info }) => {
       <div className="">
         <table>
           <thead>
-            <tr>
+            <tr className="bg-orange-400">
               <th scope="col">Call ID</th>
               <th scope="col">Company Name</th>
               <th scope="col"> Company Location</th>
@@ -194,7 +194,10 @@ const ExpenseTable = ({ engineer_info }) => {
           </thead>
           <tbody>
             {expenseTable?.map((expenseTable, index) => (
-              <tr key={index}>
+              <tr
+                className={index % 2 !== 0 ? "bg-gray-200" : ""}
+                key={expenseTable._id}
+              >
                 <td data-label="Call ID">{expenseTable.call_id}</td>
                 <td data-label="Company Name">{expenseTable.company_name}</td>
                 <td data-label="Location">{expenseTable.company_location}</td>

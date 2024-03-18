@@ -135,7 +135,7 @@ const Admin_AllExpenses = ({ savedSearch }) => {
 
           <table className="mt-2">
             <thead>
-              <tr>
+              <tr className="bg-orange-400">
                 <th scope="col">Call ID</th>
                 <th scope="col">Company Name</th>
                 <th scope="col">Location</th>
@@ -149,7 +149,10 @@ const Admin_AllExpenses = ({ savedSearch }) => {
             </thead>
             <tbody>
               {filteredExpenses().map((expense, index) => (
-                <tr key={index}>
+                <tr
+                  className={index % 2 !== 0 ? "bg-gray-200" : ""}
+                  key={expense._id}
+                >
                   <td data-label="Call ID">{expense.call_id}</td>
                   <td data-label="Company Name">{expense.company_name}</td>
                   <td data-label="Location">{expense.company_location}</td>

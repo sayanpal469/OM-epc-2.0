@@ -35,7 +35,7 @@ const Admin_TodayReport = ({ data }) => {
       <div>
         <table>
           <thead>
-            <tr>
+            <tr className="bg-orange-400">
               <th scope="callId">Call Id</th>
               <th scope="col">Company Name</th>
               <th scope="col">Engineer Name</th>
@@ -46,8 +46,11 @@ const Admin_TodayReport = ({ data }) => {
           </thead>
           <tbody>
             {filteredCalls?.length > 0 ? (
-              filteredCalls.map((call) => (
-                <tr key={call.callId}>
+              filteredCalls.map((call, index) => (
+                <tr
+                  className={index % 2 !== 0 ? "bg-gray-200" : ""}
+                  key={call._id}
+                >
                   <td data-label="Call_ID">{call.call_id}</td>
                   <td data-label="Company Name">{call.company_name}</td>
                   <td data-label="Engineer Name">{call.eng_name}</td>
