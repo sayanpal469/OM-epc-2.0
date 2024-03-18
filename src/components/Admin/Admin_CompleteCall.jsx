@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import CallDetailsModal from "../CallDetailsModal";
 import useFetchCallsByStatus from "../../hooks/useFetchCallsByStatus";
+import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import PropTypes from "prop-types";
 import Edit_Call from "./EditCall/EditCall";
 const Admin_CompleteCall = ({ saved_search }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [page , setPage] = useState(1)
   const [selected_call_for_view, setSelected_call_for_view] = useState({});
   const status = "COMPLETED";
   const { data } = useFetchCallsByStatus(status);
@@ -57,7 +60,16 @@ const Admin_CompleteCall = ({ saved_search }) => {
   }, [data]);
 
   // console.log(calls)
+  const totalPages = Math.ceil(filteredCalls().length / 20);
 
+  const pageHandleler = (e)=>{
+    if(
+      e >= 1 &&
+      e <= totalPages &&
+      e !== page
+    )
+    setPage(e)
+  }
   return (
     <div>
       {data ? (
@@ -74,7 +86,7 @@ const Admin_CompleteCall = ({ saved_search }) => {
               </tr>
             </thead>
             <tbody>
-              {filteredCalls().map((call) => (
+              {filteredCalls().slice(page * 20 - 20, page * 20).map((call) => (
                 <tr key={call._id}>
                   <td data-label="Call_ID">{call.call_id}</td>
                   <td data-label="Company Name">{call.company_name}</td>
@@ -108,6 +120,26 @@ const Admin_CompleteCall = ({ saved_search }) => {
               ))}
             </tbody>
           </table>
+          {filteredCalls().length > 20 && 
+          <div className="gap-2 text-center my-8 flex flex-row justify-center">
+          
+          <button className={`text-2xl hover:text-white hover:bg-blue-600 px-2 rounded-md  ${page > 1 ? '' :'opacity-20 hover:bg-gray-400' }`}
+          onClick={() => pageHandleler(page - 1)}
+          ><MdOutlineKeyboardDoubleArrowLeft /></button>
+            
+             <span className="text-center">
+               {[...Array(Math.ceil(filteredCalls().length / 20))].fill().map((_, i) => (
+               <button onClick={() => pageHandleler(i+1)} key={i} 
+               className={`mx-2 hover:text-blue-600 cursor-pointer ${page === i + 1 ? 'text-blue-600' : ''}`}
+               >{i + 1}</button>
+                ))}
+             </span>
+
+             <button className={`text-2xl hover:text-white hover:bg-blue-600 px-2 rounded-md ${page < totalPages ? '' :'opacity-20 hover:bg-gray-400' }`}
+            onClick={() => pageHandleler(page + 1)}
+            ><MdOutlineKeyboardDoubleArrowRight /></button>
+          </div>
+          }
           {isViewModalOpen ? (
             <CallDetailsModal
               selected_call_for_view={selected_call_for_view}
