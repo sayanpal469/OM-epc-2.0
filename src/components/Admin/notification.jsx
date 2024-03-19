@@ -49,29 +49,30 @@ const Notification = () => {
 
   
   const calculateTimeAgo = (create) => {
-    const currentTime = new Date().getTime();
-    const diffInMilliseconds = currentTime - create;
+    const currentTime = Date.now();
+    const createTimestamp = typeof create === 'string' ? parseInt(create) : create;
+    const diffInMilliseconds = currentTime - createTimestamp;
     const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
-    const diffInMinutes = Math.floor(diffInSeconds / 60);
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    const diffInDays = Math.floor(diffInHours / 24);
-
-    if (diffInDays >= 1) {
-        // Construct the date and time string
-        const createDate = new Date(create);
+    
+    if (diffInSeconds >= 86400) { // More than or equal to 1 day
+        const createDate = new Date(createTimestamp);
         const dateString = createDate.toLocaleDateString();
         const timeString = createDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         return `${dateString} ${timeString}`;
-    } else if (diffInHours >= 1) {
+    } else if (diffInSeconds >= 3600) { // More than or equal to 1 hour
+        const diffInHours = Math.floor(diffInSeconds / 3600);
         return `${diffInHours} hour${diffInHours !== 1 ? 's' : ''} ago`;
-    } else {
+    } else { // Less than 1 hour
+        const diffInMinutes = Math.floor(diffInSeconds / 60);
         return `${diffInMinutes} minute${diffInMinutes !== 1 ? 's' : ''} ago`;
     }
 };
 
   return (
     <div>
-      {notifications.map((notification) => (
+      {Array.from(notifications)
+      .reverse()
+      .map((notification) => (
           <div key={notification._id} className="px-2 border-t-2  mt-2 pt-1">
           <div className="flex flex-row gap-1 items-center justify-between">
             <div>

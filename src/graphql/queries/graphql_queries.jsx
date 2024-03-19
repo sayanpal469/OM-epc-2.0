@@ -42,7 +42,6 @@ export const GET_CALLS_BY_STATUS = gql`
       eng_desc
       completed
       site_images
-      createdAt
     }
   }
 `;

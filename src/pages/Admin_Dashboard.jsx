@@ -10,6 +10,8 @@ import { GET_ALL_ENGINEERS } from "../graphql/queries/graphql_queries";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { MdIncompleteCircle, MdPendingActions } from "react-icons/md";
 import { MdOutlineDoNotDisturbOnTotalSilence } from "react-icons/md";
+import DashboardCallTable from "../components/Admin/DashboardCallTable";
+
 
 const Admin_Dashboard = () => {
   const [loading, setLoading] = useState(false);
@@ -231,13 +233,15 @@ const Admin_Dashboard = () => {
 
   // console.log({ selectedMonth });
   // console.log({ highlightedDates });
+  
 
-  const getDate = (timestamp) => {
-    const date = new Date(timestamp);
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    console.log(date.toLocaleDateString("en-US", options));
-    return date.toLocaleDateString("en-US", options);
-  };
+  // const getDate = (timestamp) => {
+  //   const date = new Date(timestamp);
+  //   const options = { year: "numeric", month: "long", day: "numeric" };
+  //   console.log(date.toLocaleDateString("en-US", options));
+  //   console.log({timestamp})
+  //   return date.toLocaleDateString("en-US", options);
+  // };
 
   return (
     <>
@@ -328,7 +332,7 @@ const Admin_Dashboard = () => {
               </main>
             </div>
 
-            <div className="overflow-x-auto mb-20 p-10 bg-white shadow-lg rounded-3xl w-[90%] mx-auto">
+            {/* <div className="overflow-x-auto mb-20 p-10 bg-white shadow-lg rounded-3xl w-[90%] mx-auto">
               <h1 className="font-semibold text-3xl">Call Status</h1>
               <div className="max-h-[400px] overflow-y-auto">
                 <table className="min-w-full mt-5 rounded-3xl">
@@ -351,7 +355,7 @@ const Admin_Dashboard = () => {
                         >
                           <td className="border px-4 py-3">{call.call_id}</td>
                           <td className="border px-4 py-3">
-                            {getDate(call.createdAt)}
+                            {call.assigned_date}
                           </td>
 
                           <td className="border px-4 py-3">
@@ -387,8 +391,10 @@ const Admin_Dashboard = () => {
                       ))}
                   </tbody>
                 </table>
+               
               </div>
-            </div>
+            </div> */}
+            <DashboardCallTable calls={calls} />
 
             <div className="flex flex-col justify-between h-auto lg:h-auto lg:px-10 px-5 mb-10 lg:flex-row">
               <div className="w-full lg:w-[45%] lg:mb-0 mb-5">

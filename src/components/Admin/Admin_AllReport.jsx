@@ -28,7 +28,7 @@ const Admin_AllReport = ({ data }) => {
     }
   }, [data, tableData]);
 
-  const totalPages = Math.ceil(tableData?.length / 20);
+  const totalPages = Math.ceil(tableData?.length / 10);
 
   const pageHandleler = (e)=>{
     if(
@@ -54,7 +54,7 @@ const Admin_AllReport = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            {tableData?.slice(page * 20 - 20, page * 20).map((call , index) => (
+            {tableData?.slice(page * 10 - 10, page * 10).map((call , index) => (
               <tr
               className={index % 2 !== 0 ? "bg-gray-200" : ""}
               key={call._id}
@@ -91,7 +91,7 @@ const Admin_AllReport = ({ data }) => {
             ))}
           </tbody>
         </table>
-        {tableData?.length > 20 && 
+        {tableData?.length > 10 && 
           <div className="gap-2 text-center my-8 flex flex-row justify-center">
           
           <button className={`text-2xl hover:text-white hover:bg-blue-600 px-2 rounded-md  ${page > 1 ? '' :'opacity-20 hover:bg-gray-400' }`}
@@ -99,7 +99,7 @@ const Admin_AllReport = ({ data }) => {
           ><MdOutlineKeyboardDoubleArrowLeft /></button>
             
              <span className="text-center">
-               {[...Array(Math.ceil(tableData?.length / 20))].fill().map((_, i) => (
+               {[...Array(Math.ceil(tableData?.length / 10))].fill().map((_, i) => (
                <button onClick={() => pageHandleler(i+1)} key={i} 
                className={`mx-2 hover:text-blue-600 cursor-pointer ${page === i + 1 ? 'text-blue-600' : ''}`}
                >{i + 1}</button>
