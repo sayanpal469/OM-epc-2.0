@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  GET_ATTENDENCE_BY_ENG,
-} from "../graphql/queries/graphql_queries";
+import { GET_ATTENDENCE_BY_ENG } from "../graphql/queries/graphql_queries";
 import CallPieChart from "../components/CallPieChart";
 import useFetchCallsByStatus from "../hooks/useFetchCallsByStatus";
 import TodaysCallComponent from "./TodaysCallComponent";
@@ -11,7 +9,6 @@ import { useLazyQuery, useQuery } from "@apollo/client";
 import { MdIncompleteCircle, MdPendingActions } from "react-icons/md";
 import { MdOutlineDoNotDisturbOnTotalSilence } from "react-icons/md";
 import DashboardCallTable from "../components/Admin/DashboardCallTable";
-
 
 const Admin_Dashboard = () => {
   const [loading, setLoading] = useState(false);
@@ -233,7 +230,6 @@ const Admin_Dashboard = () => {
 
   // console.log({ selectedMonth });
   // console.log({ highlightedDates });
-  
 
   // const getDate = (timestamp) => {
   //   const date = new Date(timestamp);
@@ -252,22 +248,10 @@ const Admin_Dashboard = () => {
         <div className="flex-1">
           <div className="w-full">
             <div className="">
-              <header
-                className="bg-cover bg-center flex justify-center items-center h-125"
-                style={{
-                  backgroundImage:
-                    "url('https://static.vecteezy.com/system/resources/previews/006/304/619/original/dark-black-square-pattern-on-glowing-red-neon-abstract-background-in-technology-style-modern-futuristic-geometric-shape-web-banner-design-you-can-use-for-cover-template-poster-illustration-vector.jpg')",
-                }}
-              >
-                <div className="lg:flex md:flex items-center justify-between w-full h-fit text-white ">
-                  <div className="mb-3 lg:mb-0">
-                    <h1 className="lg:text-4xl md:text-2xl text-xl font-bold">
-                      Welcome, Palash
-                    </h1>
-                  </div>
-                </div>
-              </header>
-              <main className="mt-5 w-[90%] mx-auto">
+              <h1 className="lg:text-4xl text-center mt-10 md:text-2xl text-xl font-bold">
+                Welcome Admin
+              </h1>
+              <main className="w-[90%] mx-auto">
                 <section>
                   <div className="flex justify-between w-full items-center px-10">
                     <h3 className="lg:text-3xl text-xl font-semibold">
@@ -287,7 +271,7 @@ const Admin_Dashboard = () => {
                     <div className="relative">
                       <div className="shadow-lg overviewBox p-5 bg-[#CEEFFF]">
                         <div className="">
-                          <h4 className="text-lg">Complete Calls</h4>
+                          <h4 className="text-sm">Completed Calls</h4>
                           <h1 className="font-bold text-5xl mt-5">
                             {completedCalls.length > 0
                               ? completedCalls.length
@@ -303,7 +287,7 @@ const Admin_Dashboard = () => {
                     <div className="relative">
                       <div className="shadow-lg overviewBox p-5 bg-[#D6F6D6]">
                         <div className="">
-                          <h4 className="text-lg">Pending Calls</h4>
+                          <h4 className="text-sm">Pending Calls</h4>
                           <h1 className="font-bold text-5xl mt-5">
                             {pendingCalls.length > 0 ? pendingCalls.length : 0}
                           </h1>
@@ -317,7 +301,7 @@ const Admin_Dashboard = () => {
                     <div className="relative">
                       <div className="shadow-lg overviewBox p-5 bg-[#e1defc]">
                         <div className="">
-                          <h4 className="text-lg">Total Calls</h4>
+                          <h4 className="text-sm">Total Calls</h4>
                           <h1 className="font-bold text-5xl mt-5">
                             {calls.length > 0 ? calls.length : 0}
                           </h1>
@@ -332,68 +316,6 @@ const Admin_Dashboard = () => {
               </main>
             </div>
 
-            {/* <div className="overflow-x-auto mb-20 p-10 bg-white shadow-lg rounded-3xl w-[90%] mx-auto">
-              <h1 className="font-semibold text-3xl">Call Status</h1>
-              <div className="max-h-[400px] overflow-y-auto">
-                <table className="min-w-full mt-5 rounded-3xl">
-                  <thead>
-                    <tr className="bg-pink-200 border-0">
-                      <th className="px-4 py-5 text-[16px]">Call ID</th>
-                      <th className="px-4 py-5 text-[16px]">Created Time</th>
-                      <th className="px-4 py-5 text-[16px]">Submitted Time</th>
-                      <th className="px-4 py-5 text-[16px]">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Array.from(calls)
-                      .reverse()
-                      .slice(0, 10)
-                      .map((call, index) => (
-                        <tr
-                          className={index % 2 !== 0 ? "bg-gray-200" : ""}
-                          key={call._id}
-                        >
-                          <td className="border px-4 py-3">{call.call_id}</td>
-                          <td className="border px-4 py-3">
-                            {call.assigned_date}
-                          </td>
-
-                          <td className="border px-4 py-3">
-                            {call.status == "PENDING" ? "-" : call.submit_date}
-                          </td>
-                          <td className="border px-4 py-3 flex">
-                            {call.status == "COMPLETED" && (
-                              <span className="border-y-8 border-l-4 mr-3 border-green-500"></span>
-                            )}{" "}
-                            {call.status == "PENDING" && (
-                              <span className="border-y-8 border-l-4 mr-3 border-orange-500"></span>
-                            )}{" "}
-                            {call.status == "COMPLETED" && (
-                              <span className="">
-                                {
-                                  <span className="text-green-500">
-                                    Completed
-                                  </span>
-                                }
-                              </span>
-                            )}
-                            {call.status == "PENDING" && (
-                              <span className="">
-                                {
-                                  <span className="text-orange-500">
-                                    Pending
-                                  </span>
-                                }
-                              </span>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-               
-              </div>
-            </div> */}
             <DashboardCallTable calls={calls} />
 
             <div className="flex flex-col justify-between h-auto lg:h-auto lg:px-10 px-5 mb-10 lg:flex-row">

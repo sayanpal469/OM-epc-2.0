@@ -59,7 +59,7 @@ const Admin_Report = () => {
     return () => clearTimeout(delay);
   }, [selectedCallTab]);
 
-  console.log(data)
+  // console.log(data)
 
   const buttonClasses = (tabName) =>
     selectedCallTab === tabName

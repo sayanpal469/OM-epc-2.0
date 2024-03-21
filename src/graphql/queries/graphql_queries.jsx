@@ -31,6 +31,7 @@ export const GET_CALLS_BY_STATUS = gql`
       assigned_time
       call_id
       submit_date
+      submit_time
       completed
       expense_amount
       report

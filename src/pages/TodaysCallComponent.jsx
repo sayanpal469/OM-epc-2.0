@@ -8,7 +8,7 @@ const TodaysCallComponent = () => {
     <div className="relative">
       <div className="shadow-lg overviewBox p-5 bg-[#FFD8E5]">
         <div className="">
-          <h4 className="text-lg">{`Today's Calls`}</h4>
+          <h4 className="text-sm">{`Today's Calls`}</h4>
           <h1 className="font-bold text-5xl mt-5">
             {calls.length > 0 ? calls.length : 0}
           </h1>

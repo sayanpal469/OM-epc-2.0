@@ -7,6 +7,7 @@ import { useQuery } from "@apollo/client";
 import { GET_ENGINEER_BY_OBJECT_ID } from "../../graphql/queries/graphql_queries";
 import { Outlet } from "react-router-dom";
 import Notification from "../../components/Admin/notification";
+import logo from "../../assets/pdf_logo.png"
 
 // const navigation = [
 //   { name: "Dashboard", link: "/", current: true },
@@ -74,7 +75,7 @@ export default function Nav3({ role, engId }) {
   return (
     <div>
       {isLogin && (
-        <Disclosure as="nav" className="bg-gray-800">
+        <Disclosure as="nav" className="bg-white">
           {({ open }) => (
             <>
               <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -107,8 +108,8 @@ export default function Nav3({ role, engId }) {
                             onClick={() => handleClick(item.name)} // Handle click event
                             className={classNames(
                               item.current
-                                ? "bg-gray-900 text-white border-2 border-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                                ? "bg-blue-500 text-white border-2 border-white"
+                                : "text-gray-800 hover:bg-blue-500 hover:text-white",
                               "rounded-md px-3 py-2 text-sm font-medium"
                             )}
                             aria-current={item.current ? "page" : undefined}
@@ -125,7 +126,7 @@ export default function Nav3({ role, engId }) {
                       <div>
                         <Menu.Button
                           type="button"
-                          className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                          className="relative rounded-full bg-blue-500 p-1 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-800"
                         >
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">View notifications</span>
@@ -156,8 +157,8 @@ export default function Nav3({ role, engId }) {
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">Open user menu</span>
                           <img
-                            className="h-8 w-8 rounded-full"
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            className="h-10 w-10 rounded-full"
+                            src={logo}
                             alt=""
                           />
                         </Menu.Button>
