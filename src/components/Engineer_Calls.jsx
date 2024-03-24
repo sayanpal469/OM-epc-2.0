@@ -142,7 +142,7 @@ const Engineer_Calls = ({ engineer_data }) => {
     <div>
       <div>{/* Empty space for navbar here */}</div>
       <div>
-        <section className="w-full h-full">
+        <section className="w-full h-full mb-12">
           <div className="lg:flex lg:justify-between lg:items-center flex-col p-5 space-y-5">
             <div className="flex lg:flex-row sm:space-y-0 lg:w-[50%] w-[100%] space-y-5  flex-col justify-center items-end space-x-4">
               <button
@@ -211,7 +211,7 @@ const Engineer_Calls = ({ engineer_data }) => {
             toDate !== "" ||
             fromDate !== "" ||
             searchCall_id != "" ? (
-              <div className="w-full  flex justify-center items-center">
+              <div className="w-full flex justify-center items-center ">
                 <button
                   onClick={() => handleSave()}
                   className="border-2 rounded-md border-blue-500 px-2 py-2"

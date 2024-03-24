@@ -14,9 +14,13 @@ const DashboardCallTable = ({ calls }) => {
   };
 
   function calculateDuration(startDate, startTime, endDate, endTime) {
-    const startDateTime = new Date(`${startDate} ${startTime}`).getTime();
-    const endDateTime = new Date(`${endDate} ${endTime}`).getTime();
-
+    // Parse start and end dates with times
+    console.log({ startDate, startTime, endTime , endDate });
+    const newStartDate = startDate.split("-").reverse().join("-")
+    const newEndDate = endDate.split("-").reverse().join("-")
+    const startDateTime = new Date(newStartDate + " " + startTime);
+    const endDateTime = new Date(newEndDate + " " + endTime);
+    console.log({ startDateTime, endDateTime });
     // Calculate the duration in milliseconds
     const duration = endDateTime - startDateTime;
 
@@ -25,24 +29,17 @@ const DashboardCallTable = ({ calls }) => {
     const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((duration % (1000 * 60)) / 1000);
 
-    // Format duration as a string
-    const durationString = `${hours} hours ${minutes} minutes ${seconds} seconds`;
+   let formattedString = "";
+   if (hours > 0) {
+    formattedString += hours + 'hr ';
+}
+if (minutes > 0) {
+    formattedString += minutes + 'min ';
+}
+formattedString += seconds + ' seconds ago';
 
-    // Return the duration as a string
-    return durationString;
-  }
-
-  const startDate = "06-01-2024";
-  const startTime = "12:10 PM";
-  const endDate = "06-01-2024";
-  const endTime = "01:30 PM";
-  const examDurationString = calculateDuration(
-    startDate,
-    startTime,
-    endDate,
-    endTime
-  );
-  console.log(`Duration of the exam: ${examDurationString}`);
+return formattedString;
+}
 
   return (
     <div className="mb-20 p-10 bg-white shadow-lg rounded-3xl w-[90%] mx-auto">

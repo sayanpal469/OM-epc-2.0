@@ -130,22 +130,26 @@ const StepTwo = ({
           Work Type
         </label>
         <select
-          id="work_type"
-          name="work_type"
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-          value={work_type}
-          onChange={handleChange}
-          required
-        >
-          <option value="defaultWorkType" disabled>
-            Select call status
-          </option>
-          {status.map((type, index) => (
-            <option key={index} value={type} className="text-sm">
-              {type}
-            </option>
-          ))}
-        </select>
+  id="work_type"
+  name="work_type"
+  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+  value={work_type}
+  onChange={handleChange}
+  required
+>
+  <option value="" disabled>
+    Select call status
+  </option>
+  {status.map((type, index) => (
+    <option 
+      key={index} 
+      value={type} 
+      className="text-sm"
+    >
+      {type}
+    </option>
+  ))}
+</select>
       </div>
 
       <div className="mb-4">
